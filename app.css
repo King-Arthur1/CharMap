@@ -1,0 +1,28 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span {
+    font-style: italic;
+}
+
+#content .name {
+    font-size: 28px;
+}
+#content .blockList {
+    display: flex;            
+    height: 1500px;
+    flex-flow: column wrap; 
+}
+#content .blockList .container {
+    width: 150px;
+    height: 50px;
+    border: 2px solid black;
+    padding: 3px;
+    margin: 3px;
+    font-size: 9px;
+}
+#content .blockList .letter {
+    font-size: 28px;
+    text-align: center;
+}
