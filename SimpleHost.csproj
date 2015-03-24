@@ -22,6 +22,12 @@
     <Content Include="index.html" />
     <Content Include="ucd.js" />
     <Content Include="web.config" />
+    <Content Include="winjs\css\ui-dark.css" />
+    <Content Include="winjs\css\ui-light.css" />
+    <Content Include="winjs\js\en-US\ui.strings.js" />
+    <Content Include="winjs\js\WinJS.intellisense-setup.js" />
+    <None Include="winjs\js\WinJS.intellisense.js" />
+    <Content Include="winjs\js\WinJS.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
@@ -33,6 +39,7 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+    <Content Include="winjs\fonts\Symbols.ttf" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
