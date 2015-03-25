@@ -1,4 +1,6 @@
-﻿interface UnicodeData {
+﻿declare var WinJS: any;
+
+interface UnicodeData {
     data: UnicodeChar[];
     blocks: {
         start: number; end: number; name: string
@@ -11,18 +13,18 @@ interface UnicodeChar {
 };
 declare var unicode: UnicodeData;
 
-function makeSingleChar(data: UnicodeChar): string {
+function makeSingleChar(data: UnicodeChar): { preview: string; text: string } {
     if (data.name === "<control>") {
-        return "<div class='container'>" + data.code.toString(16) + " - " + data.altName + "(control)</div>";
+        return { preview: "", text : data.code.toString(16) + " - " + data.altName + "(control)" };
     }
     else {
-        return "<div class='container'><div class='letter'>&#x" + data.code.toString(16) +";</div>" + data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") + "</div>";
+        return { preview: "&#x" + data.code.toString(16) + ";", text: data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") };
     }
 }
-function createBlock(blockIndex: number): string {
+function createBlock(blockIndex: number): { preview: string; text:string}[] {
     var block = unicode.blocks[blockIndex];
-    var html = "<div class='name'>" + block.name + "</div>";
-    html += "<div class='blockList'>";
+    // undone: block.name
+    var data = [];
     // unicode.data has code points, but you can't assume that index==code due to gaps and unfilled parts
     // making unicode.data have all code points (including empty ones) would be pretty memory inneficient.
     //
@@ -36,10 +38,12 @@ function createBlock(blockIndex: number): string {
             // that there isn't a defined character (CJK unified ideographs, for example)
             //
             
-            html += "<div class='container'>" + currentCode.toString(16) +" - &lt;not present&gt;</div>";
+            data.push({
+                text: currentCode.toString(16) + " - &lt;not present&gt;"
+            });
         }
         else {
-            html += makeSingleChar(unicode.data[index]);
+            data.push(makeSingleChar(unicode.data[index]));
         }
 
         // advance to next location in the data (<= will advance to one past currentCode)
@@ -48,8 +52,7 @@ function createBlock(blockIndex: number): string {
             index++;
         }
     }
-    html += "</div>";
-    return html;
+    return data;
 };
 
 function testData() {
@@ -72,13 +75,18 @@ function update() {
     var content = document.getElementById('content');
     var blockSlider = <HTMLInputElement>(document.getElementById('blockSlider'));
     var blockIndex = +blockSlider.value;
-    content.innerHTML = createBlock(blockIndex);
+    var data = new WinJS.Binding.List(createBlock(blockIndex));
+    (<any>content).winControl.itemDataSource = data.dataSource;
 }
 
+
 window.onload = () => {
-    var blockSlider = <HTMLInputElement>(document.getElementById('blockSlider'));
-    blockSlider.max = "" + (unicode.blocks.length-1);
-    blockSlider.addEventListener("change", update);
-    update();
+    var root = document.getElementById('root');
+    WinJS.UI.processAll(root).then(function () {
+        var blockSlider = <HTMLInputElement>(document.getElementById('blockSlider'));
+        blockSlider.max = "" + (unicode.blocks.length - 1);
+        blockSlider.addEventListener("change", update);
+        update();
+    });
 };
 

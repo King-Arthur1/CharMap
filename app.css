@@ -1,28 +1,27 @@
-﻿body {
+﻿#root  {
     font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
-
-span {
-    font-style: italic;
+#header {
+    flex:.5;
 }
-
-#content .name {
+#content {
+    flex:1;
+}
+#root .name {
     font-size: 28px;
 }
-#content .blockList {
-    display: flex;            
-    height: 1500px;
-    flex-flow: column wrap; 
-}
-#content .blockList .container {
-    width: 150px;
-    height: 50px;
+
+#root .container {
+    width: 100px;
+    height: 90px;
     border: 2px solid black;
     padding: 3px;
     margin: 3px;
     font-size: 9px;
 }
-#content .blockList .letter {
-    font-size: 28px;
+#root .letter {
+    font-size: 22px;
     text-align: center;
 }
