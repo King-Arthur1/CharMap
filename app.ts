@@ -84,6 +84,14 @@ function update() {
 window.onload = () => {
     var root = document.getElementById('root');
     WinJS.UI.processAll(root).then(function () {
+        return WinJS.xhr({ url: "ucd.js" }).then(function (result) {
+            return JSON.parse(result.responseText);
+        });
+    }).then(function (data) {
+        unicode = data;
+        var title = document.getElementById('title');
+        title.textContent = "CharMap";
+
         var blockSlider = <HTMLInputElement>(document.getElementById('blockSlider'));
         blockSlider.max = "" + (unicode.blocks.length - 1);
         blockSlider.addEventListener("change", update);
