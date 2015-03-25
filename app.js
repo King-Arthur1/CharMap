@@ -28,6 +28,7 @@ function createBlock(blockIndex) {
             // that there isn't a defined character (CJK unified ideographs, for example)
             //
             data.push({
+                preview: "",
                 text: currentCode.toString(16) + " - &lt;not present&gt;"
             });
         } else {

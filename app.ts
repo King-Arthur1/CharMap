@@ -39,6 +39,7 @@ function createBlock(blockIndex: number): { preview: string; text:string}[] {
             //
             
             data.push({
+                preview: "",
                 text: currentCode.toString(16) + " - &lt;not present&gt;"
             });
         }
