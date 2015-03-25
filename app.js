@@ -4,15 +4,16 @@
 
 function makeSingleChar(data) {
     if (data.name === "<control>") {
-        return "<div class='container'>" + data.code.toString(16) + " - " + data.altName + "(control)</div>";
+        return { preview: "", text: data.code.toString(16) + " - " + data.altName + "(control)" };
     } else {
-        return "<div class='container'><div class='letter'>&#x" + data.code.toString(16) + ";</div>" + data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") + "</div>";
+        return { preview: "&#x" + data.code.toString(16) + ";", text: data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") };
     }
 }
 function createBlock(blockIndex) {
     var block = unicode.blocks[blockIndex];
-    var html = "<div class='name'>" + block.name + "</div>";
-    html += "<div class='blockList'>";
+
+    // undone: block.name
+    var data = [];
 
     // unicode.data has code points, but you can't assume that index==code due to gaps and unfilled parts
     // making unicode.data have all code points (including empty ones) would be pretty memory inneficient.
@@ -26,17 +27,18 @@ function createBlock(blockIndex) {
             // This just means there isn't an explicit entry in the data table, not neccessarily
             // that there isn't a defined character (CJK unified ideographs, for example)
             //
-            html += "<div class='container'>" + currentCode.toString(16) + " - &lt;not present&gt;</div>";
+            data.push({
+                text: currentCode.toString(16) + " - &lt;not present&gt;"
+            });
         } else {
-            html += makeSingleChar(unicode.data[index]);
+            data.push(makeSingleChar(unicode.data[index]));
         }
 
         while (index < unicode.data.length - 1 && unicode.data[index].code <= currentCode) {
             index++;
         }
     }
-    html += "</div>";
-    return html;
+    return data;
 }
 ;
 
@@ -58,13 +60,17 @@ function update() {
     var content = document.getElementById('content');
     var blockSlider = (document.getElementById('blockSlider'));
     var blockIndex = +blockSlider.value;
-    content.innerHTML = createBlock(blockIndex);
+    var data = new WinJS.Binding.List(createBlock(blockIndex));
+    content.winControl.itemDataSource = data.dataSource;
 }
 
 window.onload = function () {
-    var blockSlider = (document.getElementById('blockSlider'));
-    blockSlider.max = "" + (unicode.blocks.length - 1);
-    blockSlider.addEventListener("change", update);
-    update();
+    var root = document.getElementById('root');
+    WinJS.UI.processAll(root).then(function () {
+        var blockSlider = (document.getElementById('blockSlider'));
+        blockSlider.max = "" + (unicode.blocks.length - 1);
+        blockSlider.addEventListener("change", update);
+        update();
+    });
 };
 //# sourceMappingURL=app.js.map
