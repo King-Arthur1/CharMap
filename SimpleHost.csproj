@@ -23,11 +23,24 @@
     <Content Include="ucd.js" />
     <Content Include="web.config" />
     <Content Include="winjs\css\ui-dark.css" />
+    <Content Include="winjs\css\ui-dark.min.css" />
     <Content Include="winjs\css\ui-light.css" />
+    <Content Include="winjs\css\ui-light.min.css" />
+    <Content Include="winjs\js\base.js" />
+    <Content Include="winjs\js\base.min.js" />
     <Content Include="winjs\js\en-US\ui.strings.js" />
+    <Content Include="winjs\js\ui.js" />
+    <Content Include="winjs\js\ui.min.js" />
     <Content Include="winjs\js\WinJS.intellisense-setup.js" />
+    <Content Include="winjs\js\WinJS.min.js" />
+    <Content Include="winjs\js\base.min.js.map" />
+    <Content Include="winjs\js\ui.min.js.map" />
+    <Content Include="winjs\License.txt" />
     <None Include="winjs\js\WinJS.intellisense.js" />
     <Content Include="winjs\js\WinJS.js" />
+    <Content Include="winjs\js\WinJS.min.js.map" />
+    <Content Include="winjs\package.json" />
+    <Content Include="winjs\README.md" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />

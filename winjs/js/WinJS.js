@@ -6,9 +6,9 @@
         if (typeof define === 'function' && define.amd) {
             define([], factory);
         } else {
-            global.msWriteProfilerMark && msWriteProfilerMark('WinJS.4.0 4.0.0.winjs.2015.3.23 WinJS.js,StartTM');
+            global.msWriteProfilerMark && msWriteProfilerMark('WinJS.4.0 4.0.0-preview.winjs.2015.3.25 WinJS.js,StartTM');
             factory(global.WinJS);
-            global.msWriteProfilerMark && msWriteProfilerMark('WinJS.4.0 4.0.0.winjs.2015.3.23 WinJS.js,StopTM');
+            global.msWriteProfilerMark && msWriteProfilerMark('WinJS.4.0 4.0.0-preview.winjs.2015.3.25 WinJS.js,StopTM');
         }
     }(function (WinJS) {
 
@@ -772,7 +772,6 @@ define('require-json',{load: function(id){throw new Error("Dynamic load not allo
 define('require-json!en-US/ui.resjson',{
     "appBarAriaLabel": "App Bar",
     "appBarCommandAriaLabel": "App Bar Item",
-	"appBarOverflowButtonAriaLabel": "View more",
     "autoSuggestBoxAriaLabel": "Autosuggestbox",
     "autoSuggestBoxAriaLabelInputNoPlaceHolder": "Autosuggestbox, enter to submit query, esc to clear text",
     "autoSuggestBoxAriaLabelInputPlaceHolder": "Autosuggestbox, {0}, enter to submit query, esc to clear text",
@@ -786,8 +785,6 @@ define('require-json!en-US/ui.resjson',{
     "backbuttonarialabel": "Back",
     "clearYourRating" : "Clear your rating",
     "closeOverlay" : "Close",
-    "commandingSurfaceAriaLabel": "CommandingSurface",
-    "commandingSurfaceOverflowButtonAriaLabel": "View more",
     "datePicker": "Date Picker",
     "flipViewPanningContainerAriaLabel": "Scrolling Container",
     "flyoutAriaLabel": "Flyout",
@@ -5119,7 +5116,7 @@ define('WinJS/Core/_BaseUtils',[
         _traceAsyncCallbackStarting: _Trace._traceAsyncCallbackStarting,
         _traceAsyncCallbackCompleted: _Trace._traceAsyncCallbackCompleted,
 
-        _version: "4.0.0"
+        _version: "4.0.0-preview"
     });
 
     _Base.Namespace._moduleDefine(exports, "WinJS", {
@@ -12342,15 +12339,18 @@ define('WinJS/Utilities',[
 
     //wrapper module
 });
-define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", "./Core/_BaseUtils", "./Utilities/_ElementUtilities", "./Core/_Events", "./ControlProcessor/_OptionsParser"], function (require, exports, _Global, _Base, _BaseUtils, _ElementUtilities, _Events, _OptionsParser) {
+define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", "./Core/_BaseUtils", "./Utilities/_ElementUtilities", "./Core/_Events", "./ControlProcessor/_OptionsParser"], function(require, exports, _Global, _Base, _BaseUtils, _ElementUtilities, _Events, _OptionsParser) {
     "use strict";
+
     var AttributeNames = {
         focusOverride: "data-win-xyfocus",
         focusOverrideLegacy: "data-win-focus"
     };
+
     var ClassNames = {
-        focusable: "win-focusable",
+        focusable: "win-focusable"
     };
+
     var CrossDomainMessageConstants = {
         messageDataProperty: "msWinJSXYFocusControlMessage",
         register: "register",
@@ -12358,16 +12358,19 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         dFocusEnter: "dFocusEnter",
         dFocusExit: "dFocusExit"
     };
+
     var DirectionNames = {
         left: "left",
         right: "right",
         up: "up",
         down: "down"
     };
+
     var EventNames = {
         focusChanging: "focuschanging",
         focusChanged: "focuschanged"
     };
+
     var FocusableTagNames = [
         "A",
         "BUTTON",
@@ -12376,14 +12379,16 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         "SELECT",
         "TEXTAREA"
     ];
+
     // These factors can be tweaked to adjust which elements are favored by the focus algorithm
     var ScoringConstants = {
         primaryAxisDistanceWeight: 30,
         secondaryAxisDistanceWeight: 20,
         percentInHistoryShadowWeight: 100000
     };
+
     /**
-     * Gets the mapping object that maps keycodes to XYFocus actions.
+    * Gets the mapping object that maps keycodes to XYFocus actions.
     **/
     exports.keyCodeMap = {
         left: [_ElementUtilities.Key.leftArrow],
@@ -12391,26 +12396,35 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         up: [_ElementUtilities.Key.upArrow],
         down: [_ElementUtilities.Key.downArrow]
     };
+
     /**
-     * Gets or sets the focus root when invoking XYFocus APIs.
+    * Gets or sets the focus root when invoking XYFocus APIs.
     **/
     exports.focusRoot;
+
+    
+
     function findNextFocusElement(direction, options) {
         var result = _findNextFocusElementInternal(direction, options);
         return result ? result.target : null;
     }
     exports.findNextFocusElement = findNextFocusElement;
+
+    
+
     function moveFocus(direction, options) {
-        var result = findNextFocusElement(direction, options);
+        var result = exports.findNextFocusElement(direction, options);
         if (result) {
             var previousFocusElement = _Global.document.activeElement;
             if (_trySetFocus(result, -1)) {
                 eventSrc.dispatchEvent(EventNames.focusChanged, { previousFocusElement: previousFocusElement, keyCode: -1 });
+
                 return result;
             }
         }
     }
     exports.moveFocus = moveFocus;
+
     function enableXYFocus() {
         if (!_xyFocusEnabled) {
             _Global.document.addEventListener("keydown", _handleKeyEvent);
@@ -12418,6 +12432,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         }
     }
     exports.enableXYFocus = enableXYFocus;
+
     function disableXYFocus() {
         if (_xyFocusEnabled) {
             _Global.document.removeEventListener("keydown", _handleKeyEvent);
@@ -12425,6 +12440,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         }
     }
     exports.disableXYFocus = disableXYFocus;
+
     // Privates
     var _xyFocusEnabled = false;
     var _lastTarget;
@@ -12438,8 +12454,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             _historyRect = null;
             _lastTarget = null;
             _cachedLastTargetRect = null;
-        }
-        else if (_lastTarget && _cachedLastTargetRect) {
+        } else if (_lastTarget && _cachedLastTargetRect) {
             var lastTargetRect = _toIRect(_lastTarget.getBoundingClientRect());
             if (lastTargetRect.left !== _cachedLastTargetRect.left || lastTargetRect.top !== _cachedLastTargetRect.top) {
                 _historyRect = null;
@@ -12447,19 +12462,23 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 _cachedLastTargetRect = null;
             }
         }
+
         var activeElement = _Global.document.activeElement;
         var lastTarget = _lastTarget;
+
         var result = _findNextFocusElementInternal(direction, {
             focusRoot: exports.focusRoot,
             historyRect: _historyRect,
             referenceElement: _lastTarget,
             referenceRect: referenceRect
         });
+
         if (result && _trySetFocus(result.target, keyCode)) {
             // A focus target was found
             updateHistoryRect(direction, result);
             _lastTarget = result.target;
             _cachedLastTargetRect = result.targetRect;
+
             if (result.target.tagName === "IFRAME") {
                 var index = _afEnabledFrames.lastIndexOf(result.target.contentWindow);
                 if (index >= 0) {
@@ -12471,6 +12490,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                         width: result.referenceRect.width,
                         height: result.referenceRect.height
                     });
+
                     var message = {};
                     message[CrossDomainMessageConstants.messageDataProperty] = {
                         type: CrossDomainMessageConstants.dFocusEnter,
@@ -12482,8 +12502,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             }
             eventSrc.dispatchEvent(EventNames.focusChanged, { previousFocusElement: activeElement, keyCode: keyCode });
             return true;
-        }
-        else {
+        } else {
             // No focus target was found; if we are inside an IFRAME, notify the parent that focus is exiting this IFRAME
             // Note on coordinates: When signaling exit, do NOT transform the coordinates into the parent's coordinate system.
             if (top !== window) {
@@ -12491,6 +12510,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 if (!refRect) {
                     refRect = _Global.document.activeElement ? _toIRect(_Global.document.activeElement.getBoundingClientRect()) : _defaultRect();
                 }
+
                 var message = {};
                 message[CrossDomainMessageConstants.messageDataProperty] = {
                     type: CrossDomainMessageConstants.dFocusExit,
@@ -12502,9 +12522,11 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             }
         }
         return false;
+
         // Nested Helpers
         function updateHistoryRect(direction, result) {
             var newHistoryRect = _defaultRect();
+
             // It's possible to get into a situation where the target element has no overlap with the reference edge.
             //
             //..╔══════════════╗..........................
@@ -12518,25 +12540,26 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             //
             // If that is the case, we need to reset the coordinates to the edge of the target element.
             if (direction === DirectionNames.left || direction === DirectionNames.right) {
-                newHistoryRect.top = Math.max(result.targetRect.top, result.referenceRect.top, _historyRect ? _historyRect.top : Number.MIN_VALUE);
-                newHistoryRect.bottom = Math.min(result.targetRect.bottom, result.referenceRect.bottom, _historyRect ? _historyRect.bottom : Number.MAX_VALUE);
+                newHistoryRect.top = _Global.Math.max(result.targetRect.top, result.referenceRect.top, _historyRect ? _historyRect.top : Number.MIN_VALUE);
+                newHistoryRect.bottom = _Global.Math.min(result.targetRect.bottom, result.referenceRect.bottom, _historyRect ? _historyRect.bottom : Number.MAX_VALUE);
                 if (newHistoryRect.bottom <= newHistoryRect.top) {
                     newHistoryRect.top = result.targetRect.top;
                     newHistoryRect.bottom = result.targetRect.bottom;
                 }
                 newHistoryRect.height = newHistoryRect.bottom - newHistoryRect.top;
+
                 newHistoryRect.width = Number.MAX_VALUE;
                 newHistoryRect.left = Number.MIN_VALUE;
                 newHistoryRect.right = Number.MAX_VALUE;
-            }
-            else {
-                newHistoryRect.left = Math.max(result.targetRect.left, result.referenceRect.left, _historyRect ? _historyRect.left : Number.MIN_VALUE);
-                newHistoryRect.right = Math.min(result.targetRect.right, result.referenceRect.right, _historyRect ? _historyRect.right : Number.MAX_VALUE);
+            } else {
+                newHistoryRect.left = _Global.Math.max(result.targetRect.left, result.referenceRect.left, _historyRect ? _historyRect.left : Number.MIN_VALUE);
+                newHistoryRect.right = _Global.Math.min(result.targetRect.right, result.referenceRect.right, _historyRect ? _historyRect.right : Number.MAX_VALUE);
                 if (newHistoryRect.right <= newHistoryRect.left) {
                     newHistoryRect.left = result.targetRect.left;
                     newHistoryRect.right = result.targetRect.right;
                 }
                 newHistoryRect.width = newHistoryRect.right - newHistoryRect.left;
+
                 newHistoryRect.height = Number.MAX_VALUE;
                 newHistoryRect.top = Number.MIN_VALUE;
                 newHistoryRect.bottom = Number.MAX_VALUE;
@@ -12544,19 +12567,24 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             _historyRect = newHistoryRect;
         }
     }
+
     function _findNextFocusElementInternal(direction, options) {
         options = options || {};
         options.focusRoot = options.focusRoot || exports.focusRoot || _Global.document.body;
         options.historyRect = options.historyRect || _defaultRect();
-        var maxDistance = Math.max(_Global.screen.availHeight, _Global.screen.availWidth);
+
+        var maxDistance = _Global.Math.max(_Global.screen.availHeight, _Global.screen.availWidth);
         var refObj = getReferenceObject(options.referenceElement, options.referenceRect);
+
         // Handle override
         if (refObj.element) {
             var manualOverrideOptions = refObj.element.getAttribute(AttributeNames.focusOverride) || refObj.element.getAttribute(AttributeNames.focusOverrideLegacy);
             if (manualOverrideOptions) {
                 var parsedOptions = _OptionsParser.optionsParser(manualOverrideOptions);
+
                 // The left-hand side can be cased as either "left" or "Left".
                 var selector = parsedOptions[direction] || parsedOptions[direction[0].toUpperCase() + direction.substr(1)];
+
                 if (selector) {
                     var target;
                     var element = refObj.element;
@@ -12573,6 +12601,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 }
             }
         }
+
         // Calculate scores for each element in the root
         var bestPotential = {
             element: null,
@@ -12582,34 +12611,44 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         var allElements = options.focusRoot.querySelectorAll("*");
         for (var i = 0, length = allElements.length; i < length; i++) {
             var potentialElement = allElements[i];
+
             if (refObj.element === potentialElement || !isFocusable(potentialElement)) {
                 continue;
             }
+
             var potentialRect = _toIRect(potentialElement.getBoundingClientRect());
+
             // Skip elements that have either a width of zero or a height of zero
             if (potentialRect.width === 0 || potentialRect.height === 0) {
                 continue;
             }
+
             var score = calculateScore(direction, maxDistance, options.historyRect, refObj.rect, potentialRect);
+
             if (score > bestPotential.score) {
                 bestPotential.element = potentialElement;
                 bestPotential.rect = potentialRect;
                 bestPotential.score = score;
             }
         }
+
         return bestPotential.element ? { target: bestPotential.element, targetRect: bestPotential.rect, referenceRect: refObj.rect, usedOverride: false } : null;
+
         // Nested Helpers
         function calculatePercentInShadow(minReferenceCoord, maxReferenceCoord, minPotentialCoord, maxPotentialCoord) {
             /// Calculates the percentage of the potential element that is in the shadow of the reference element.
             if ((minReferenceCoord >= maxPotentialCoord) || (maxReferenceCoord <= minPotentialCoord)) {
                 return 0;
             }
-            var pixelOverlapWithTheReferenceShadow = Math.min(maxReferenceCoord, maxPotentialCoord) - Math.max(minReferenceCoord, minPotentialCoord);
+
+            var pixelOverlapWithTheReferenceShadow = _Global.Math.min(maxReferenceCoord, maxPotentialCoord) - _Global.Math.max(minReferenceCoord, minPotentialCoord);
             var referenceEdgeLength = maxReferenceCoord - minReferenceCoord;
             return pixelOverlapWithTheReferenceShadow / referenceEdgeLength;
         }
+
         function calculateScore(direction, maxDistance, historyRect, referenceRect, potentialRect) {
             var score = 0;
+
             var percentInShadow;
             var primaryAxisDistance;
             var secondaryAxisDistance = 0;
@@ -12620,77 +12659,89 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                     if (potentialRect.left >= referenceRect.left) {
                         break;
                     }
+
                     percentInShadow = calculatePercentInShadow(referenceRect.top, referenceRect.bottom, potentialRect.top, potentialRect.bottom);
                     primaryAxisDistance = referenceRect.left - potentialRect.right;
+
                     if (percentInShadow > 0) {
                         percentInHistoryShadow = calculatePercentInShadow(historyRect.top, historyRect.bottom, potentialRect.top, potentialRect.bottom);
-                    }
-                    else {
+                    } else {
                         // If the potential element is not in the shadow, then we calculate secondary axis distance
                         secondaryAxisDistance = (referenceRect.bottom <= potentialRect.top) ? (potentialRect.top - referenceRect.bottom) : referenceRect.top - potentialRect.bottom;
                     }
                     break;
+
                 case DirectionNames.right:
                     // Make sure we don't evaluate any potential elements to the left of the reference element
                     if (potentialRect.right <= referenceRect.right) {
                         break;
                     }
+
                     percentInShadow = calculatePercentInShadow(referenceRect.top, referenceRect.bottom, potentialRect.top, potentialRect.bottom);
                     primaryAxisDistance = potentialRect.left - referenceRect.right;
+
                     if (percentInShadow > 0) {
                         percentInHistoryShadow = calculatePercentInShadow(historyRect.top, historyRect.bottom, potentialRect.top, potentialRect.bottom);
-                    }
-                    else {
+                    } else {
                         // If the potential element is not in the shadow, then we calculate secondary axis distance
                         secondaryAxisDistance = (referenceRect.bottom <= potentialRect.top) ? (potentialRect.top - referenceRect.bottom) : referenceRect.top - potentialRect.bottom;
                     }
                     break;
+
                 case DirectionNames.up:
                     // Make sure we don't evaluate any potential elements below the reference element
                     if (potentialRect.top >= referenceRect.top) {
                         break;
                     }
+
                     percentInShadow = calculatePercentInShadow(referenceRect.left, referenceRect.right, potentialRect.left, potentialRect.right);
                     primaryAxisDistance = referenceRect.top - potentialRect.bottom;
+
                     if (percentInShadow > 0) {
                         percentInHistoryShadow = calculatePercentInShadow(historyRect.left, historyRect.right, potentialRect.left, potentialRect.right);
-                    }
-                    else {
+                    } else {
                         // If the potential element is not in the shadow, then we calculate secondary axis distance
                         secondaryAxisDistance = (referenceRect.right <= potentialRect.left) ? (potentialRect.left - referenceRect.right) : referenceRect.left - potentialRect.right;
                     }
                     break;
+
                 case DirectionNames.down:
                     // Make sure we don't evaluate any potential elements above the reference element
                     if (potentialRect.bottom <= referenceRect.bottom) {
                         break;
                     }
+
                     percentInShadow = calculatePercentInShadow(referenceRect.left, referenceRect.right, potentialRect.left, potentialRect.right);
                     primaryAxisDistance = potentialRect.top - referenceRect.bottom;
+
                     if (percentInShadow > 0) {
                         percentInHistoryShadow = calculatePercentInShadow(historyRect.left, historyRect.right, potentialRect.left, potentialRect.right);
-                    }
-                    else {
+                    } else {
                         // If the potential element is not in the shadow, then we calculate secondary axis distance
                         secondaryAxisDistance = (referenceRect.right <= potentialRect.left) ? (potentialRect.left - referenceRect.right) : referenceRect.left - potentialRect.right;
                     }
                     break;
             }
+
             if (primaryAxisDistance >= 0) {
                 // The score needs to be a positive number so we make these distances positive numbers
                 primaryAxisDistance = maxDistance - primaryAxisDistance;
                 secondaryAxisDistance = maxDistance - secondaryAxisDistance;
+
                 if (primaryAxisDistance >= 0 && secondaryAxisDistance >= 0) {
                     // Potential elements in the shadow get a multiplier to their final score
                     primaryAxisDistance += primaryAxisDistance * percentInShadow;
+
                     score = primaryAxisDistance * ScoringConstants.primaryAxisDistanceWeight + secondaryAxisDistance * ScoringConstants.secondaryAxisDistanceWeight + percentInHistoryShadow * ScoringConstants.percentInHistoryShadowWeight;
                 }
             }
             return score;
         }
+
         function getReferenceObject(referenceElement, referenceRect) {
             var refElement;
             var refRect;
+
             if ((!referenceElement && !referenceRect) || (referenceElement && !referenceElement.parentNode)) {
                 // Note: We need to check to make sure 'parentNode' is not null otherwise there is a case
                 // where _lastTarget is defined, but calling getBoundingClientRect will throw a native exception.
@@ -12700,14 +12751,13 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                     referenceElement = _Global.document.activeElement;
                 }
             }
+
             if (referenceElement) {
                 refElement = referenceElement;
                 refRect = _toIRect(refElement.getBoundingClientRect());
-            }
-            else if (referenceRect) {
+            } else if (referenceRect) {
                 refRect = _toIRect(referenceRect);
-            }
-            else {
+            } else {
                 refRect = _defaultRect();
             }
             return {
@@ -12715,20 +12765,24 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 rect: refRect
             };
         }
+
         function isFocusable(element) {
             var elementTagName = element.tagName;
             if (!element.hasAttribute("tabindex") && FocusableTagNames.indexOf(elementTagName) === -1 && !_ElementUtilities.hasClass(element, ClassNames.focusable)) {
                 // If the current potential element is not one of the tags we consider to be focusable, then exit
                 return false;
             }
+
             if (elementTagName === "IFRAME" && _afEnabledFrames.indexOf(element.contentWindow) === -1) {
                 // Skip IFRAMEs without compatible XYFocus implementation
                 return false;
             }
+
             if (elementTagName === "DIV" && element["winControl"] && element["winControl"].disabled) {
                 // Skip disabled WinJS controls
                 return false;
             }
+
             var style = getComputedStyle(element);
             if (element.getAttribute("tabIndex") === "-1" || style.display === "none" || style.visibility === "hidden" || element.disabled) {
                 // Skip elements that are hidden
@@ -12738,6 +12792,7 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             return true;
         }
     }
+
     function _defaultRect() {
         // We set the top, left, bottom and right properties of the referenceBoundingRectangle to '-1'
         // (as opposed to '0') because we want to make sure that even elements that are up to the edge
@@ -12751,16 +12806,18 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             width: 0
         };
     }
+
     function _toIRect(rect) {
         return {
-            top: Math.floor(rect.top),
-            bottom: Math.floor(rect.top + rect.height),
-            right: Math.floor(rect.left + rect.width),
-            left: Math.floor(rect.left),
-            height: Math.floor(rect.height),
-            width: Math.floor(rect.width),
+            top: _Global.Math.floor(rect.top),
+            bottom: _Global.Math.floor(rect.top + rect.height),
+            right: _Global.Math.floor(rect.left + rect.width),
+            left: _Global.Math.floor(rect.left),
+            height: _Global.Math.floor(rect.height),
+            width: _Global.Math.floor(rect.width)
         };
     }
+
     function _trySetFocus(element, keyCode) {
         // We raise an event on the focusRoot before focus changes to give listeners
         // a chance to prevent the next focus target from receiving focus if they want.
@@ -12770,15 +12827,20 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
         }
         return _Global.document.activeElement === element;
     }
+
     function _getIFrameFromWindow(win) {
         var iframes = _Global.document.querySelectorAll("IFRAME");
-        var found = Array.prototype.filter.call(iframes, function (x) { return x.contentWindow === win; });
+        var found = Array.prototype.filter.call(iframes, function (x) {
+            return x.contentWindow === win;
+        });
         return found.length ? found[0] : null;
     }
+
     function _handleKeyEvent(e) {
         if (e.defaultPrevented) {
             return;
         }
+
         var keys = Object.keys(exports.keyCodeMap);
         for (var i = 0; i < keys.length; i++) {
             // Note: key is 'left', 'right', 'up', or 'down'
@@ -12792,33 +12854,39 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             }
         }
     }
+
     _Global.addEventListener("message", function (e) {
         if (!e.data || !e.data[CrossDomainMessageConstants.messageDataProperty]) {
             return;
         }
+
         var data = e.data[CrossDomainMessageConstants.messageDataProperty];
         switch (data.type) {
             case CrossDomainMessageConstants.register:
                 _afEnabledFrames.push(e.source);
                 break;
+
             case CrossDomainMessageConstants.unregister:
                 var index = _afEnabledFrames.indexOf(e.source);
                 if (index >= 0) {
                     _afEnabledFrames.splice(index, 1);
                 }
                 break;
+
             case CrossDomainMessageConstants.dFocusEnter:
                 // The coordinates stored in data.refRect are already in this frame's coordinate system.
                 // When we get this message we will force-enable XYFocus to support scenarios where
                 // websites running WinJS are put into an IFRAME and the parent frame has XYFocus enabled.
-                enableXYFocus();
+                exports.enableXYFocus();
                 _xyFocus(data.direction, -1, data.referenceRect);
                 break;
+
             case CrossDomainMessageConstants.dFocusExit:
                 var iframe = _getIFrameFromWindow(e.source);
                 if (_Global.document.activeElement !== iframe) {
                     break;
                 }
+
                 // The coordinates stored in data.refRect are in the IFRAME's coordinate system,
                 // so we must first transform them into this frame's coordinate system.
                 var refRect = data.referenceRect;
@@ -12828,10 +12896,12 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 break;
         }
     });
+
     _Global.document.addEventListener("DOMContentLoaded", function () {
         if (_ElementUtilities.hasWinRT && _Global["Windows"] && _Global["Windows"]["Xbox"]) {
-            enableXYFocus();
+            exports.enableXYFocus();
         }
+
         // If we are running within an iframe, we send a registration message to the parent window
         if (_Global.top !== _Global.window) {
             var message = {};
@@ -12842,8 +12912,10 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
             _Global.parent.postMessage(message, "*");
         }
     });
+
     // Publish to WinJS namespace
     var toPublish = {
+        keyCodeMap: exports.keyCodeMap,
         focusRoot: {
             get: function () {
                 return exports.focusRoot;
@@ -12852,13 +12924,10 @@ define('WinJS/XYFocus',["require", "exports", "./Core/_Global", "./Core/_Base", 
                 exports.focusRoot = value;
             }
         },
-        enableXYFocus: enableXYFocus,
-        disableXYFocus: disableXYFocus,
-        findNextFocusElement: findNextFocusElement,
-        keyCodeMap: exports.keyCodeMap,
-        moveFocus: moveFocus,
-        onfocuschanged: _Events._createEventProperty(EventNames.focusChanged),
-        onfocuschanging: _Events._createEventProperty(EventNames.focusChanging),
+        enableXYFocus: exports.enableXYFocus,
+        disableXYFocus: exports.disableXYFocus,
+        findNextFocusElement: exports.findNextFocusElement,
+        moveFocus: exports.moveFocus,
         _xyFocus: _xyFocus
     };
     toPublish = _BaseUtils._merge(toPublish, _Events.eventMixin);
@@ -12883,6 +12952,10 @@ define('WinJS/Fragments',[
     './Utilities/_Xhr'
 ], function fragmentLoaderInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, Promise, _ElementUtilities, _SafeHtml, _Xhr) {
     "use strict";
+
+    var strings = {
+        get invalidFragmentUri() { return "Unsupported uri for fragment loading. Fragments in the local context can only load from package content or local sources. To load fragments from other sources, use a web context."; },
+    };
 
     // not supported in WebWorker
     if (!_Global.document) {
@@ -13241,7 +13314,40 @@ define('WinJS/Fragments',[
         }
     }
 
+    function _forceLocal(uri) {
+        if (_BaseUtils.hasWinRT) {
+            // we force the URI to be cannonicalized and made absolute by IE
+            //
+            var a = _Global.document.createElement("a");
+            a.href = uri;
+
+            var absolute = a.href;
+
+            // WinRT Uri class doesn't provide URI construction, but can crack the URI
+            // appart to let us reliably discover the scheme.
+            //
+            var wuri = new _WinRT.Windows.Foundation.Uri(absolute);
+
+            // Only "ms-appx" (local package content) are allowed when running in the local
+            // context. Both strings are known to be safe to compare in any culture (including Turkish).
+            //
+            var scheme = wuri.schemeName;
+            if (scheme !== "ms-appx") {
+
+                throw new _ErrorFromName("WinJS.UI.Fragments.InvalidUri", strings.invalidFragmentUri);
+            }
+
+            return absolute;
+        }
+        return uri;
+    }
+
     function populateDocument(state, href) {
+        // Because we later use "setInnerHTMLUnsafe" ("Unsafe" is the magic word here), we
+        // want to force the href to only support local package content when running
+        // in the local context. When running in the web context, this will be a no-op.
+        //
+        href = forceLocal(href);
 
         var htmlDoc = _Global.document.implementation.createHTMLDocument("frag");
         var base = htmlDoc.createElement("base");
@@ -13260,6 +13366,7 @@ define('WinJS/Fragments',[
     }
 
     var writeProfilerMark = _WriteProfilerMark;
+    var forceLocal = _forceLocal;
 
     var getFragmentContents = getFragmentContentsXHR;
     function getFragmentContentsXHR(href) {
@@ -13274,6 +13381,14 @@ define('WinJS/Fragments',[
         cache: cache,
         clearCache: clearCache,
         _cacheStore: { get: function () { return cacheStore; } },
+        _forceLocal: {
+            get: function () {
+                return forceLocal;
+            },
+            set: function (value) {
+                forceLocal = value;
+            }
+        },
         _getFragmentContents: {
             get: function () {
                 return getFragmentContents;
@@ -16018,7 +16133,7 @@ define('WinJS/Animations',[
     }, { // Static Members
         supportedForProcessing: false,
     });
-
+    
     //
     // Resize animation
     //  The resize animation requires 2 animations to run simultaneously in sync with each other. It's implemented
@@ -16033,7 +16148,7 @@ define('WinJS/Animations',[
         var transitionProperty = _BaseUtils._browserStyleEquivalents["transition"].scriptName;
         element.style[transitionProperty] = duration + "ms " + transformNames.cssName + " " + transition.timing;
         element.style[transformNames.scriptName] = transition.to;
-
+    
         var finish;
         return new Promise(function (c) {
             var onTransitionEnd = function (eventObject) {
@@ -16041,7 +16156,7 @@ define('WinJS/Animations',[
                     finish();
                 }
             };
-
+            
             var didFinish = false;
             finish = function () {
                 if (!didFinish) {
@@ -16052,12 +16167,12 @@ define('WinJS/Animations',[
                 }
                 c();
             };
-
+    
             // Watch dog timeout
             var timeoutId = _Global.setTimeout(function () {
                 timeoutId = _Global.setTimeout(finish, duration);
             }, 50);
-
+    
             element.addEventListener(_BaseUtils._browserEventEquivalents["transitionEnd"], onTransitionEnd);
         }, function () {
             finish(); // On cancelation, complete the promise successfully to match PVL
@@ -16070,21 +16185,21 @@ define('WinJS/Animations',[
         if (!args.anchorTrailingEdge) {
             start = -start;
             end = -end;
-        }
+        } 
         var translate = args.dimension === "width" ? "translateX" : "translateY";
         var transition = {
             duration: args.duration,
-            timing: args.timing
+            timing: args.timing 
         };
-
+    
         // Set up
         elementClipper.style[transformNames.scriptName] = translate + "(" + start + "px)";
         element.style[transformNames.scriptName] = translate + "(" + -start + "px)";
-
+    
         // Resolve styles
         _Global.getComputedStyle(elementClipper).opacity;
         _Global.getComputedStyle(element).opacity;
-
+        
         // Animate
         var clipperTransition = _BaseUtils._merge(transition, { to: translate + "(" + end + "px)" });
         var elementTransition = _BaseUtils._merge(transition, { to: translate + "(" + -end + "px)" });
@@ -16349,7 +16464,7 @@ define('WinJS/Animations',[
             /// </returns>
             /// </signature>
             writeAnimationProfilerMark("showEdgeUI,StartTM");
-
+            
             var isTransition = options && options.mechanism === "transition";
             var offsetArray = new OffsetArray(offset, "WinJS-showEdgeUI", [{ top: "-70px", left: "0px" }]);
             return _TransitionAnimation[(isTransition ? "executeTransition" : "executeAnimation")](
@@ -16434,7 +16549,7 @@ define('WinJS/Animations',[
             /// </returns>
             /// </signature>
             writeAnimationProfilerMark("hideEdgeUI,StartTM");
-
+            
             var isTransition = options && options.mechanism === "transition";
             var offsetArray = new OffsetArray(offset, "WinJS-hideEdgeUI", [{ top: "-70px", left: "0px" }]);
             return _TransitionAnimation[(isTransition ? "executeTransition" : "executeAnimation")](
@@ -17813,7 +17928,7 @@ define('WinJS/Animations',[
         continuumBackwardOut: function (outgoingPage) {
             /// <signature helpKeyword="WinJS.UI.Animation.continuumBackwardOut">
             /// <summary locid="WinJS.UI.Animation.continuumBackwardOut">
-            /// Execute a continuum animation, scaling down the outgoing page while fading it out.
+            /// Execute a continuum animation, scaling down the outgoing page while.
             /// </summary>
             /// <param name="outgoingPage" locid="WinJS.UI.Animation.continuumBackwardOut_p:outgoingPage">
             /// Single element to be scaled down that is the page root.
@@ -17844,146 +17959,6 @@ define('WinJS/Animations',[
             .then(function () { writeAnimationProfilerMark("continuumBackwardOut,StopTM"); });
         },
 
-        drillInIncoming: function (incomingPage) {
-            /// <signature helpKeyword="WinJS.UI.Animation.drillInIncoming">
-            /// <summary locid="WinJS.UI.Animation.drillInIncoming">
-            /// Execute the incoming phase of the drill in animation, scaling up the incoming page while fading it in.
-            /// </summary>
-            /// <param name="incomingPage" locid="WinJS.UI.Animation.drillInIncoming_p:incomingPage">
-            /// Element to be scaled up and faded in.
-            /// </param>
-            /// <returns type="WinJS.Promise" locid="WinJS.UI.Animation.drillInIncoming_returnValue">
-            /// Promise object that completes when the animation is complete.
-            /// </returns>
-            /// </signature>
-            writeAnimationProfilerMark("drillInIncoming,StartTM");
-
-            return _TransitionAnimation.executeTransition(
-                incomingPage,
-                [{
-                    property: transformNames.cssName,
-                    delay: 0,
-                    duration: 500,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: "scale(0.84)",
-                    to: "scale(1.0)"
-                },
-                {
-                    property: "opacity",
-                    delay: 0,
-                    duration: 500,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: 0,
-                    to: 1,
-                }])
-                .then(function () { writeAnimationProfilerMark("drillInIncoming,StopTM"); });
-        },
-
-        drillInOutgoing: function (outgoingPage) {
-            /// <signature helpKeyword="WinJS.UI.Animation.drillInOutgoing">
-            /// <summary locid="WinJS.UI.Animation.drillInOutgoing">
-            /// Execute the outgoing phase of the drill in animation, scaling up the outgoing page while fading it out.
-            /// </summary>
-            /// <param name="outgoingPage" locid="WinJS.UI.Animation.drillInOutgoing_p:outgoingPage">
-            /// Element to be scaled up and faded out.
-            /// </param>
-            /// <returns type="WinJS.Promise" locid="WinJS.UI.Animation.drillInOutgoing_returnValue">
-            /// Promise object that completes when the animation is complete.
-            /// </returns>
-            /// </signature>
-            writeAnimationProfilerMark("drillInOutgoing,StartTM");
-
-            return _TransitionAnimation.executeTransition(
-                outgoingPage,
-                [{
-                    property: transformNames.cssName,
-                    delay: 0,
-                    duration: 233,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: "scale(1.0)",
-                    to: "scale(1.29)"
-                },
-                {
-                    property: "opacity",
-                    delay: 0,
-                    duration: 233,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: 1,
-                    to: 0,
-                }])
-                .then(function () { writeAnimationProfilerMark("drillInOutgoing,StopTM"); });
-        },
-
-        drillOutIncoming: function (incomingPage) {
-            /// <signature helpKeyword="WinJS.UI.Animation.drillOutIncoming">
-            /// <summary locid="WinJS.UI.Animation.drillOutIncoming">
-            /// Execute the incoming phase of the drill out animation, scaling down the incoming page while fading it in.
-            /// </summary>
-            /// <param name="incomingPage" locid="WinJS.UI.Animation.drillOutIncoming_p:incomingPage">
-            /// Element to be scaled up and faded in.
-            /// </param>
-            /// <returns type="WinJS.Promise" locid="WinJS.UI.Animation.drillOutIncoming_returnValue">
-            /// Promise object that completes when the animation is complete.
-            /// </returns>
-            /// </signature>
-            writeAnimationProfilerMark("drillOutIncoming,StartTM");
-
-            return _TransitionAnimation.executeTransition(
-                incomingPage,
-                [{
-                    property: transformNames.cssName,
-                    delay: 0,
-                    duration: 500,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: "scale(1.29)",
-                    to: "scale(1.0)"
-                },
-                {
-                    property: "opacity",
-                    delay: 0,
-                    duration: 500,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: 0,
-                    to: 1,
-                }])
-                .then(function () { writeAnimationProfilerMark("drillOutIncoming,StopTM"); });
-        },
-
-        drillOutOutgoing: function (outgoingPage) {
-            /// <signature helpKeyword="WinJS.UI.Animation.drillOutOutgoing">
-            /// <summary locid="WinJS.UI.Animation.drillOutOutgoing">
-            /// Execute the outgoing phase of the drill out animation, scaling down the outgoing page while fading it out.
-            /// </summary>
-            /// <param name="outgoingPage" locid="WinJS.UI.Animation.drillOutOutgoing_p:outgoingPage">
-            /// Element to be scaled down and faded out.
-            /// </param>
-            /// <returns type="WinJS.Promise" locid="WinJS.UI.Animation.drillOutOutgoing_returnValue">
-            /// Promise object that completes when the animation is complete.
-            /// </returns>
-            /// </signature>
-            writeAnimationProfilerMark("drillOutOutgoing,StartTM");
-
-            return _TransitionAnimation.executeTransition(
-                outgoingPage,
-                [{
-                    property: transformNames.cssName,
-                    delay: 0,
-                    duration: 233,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: "scale(1.0)",
-                    to: "scale(0.84)"
-                },
-                {
-                    property: "opacity",
-                    delay: 0,
-                    duration: 233,
-                    timing: "cubic-bezier(0.1,0.9,0.2,1)",
-                    from: 1,
-                    to: 0,
-                }])
-                .then(function () { writeAnimationProfilerMark("drillOutOutgoing,StopTM"); });
-        },
-
         createPageNavigationAnimations: function (currentPreferredAnimation, nextPreferredAnimation, movingBackwards) {
             /// <signature helpKeyword="WinJS.UI.Animation.createPageNavigationAnimations" >
             /// <summary locid="WinJS.UI.Animation.createPageNavigationAnimations">
@@ -18006,19 +17981,19 @@ define('WinJS/Animations',[
             function emptyAnimationFunction() {
                 return Promise.wrap();
             }
-
+            
             return {
                 exit: emptyAnimationFunction,
                 entrance: exports.enterPage
             };
         },
-
+        
         // Plays an animation which makes an element look like it is resizing in 1 dimension. Arguments:
         // - elementClipper: The parent of *element*. It shouldn't have any margin, border, or padding and its
         //   size should match element's size. Its purpose is to clip *element* during the animation to give
         //   it the illusion that it is resizing.
         // - element: The element that should look like it's resizing.
-        // - args: An object with the following properties (each is required unless noted otherwise):
+        // - args: An object with the following properties (each is required unless noted otherwise): 
         //   - from: A number representing the old total width/height of the element.
         //   - to: A number representing the new total width/height of the element.
         //   - actualSize: A number representing the actual total width/height of the element (should be at least
@@ -18043,7 +18018,7 @@ define('WinJS/Animations',[
                     timing: "cubic-bezier(0.1, 0.9, 0.2, 1)"
                 };
                 var defaultTransition = args.to > args.from ? growTransition : shrinkTransition;
-
+                
                 return resizeTransition(elementClipper, element, _BaseUtils._merge(args, {
                     duration: args.duration === undefined ? defaultTransition.duration : args.duration,
                     timing: args.timing === undefined ? defaultTransition.timing : args.timing
@@ -33625,10 +33600,53 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
     '../../Utilities/_ElementUtilities',
     '../../Utilities/_UI',
     './_Constants'
-], function itemEventsHandlerInit(exports, _Global, _WinRT, _Base, _BaseUtils, _WriteProfilerMark, Animations, _TransitionAnimation, Promise, _ElementUtilities, _UI, _Constants) {
+    ], function itemEventsHandlerInit(exports, _Global, _WinRT, _Base, _BaseUtils, _WriteProfilerMark, Animations, _TransitionAnimation, Promise, _ElementUtilities, _UI, _Constants) {
     "use strict";
 
     var transformNames = _BaseUtils._browserStyleEquivalents["transform"];
+    var MAX_TILT_ROTATION = 0.15;
+    var MAX_TILT_SHRINK = 0.025;
+
+    function unitVector3d(v) {
+        var mag = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        return {
+            x: v.x / mag,
+            y: v.y / mag,
+            z: v.z / mag
+        };
+    }
+
+    // Returns a CSS rotation matrix which rotates by *angle* radians over *axis*.
+    // *axis* is an object of the form: { x: number, y: number, z: number }
+    function rotationTransform3d(angle, axis) {
+        var u = unitVector3d(axis);
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+        var matrix = [
+            cos + u.x * u.x * (1 - cos),
+            u.x * u.y * (1 - cos) - u.z * sin,
+            u.x * u.z * (1 - cos) + u.y * sin,
+            0,
+
+            u.y * u.x * (1 - cos) + u.z * sin,
+            cos + u.y * u.y * (1 - cos),
+            u.y * u.z * (1 - cos) - u.x * sin,
+            0,
+
+            u.z * u.x * (1 - cos) - u.y * sin,
+            u.z * u.y * (1 - cos) + u.x * sin,
+            cos + u.z * u.z * (1 - cos),
+            0,
+
+            0, 0, 0, 1
+        ];
+
+        // Scientific notation in transform values breaks the CSS3 values spec.
+        matrix = matrix.map(function (value) {
+            return value.toFixed(8);
+        });
+        return "matrix3d(" + matrix.join(",") + ")";
+    }
 
     // Returns a CSS transformation to rotate and shrink an element when it is
     // pressed. The closer the click is to the center of the item, the more it
@@ -33637,41 +33655,33 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
     // of the parameters must be relative to the same coordinate system.
     // This function was translated from the Splash implementation.
     function tiltTransform(clickX, clickY, elementRect) {
-        var minSize = 44,
-            maxSize = 750,
-            minRotationX = 2,
-            maxRotationX = 9,
-            minRotationY = 2.11,
-            maxRotationY = 13,
-            sizeRange = maxSize - minSize,
-            halfWidth = elementRect.width / 2,
-            halfHeight = elementRect.height / 2;
+        // x and y range from 0.0 thru 1.0 inclusive with the origin being at the top left.
+        var x = _ElementUtilities._clamp((clickX - elementRect.left) / elementRect.width, 0, 1);
+        var y = _ElementUtilities._clamp((clickY - elementRect.top) / elementRect.height, 0, 1);
 
-        var clampedWidth = _ElementUtilities._clamp(elementRect.width, minSize, maxSize);
-        var clampedHeight = _ElementUtilities._clamp(elementRect.height, minSize, maxSize);
+        // Axis is perpendicular to the line drawn between the click position and the center of the item.
+        // We set z to a small value so that even if x and y turn out to be 0, we still have an axis.
+        var axis = {
+            x: y - 0.5,
+            y: -(x - 0.5),
+            z: 0.0001
+        };
 
-        // The maximum rotation that any element is capable of is calculated by using its width and height and clamping it into the range calculated above.
-        // minRotationX|Y and maxRotationX|Y are the absolute minimums and maximums that any generic element can be rotated by, but in order to determine
-        // what the min/max rotations for our current element is (which will be inside of the absolute min/max described above), we need
-        // to calculate the max rotations for this element by clamping the sizes and doing a linear interpolation:
-        var maxElementRotationX = maxRotationX - (((clampedHeight - minSize) / sizeRange) * (maxRotationX - minRotationX));
-        var maxElementRotationY = maxRotationY - (((clampedWidth - minSize) / sizeRange) * (maxRotationY - minRotationY));
+        // The angle of the rotation is larger when the click is farther away from the center.
+        var magnitude = Math.abs(x - 0.5) + Math.abs(y - 0.5); // an approximation
+        var angle = magnitude * MAX_TILT_ROTATION;
 
-        // Now we calculate the distance of our current point from the center of our element and normalize it to be in the range of 0 - 1
-        var normalizedOffsetX = ((clickX - elementRect.left) - halfWidth) / halfWidth;
-        var normalizedOffsetY = ((clickY - elementRect.top) - halfHeight) / halfHeight;
+        // The distance the control is pushed into z-space is larger when the click is closer to the center.
+        var scale = 1 - (1 - magnitude) * MAX_TILT_SHRINK;
 
-        // Finally, we calculate the appropriate rotations and scale for the element by using the normalized click offsets and the
-        // maximum element rotation.
-        var rotationX = maxElementRotationX * normalizedOffsetY;
-        var rotationY = maxElementRotationY * normalizedOffsetX;
-        var scale = 0.97 + 0.03 * (Math.abs(normalizedOffsetX) + Math.abs(normalizedOffsetY)) / 2.0;
-        var transform = "perspective(800px) scale(" + scale + ") rotateX(" + -rotationX + "deg) rotateY(" + rotationY + "deg)";
+        var transform = "perspective(800px) scale(" + scale + ", " + scale + ") " + rotationTransform3d(angle, axis);
+
         return transform;
     }
 
     _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
         // Expose these to the unit tests
+        _rotationTransform3d: rotationTransform3d,
         _tiltTransform: tiltTransform,
 
         _ItemEventsHandler: _Base.Namespace._lazy(function () {
@@ -33686,7 +33696,7 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
                 return element;
             }
 
-            var ItemEventsHandler = _Base.Class.define(function ItemEventsHandler_ctor(site) {
+            var ItemEventsHandler =  _Base.Class.define(function ItemEventsHandler_ctor(site) {
                 this._site = site;
 
                 this._work = [];
@@ -33750,7 +33760,7 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
                             if (this._site.pressedEntity.type === _UI.ObjectType.item) {
                                 this._site.pressedItemBox = site.itemBoxAtIndex(this._site.pressedEntity.index);
                                 this._site.pressedContainer = site.containerAtIndex(this._site.pressedEntity.index);
-                                this._site.animatedElement = this._site.pressedContainer;
+                                this._site.animatedElement = _BaseUtils.isPhone ? this._site.pressedItemBox : this._site.pressedContainer;
                                 this._site.pressedHeader = null;
                                 this._togglePressed(true, false, eventObject);
                                 this._site.pressedContainer.addEventListener('dragstart', this._DragStartBound);
@@ -33830,7 +33840,6 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
                     if ((this._site.pressedContainer || this._site.pressedHeader) && this._site.animatedElement) {
                         this._togglePressed(false);
                         if (this._site.pressedContainer) {
-                            this._site.pressedContainer.style[transformNames.scriptName] = "";
                             this._site.pressedContainer.removeEventListener('dragstart', this._DragStartBound);
                             _ElementUtilities._removeEventListener(this._site.pressedContainer, 'pointerenter', this._PointerEnterBound, false);
                             _ElementUtilities._removeEventListener(this._site.pressedContainer, 'pointerleave', this._PointerLeaveBound, false);
@@ -34078,12 +34087,33 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
                                 _WriteProfilerMark("WinJS.UI._ItemEventsHandler:applyPressedUI,info");
                                 _ElementUtilities.addClass(this._site.animatedElement, _Constants._pressedClass);
 
-                                var boundingElement = isHeader ? that._site.pressedHeader : that._site.pressedContainer;
-                                var transform = tiltTransform(eventObject.clientX, eventObject.clientY, boundingElement.getBoundingClientRect());
-                                // Timeout prevents item from looking like it was pressed down during pans
-                                this._site.animatedDownPromise = Promise.timeout(50).then(function () {
-                                    applyDownVisual(transform);
-                                });
+                                if (eventObject && _BaseUtils.isPhone) {
+                                    var boundingElement = isHeader ? that._site.pressedHeader : that._site.pressedContainer;
+                                    var transform = tiltTransform(eventObject.clientX, eventObject.clientY, boundingElement.getBoundingClientRect());
+                                    // Timeout prevents item from looking like it was pressed down during pans
+                                    this._site.animatedDownPromise = Promise.timeout(50).then(function () {
+                                        applyDownVisual(transform);
+                                    });
+                                } else {
+                                    // Shrink by 97.5% unless that is larger than 7px in either direction. In that case we cap the
+                                    // scale so that it is no larger than 7px in either direction. We keep the scale uniform in both x
+                                    // and y directions. Note that this scale cap only works if getItemPosition returns synchronously
+                                    // which it does for the built in layouts.
+                                    var scale = 0.975;
+                                    var maxPixelsToShrink = 7;
+
+                                    this._site.getItemPosition(this._site.pressedEntity).then(function (pos) {
+                                        if (pos.contentWidth > 0) {
+                                            scale = Math.max(scale, (1 - (maxPixelsToShrink / pos.contentWidth)));
+                                        }
+                                        if (pos.contentHeight > 0) {
+                                            scale = Math.max(scale, (1 - (maxPixelsToShrink / pos.contentHeight)));
+                                        }
+                                    }, function () {
+                                        // Swallow errors in case data source changes
+                                    });
+                                    applyDownVisual("scale(" + scale + "," + scale + ")");
+                                }
                             }
                         } else {
                             if (_ElementUtilities.hasClass(this._site.animatedElement, _Constants._pressedClass)) {
@@ -34120,20 +34150,30 @@ define('WinJS/Controls/ItemContainer/_ItemEventsHandler',[
                     function applyUpVisual(element, expectingStyle) {
                         _WriteProfilerMark("WinJS.UI._ItemEventsHandler:removePressedUI,info");
                         _ElementUtilities.removeClass(element, _Constants._pressedClass);
-                        if (that._containsTransform(element, expectingStyle)) {
-                            _TransitionAnimation.executeTransition(element, {
-                                property: transformNames.cssName,
-                                delay: 150,
-                                duration: 350,
-                                timing: "cubic-bezier(0.17,0.17,0.2,1)",
-                                to: element.style[transformNames.scriptName].replace(expectingStyle, "")
-                            });
+                        if (_BaseUtils.isPhone) {
+                            if (that._containsTransform(element, expectingStyle)) {
+                                _TransitionAnimation.executeTransition(element, {
+                                    property: transformNames.cssName,
+                                    delay: 0,
+                                    duration: 500,
+                                    timing: "cubic-bezier(0.7025,0,0.9225,-0.115)",
+                                    to: element.style[transformNames.scriptName].replace(expectingStyle, "")
+                                });
+                            }
+                        } else {
+                            that._removeTransform(element, expectingStyle);
                         }
                     }
                 },
 
                 _containsTransform: function ItemEventsHandler_containsTransform(element, transform) {
                     return transform && element.style[transformNames.scriptName].indexOf(transform) !== -1;
+                },
+
+                _removeTransform: function ItemEventsHandler_removeTransform(element, transform) {
+                    if (this._containsTransform(element, transform)) {
+                        element.style[transformNames.scriptName] = element.style[transformNames.scriptName].replace(transform, "");
+                    }
                 },
 
                 _resetPointerDownStateForPointerId: function ItemEventsHandler_resetPointerDownState(eventObject) {
@@ -48478,9 +48518,7 @@ define('WinJS/Controls/ListView',[
 
                 _setViewState: function ListView_setViewState(state) {
                     if (state !== this._loadingState) {
-                        var detail = {
-                            scrolling: false
-                        };
+                        var detail = null;
                         // We can go from any state to itemsLoading but the rest of the states transitions must follow this
                         // order: itemsLoading -> viewPortLoaded -> itemsLoaded -> complete.
                         // Recursively set the previous state until you hit the current state or itemsLoading.
@@ -59142,7 +59180,6 @@ define('WinJS/Controls/SemanticZoom',[
 
                 _createSemanticZoomButton: function () {
                     this._sezoButton = _Global.document.createElement("button");
-                    this._sezoButton.setAttribute("type", "button");
                     this._sezoButton.className = sezoButtonClass + " " + sezoButtonLocationClass;
                     this._sezoButton.tabIndex = -1;
                     this._sezoButton.style.visibility = "hidden";
@@ -60576,7 +60613,6 @@ define('WinJS/Controls/Pivot',[
                         var item = pivot._items.getAt(index);
 
                         var headerContainerEl = _Global.document.createElement("BUTTON");
-                        headerContainerEl.setAttribute("type", "button");
                         headerContainerEl.style.marginLeft = headerContainerEl.style.marginRight = headersStates.common.headerHorizontalMargin + "px";
                         _ElementUtilities.addClass(headerContainerEl, Pivot._ClassName.pivotHeader);
                         headerContainerEl._item = item;
@@ -60898,7 +60934,6 @@ define('WinJS/Controls/Pivot',[
 
                             // Create header track nav button elements
                             pivot._prevButton = _Global.document.createElement("button");
-                            pivot._prevButton.setAttribute("type", "button");
                             _ElementUtilities.addClass(pivot._prevButton, Pivot._ClassName.pivotNavButton);
                             _ElementUtilities.addClass(pivot._prevButton, Pivot._ClassName.pivotNavButtonPrev);
                             pivot._prevButton.addEventListener("click", function () {
@@ -60911,7 +60946,6 @@ define('WinJS/Controls/Pivot',[
                             pivot._prevButton.style.left = pivot._rtl ? "0px" : leadingSpace + "px";
 
                             pivot._nextButton = _Global.document.createElement("button");
-                            pivot._nextButton.setAttribute("type", "button");
                             _ElementUtilities.addClass(pivot._nextButton, Pivot._ClassName.pivotNavButton);
                             _ElementUtilities.addClass(pivot._nextButton, Pivot._ClassName.pivotNavButtonNext);
                             pivot._nextButton.addEventListener("click", function () {
@@ -63801,7 +63835,7 @@ define('WinJS/Controls/Hub',[
 
 });
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-define('WinJS/Controls/_LegacyAppBar/_Constants',[
+define('WinJS/Controls/AppBar/_Constants',[
      'exports',
      '../../Core/_Base',
 ], function appBarConstantsInit(exports, _Base) {
@@ -63809,24 +63843,24 @@ define('WinJS/Controls/_LegacyAppBar/_Constants',[
 
     _Base.Namespace._moduleDefine(exports, null, {
         // AppBar class names.
-        appBarClass: "win-navbar",
+        appBarClass: "win-appbar",
         firstDivClass: "win-firstdiv",
         finalDivClass: "win-finaldiv",
-        invokeButtonClass: "win-navbar-invokebutton",
-        ellipsisClass: "win-navbar-ellipsis",
+        invokeButtonClass: "win-appbar-invokebutton",
+        ellipsisClass: "win-appbar-ellipsis",
         primaryCommandsClass: "win-primarygroup",
         secondaryCommandsClass: "win-secondarygroup",
         commandLayoutClass: "win-commandlayout",
         menuLayoutClass: "win-menulayout",
         topClass: "win-top",
         bottomClass: "win-bottom",
-        showingClass : "win-navbar-opening",
-        shownClass : "win-navbar-opened",
-        hidingClass : "win-navbar-closing",
-        hiddenClass: "win-navbar-closed",
-        compactClass: "win-navbar-compact",
-        minimalClass: "win-navbar-minimal",
-        menuContainerClass: "win-navbar-menu",
+        showingClass : "win-appbar-showing",
+        shownClass : "win-appbar-shown",
+        compactClass : "win-appbar-compact",
+        hidingClass : "win-appbar-hiding",
+        hiddenClass: "win-appbar-hidden",
+        minimalClass: "win-appbar-minimal",
+        menuContainerClass: "win-appbar-menu",
 
         // Constants for AppBar placement
         appBarPlacementTop: "top",
@@ -63911,7 +63945,7 @@ define('WinJS/Controls/Flyout/_Overlay',[
     '../../Scheduler',
     '../../Utilities/_Control',
     '../../Utilities/_ElementUtilities',
-    '../_LegacyAppBar/_Constants',
+    '../AppBar/_Constants',
     'require-style!less/styles-overlay',
     'require-style!less/colors-overlay'
 ], function overlayInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Events, _Resources, _WriteProfilerMark, Animations, Application, ControlProcessor, Promise, Scheduler, _Control, _ElementUtilities, _Constants) {
@@ -64084,6 +64118,14 @@ define('WinJS/Controls/Flyout/_Overlay',[
                 },
             });
 
+            var createEvent = _Events._createEventProperty;
+
+            // Event Names
+            var BEFORESHOW = "beforeshow";
+            var AFTERSHOW = "aftershow";
+            var BEFOREHIDE = "beforehide";
+            var AFTERHIDE = "afterhide";
+
             // Helper to get DOM elements from input single object or array or IDs/toolkit/dom elements
             function _resolveElements(elements) {
                 // No input is just an empty array
@@ -64208,6 +64250,45 @@ define('WinJS/Controls/Flyout/_Overlay',[
                     }
                 },
 
+                /// <field type="Boolean" locid="WinJS.UI._Overlay.disabled" helpKeyword="WinJS.UI._Overlay.disabled">Disable an Overlay, setting or getting the HTML disabled attribute.  When disabled the Overlay will no longer display with show(), and will hide if currently visible.</field>
+                disabled: {
+                    get: function () {
+                        // Ensure it's a boolean because we're using the DOM element to keep in-sync
+                        return !!this._element.disabled;
+                    },
+                    set: function (value) {
+                        // Force this check into a boolean because our current state could be a bit confused since we tie to the DOM element
+                        value = !!value;
+                        var oldValue = !!this._element.disabled;
+                        if (oldValue !== value) {
+                            this._element.disabled = value;
+                            if (!this.hidden && this._element.disabled) {
+                                this._hideOrDismiss();
+                            }
+                        }
+                    }
+                },
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
+                /// Occurs immediately before the control is shown.
+                /// </field>
+                onbeforeshow: createEvent(BEFORESHOW),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
+                /// Occurs immediately after the control is shown.
+                /// </field>
+                onaftershow: createEvent(AFTERSHOW),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
+                /// Occurs immediately before the control is hidden.
+                /// </field>
+                onbeforehide: createEvent(BEFOREHIDE),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
+                /// Occurs immediately after the control is hidden.
+                /// </field>
+                onafterhide: createEvent(AFTERHIDE),
+
                 dispose: function () {
                     /// <signature helpKeyword="WinJS.UI.Overlay.dispose">
                     /// <summary locid="WinJS.UI.Overlay.dispose">
@@ -64226,9 +64307,29 @@ define('WinJS/Controls/Flyout/_Overlay',[
                     // To be overridden by subclasses
                 },
 
+                show: function () {
+                    /// <signature helpKeyword="WinJS.UI._Overlay.show">
+                    /// <summary locid="WinJS.UI._Overlay.show">
+                    /// Shows the Overlay, if hidden, regardless of other state
+                    /// </summary>
+                    /// </signature>
+                    // call private show to distinguish it from public version
+                    this._show();
+                },
+
                 _show: function _Overlay_show() {
                     // We call our base _baseShow because AppBar may need to override show
                     this._baseShow();
+                },
+
+                hide: function () {
+                    /// <signature helpKeyword="WinJS.UI._Overlay.hide">
+                    /// <summary locid="WinJS.UI._Overlay.hide">
+                    /// Hides the Overlay, if visible, regardless of other state
+                    /// </summary>
+                    /// </signature>
+                    // call private hide to distinguish it from public version
+                    this._hide();
                 },
 
                 _hide: function _Overlay_hide() {
@@ -64878,8 +64979,6 @@ define('WinJS/Controls/Flyout/_Overlay',[
                     var element = this._element;
                     if (element && _ElementUtilities.hasClass(element, _Constants.settingsFlyoutClass)) {
                         this._dismiss();
-                    } else if (element && _ElementUtilities.hasClass(element, _Constants.appBarClass)) {
-                        this.close();
                     } else {
                         this.hide();
                     }
@@ -65057,7 +65156,7 @@ define('WinJS/Controls/Flyout/_Overlay',[
                     var appBars = [];
                     for (var i = 0; i < len; i++) {
                         var appBar = elements[i].winControl;
-                        if (appBar && !appBar.sticky && appBar.opened) {
+                        if (appBar && !appBar.sticky && !appBar.hidden) {
                             appBars.push(appBar);
                         }
                     }
@@ -65302,7 +65401,7 @@ define('WinJS/Controls/Flyout/_Overlay',[
                 _hideAppBars: function _Overlay_hideAppBars(bars, keyboardInvoked) {
                     var allBarsAnimationPromises = bars.map(function (bar) {
                         bar._keyboardInvoked = keyboardInvoked;
-                        bar.close();
+                        bar.hide();
                         return bar._animationPromise;
                     });
                     return Promise.join(allBarsAnimationPromises);
@@ -65453,10 +65552,10 @@ define('WinJS/Controls/Flyout/_Overlay',[
                 _scrollTimeout: 150,
 
                 // Events
-                beforeShow: "beforeshow",
-                beforeHide: "beforehide",
-                afterShow: "aftershow",
-                afterHide: "afterhide",
+                beforeShow: BEFORESHOW,
+                beforeHide: BEFOREHIDE,
+                afterShow: AFTERSHOW,
+                afterHide: AFTERHIDE,
 
                 commonstrings: {
                     get cannotChangeCommandsWhenVisible() { return "Invalid argument: You must call hide() before changing {0} commands"; },
@@ -65518,7 +65617,7 @@ define('WinJS/Controls/Flyout/_Overlay',[
                             // Get the top of our visible area in terms of its absolute distance from the top of document.documentElement.
                             // Normalizes any offsets which have have occured between the visual viewport and the layout viewport due to resizing the viewport to fit the IHM and/or optical zoom.
                             _visibleDocTop: function _visibleDocTop_Windows8WWA() {
-                                return _Global.pageYOffset - _Global.document.documentElement.scrollTop;
+                                return _Global.window.pageYOffset - _Global.document.documentElement.scrollTop;
                             },
 
                             // Get the bottom offset of the visual viewport from the bottom of the layout viewport, plus any IHM occlusion.
@@ -65527,11 +65626,11 @@ define('WinJS/Controls/Flyout/_Overlay',[
                             },
 
                             _visualViewportHeight: function _visualViewportHeight_Windows8WWA() {
-                                return _Global.innerHeight;
+                                return _Global.window.innerHeight;
                             },
 
                             _visualViewportWidth: function _visualViewportWidth_Windows8WWA() {
-                                return _Global.innerWidth;
+                                return _Global.window.innerWidth;
                             },
                         };
 
@@ -65578,7 +65677,6 @@ define('WinJS/Controls/Flyout',[
     '../Core/_Base',
     '../Core/_BaseUtils',
     '../Core/_ErrorFromName',
-    '../Core/_Events',
     '../Core/_Log',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
@@ -65587,9 +65685,9 @@ define('WinJS/Controls/Flyout',[
     '../Utilities/_Dispose',
     '../Utilities/_ElementUtilities',
     '../Utilities/_Hoverable',
-    './_LegacyAppBar/_Constants',
+    './AppBar/_Constants',
     './Flyout/_Overlay'
-], function flyoutInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Events, _Log, _Resources, _WriteProfilerMark, Animations, _Signal, _Dispose, _ElementUtilities, _Hoverable, _Constants, _Overlay) {
+], function flyoutInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Log, _Resources, _WriteProfilerMark, Animations, _Signal, _Dispose, _ElementUtilities, _Hoverable, _Constants, _Overlay) {
     "use strict";
 
     _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
@@ -65625,7 +65723,6 @@ define('WinJS/Controls/Flyout',[
                 get badAlignment() { return "Invalid argument: Flyout alignment should be 'center' (default), 'left', or 'right'."; }
             };
 
-            var createEvent = _Events._createEventProperty;
 
             // Singleton class for managing cascading flyouts
             var _CascadeManager = _Base.Class.define(function _CascadeManager_ctor() {
@@ -65876,45 +65973,6 @@ define('WinJS/Controls/Flyout',[
                     }
                 },
 
-                /// <field type="Boolean" locid="WinJS.UI.Flyout.disabled" helpKeyword="WinJS.UI.Flyout.disabled">Disable a Flyout, setting or getting the HTML disabled attribute.  When disabled the Flyout will no longer display with show(), and will hide if currently visible.</field>
-                disabled: {
-                    get: function () {
-                        // Ensure it's a boolean because we're using the DOM element to keep in-sync
-                        return !!this._element.disabled;
-                    },
-                    set: function (value) {
-                        // Force this check into a boolean because our current state could be a bit confused since we tie to the DOM element
-                        value = !!value;
-                        var oldValue = !!this._element.disabled;
-                        if (oldValue !== value) {
-                            this._element.disabled = value;
-                            if (!this.hidden && this._element.disabled) {
-                                this.hide();
-                            }
-                        }
-                    }
-                },
-
-                /// <field type="Function" locid="WinJS.UI.Flyout.onbeforeshow" helpKeyword="WinJS.UI.Flyout.onbeforeshow">
-                /// Occurs immediately before the control is shown.
-                /// </field>
-                onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
-
-                /// <field type="Function" locid="WinJS.UI.Flyout.onaftershow" helpKeyword="WinJS.UI.Flyout.onaftershow">
-                /// Occurs immediately after the control is shown.
-                /// </field>
-                onaftershow: createEvent(_Overlay._Overlay.afterShow),
-
-                /// <field type="Function" locid="WinJS.UI.Flyout.onbeforehide" helpKeyword="WinJS.UI.Flyout.onbeforehide">
-                /// Occurs immediately before the control is hidden.
-                /// </field>
-                onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
-
-                /// <field type="Function" locid="WinJS.UI.Flyout.onafterhide" helpKeyword="WinJS.UI.Flyout.onafterhide">
-                /// Occurs immediately after the control is hidden.
-                /// </field>
-                onafterhide: createEvent(_Overlay._Overlay.afterHide),
-
                 _dispose: function Flyout_dispose() {
                     _Dispose.disposeSubTree(this.element);
                     this._hide();
@@ -65977,7 +66035,7 @@ define('WinJS/Controls/Flyout',[
 
                             // _isAppBarOrChild may return a CED or sentinal
                             var appBar = _Overlay._Overlay._isAppBarOrChild(this._previousFocus);
-                            if (!appBar || (appBar.winControl && appBar.winControl.opened && !appBar.winAnimating)) {
+                            if (!appBar || (appBar.winControl && !appBar.winControl.hidden && !appBar.winAnimating)) {
                                 // Don't move focus back to a appBar that is hidden
                                 // We cannot rely on element.style.visibility because it will be visible while animating
                                 var role = this._previousFocus.getAttribute("role");
@@ -66689,102 +66747,36 @@ define('WinJS/Controls/Flyout',[
 
 });
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-define('WinJS/Controls/CommandingSurface/_Constants',["require", "exports"], function (require, exports) {
-    // CommandingSurface class names
-    exports.ClassNames = {
-        controlCssClass: "win-commandingsurface",
-        disposableCssClass: "win-disposable",
-        actionAreaCssClass: "win-commandingsurface-actionarea",
-        overflowButtonCssClass: "win-commandingsurface-overflowbutton",
-        spacerCssClass: "win-commandingsurface-spacer",
-        ellipsisCssClass: "win-commandingsurface-ellipsis",
-        overflowAreaCssClass: "win-commandingsurface-overflowarea",
-        contentFlyoutCssClass: "win-commandingsurface-contentflyout",
-        emptyCommandingSurfaceCssClass: "win-commandingsurface-empty",
-        menuCssClass: "win-menu",
-        menuContainsToggleCommandClass: "win-menu-containstogglecommand",
-        openingClass: "win-commandingsurface-opening",
-        openedClass: "win-commandingsurface-opened",
-        closingClass: "win-commandingsurface-closing",
-        closedClass: "win-commandingsurface-closed",
-        noneClass: "win-commandingsurface-closeddisplaynone",
-        minimalClass: "win-commandingsurface-closeddisplayminimal",
-        compactClass: "win-commandingsurface-closeddisplaycompact",
-        fullClass: "win-commandingsurface-closeddisplayfull",
-        overflowTopClass: "win-commandingsurface-overflowtop",
-        overflowBottomClass: "win-commandingsurface-overflowbottom",
-    };
-    exports.EventNames = {
-        beforeOpen: "beforeopen",
-        afterOpen: "afteropen",
-        beforeClose: "beforeclose",
-        afterClose: "afterclose"
-    };
-    exports.actionAreaCommandWidth = 68;
-    exports.actionAreaSeparatorWidth = 34;
-    exports.actionAreaOverflowButtonWidth = 32;
-    exports.overflowCommandHeight = 44;
-    exports.overflowSeparatorHeight = 12;
-    exports.controlMinWidth = exports.actionAreaOverflowButtonWidth;
-    exports.heightOfMinimal = 24;
-    exports.heightOfCompact = 48;
-    exports.contentMenuCommandDefaultLabel = "Custom content";
-    exports.defaultClosedDisplayMode = "compact";
-    exports.defaultOpened = false;
-    exports.defaultOverflowDirection = "bottom";
-    // Constants for commands
-    exports.typeSeparator = "separator";
-    exports.typeContent = "content";
-    exports.typeButton = "button";
-    exports.typeToggle = "toggle";
-    exports.typeFlyout = "flyout";
-    exports.commandSelector = ".win-command";
-    exports.primaryCommandSection = "primary";
-    exports.secondaryCommandSection = "secondary";
-});
+define('WinJS/Controls/ToolBar/_Constants',["require", "exports"], function(require, exports) {
+    // ToolBar class names
+    exports.controlCssClass = "win-toolbar";
+    exports.actionAreaCssClass = "win-toolbar-actionarea";
+    exports.overflowButtonCssClass = "win-toolbar-overflowbutton";
+    exports.spacerCssClass = "win-toolbar-spacer";
+    exports.ellipsisCssClass = "win-toolbar-ellipsis";
+    exports.overflowAreaCssClass = "win-toolbar-overflowarea";
+    exports.overflowContentFlyoutCssClass = "win-toolbar-contentflyout";
+    exports.shownDisplayReducedCssClass = "win-toolbar-showndisplayreduced";
+    exports.shownDisplayFullCssClass = "win-toolbar-showndisplayfull";
+    exports.emptyToolBarCssClass = "win-toolbar-empty";
+    exports.menuCssClass = "win-menu";
+    exports.menuContainsToggleCommandClass = "win-menu-containstogglecommand";
+    exports.menuContainsFlyoutCommandClass = "win-menu-containsflyoutcommand";
 
-define('WinJS/Controls/ToolBar/_Constants',["require", "exports", "../CommandingSurface/_Constants"], function (require, exports, _CommandingSurfaceConstants) {
-    // toolbar class names
-    exports.ClassNames = {
-        controlCssClass: "win-toolbar",
-        disposableCssClass: "win-disposable",
-        actionAreaCssClass: "win-toolbar-actionarea",
-        overflowButtonCssClass: "win-toolbar-overflowbutton",
-        spacerCssClass: "win-toolbar-spacer",
-        ellipsisCssClass: "win-toolbar-ellipsis",
-        overflowAreaCssClass: "win-toolbar-overflowarea",
-        contentFlyoutCssClass: "win-toolbar-contentflyout",
-        emptytoolbarCssClass: "win-toolbar-empty",
-        menuCssClass: "win-menu",
-        menuContainsToggleCommandClass: "win-menu-containstogglecommand",
-        openingClass: "win-toolbar-opening",
-        openedClass: "win-toolbar-opened",
-        closingClass: "win-toolbar-closing",
-        closedClass: "win-toolbar-closed",
-        compactClass: "win-toolbar-closeddisplaycompact",
-        fullClass: "win-toolbar-closeddisplayfull",
-        overflowTopClass: "win-toolbar-overflowtop",
-        overflowBottomClass: "win-toolbar-overflowbottom",
-        placeHolderCssClass: "win-toolbar-placeholder",
+    exports.contentMenuCommandDefaultLabel = "Custom content";
+
+    // Constants for shownDisplayModes
+    exports.shownDisplayModes = {
+        full: "full",
+        reduced: "reduced"
     };
-    exports.EventNames = {
-        beforeOpen: "beforeopen",
-        afterOpen: "afteropen",
-        beforeClose: "beforeclose",
-        afterClose: "afterclose"
-    };
-    exports.controlMinWidth = _CommandingSurfaceConstants.controlMinWidth;
-    exports.defaultClosedDisplayMode = "compact";
-    exports.defaultOpened = false;
+
     // Constants for commands
     exports.typeSeparator = "separator";
     exports.typeContent = "content";
     exports.typeButton = "button";
     exports.typeToggle = "toggle";
     exports.typeFlyout = "flyout";
-    exports.commandSelector = ".win-command";
-    exports.primaryCommandSection = "primary";
-    exports.secondaryCommandSection = "secondary";
 });
 
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
@@ -67021,7 +67013,7 @@ define('WinJS/Controls/AppBar/_Command',[
     '../../Utilities/_ElementUtilities',
     '../Flyout/_Overlay',
     '../Tooltip',
-    '../_LegacyAppBar/_Constants',
+    './_Constants',
     './_Icon'
     ], function appBarCommandInit(exports, _Global, _WinRT, _Base, _ErrorFromName, _Resources, _Control, _Dispose, _ElementUtilities, _Overlay, Tooltip, _Constants, _Icon) {
     "use strict";
@@ -67442,6 +67434,7 @@ define('WinJS/Controls/AppBar/_Command',[
                         if (!this._sendEvent(_Constants.commandVisibilityChanged)) {
                             style.visibility = originalVisibility;
                             style.display = originalDisplay;
+                            throw new _ErrorFromName("WinJS.UI.AppBarCommand.CannotChangeHiddenProperty", _Resources._formatString(_Overlay._Overlay.commonstrings.cannotChangeHiddenProperty, ""));
                         }
                     }
                 },
@@ -67502,7 +67495,7 @@ define('WinJS/Controls/AppBar/_Command',[
                     /// Registers an event handler for the specified event.
                     /// </summary>
                     /// <param name="type" type="String" locid="WinJS.UI.AppBarCommand.addEventListener_p:type">
-                    /// Required. The name of the event to register.
+                    /// Required. The name of the event to register. It must be "beforeshow", "beforehide", "aftershow", or "afterhide".
                     /// </param>
                     /// <param name="listener" type="Function" locid="WinJS.UI.AppBarCommand.addEventListener_p:listener">Required. The event handler function to associate with this event.</param>
                     /// <param name="useCapture" type="Boolean" locid="WinJS.UI.AppBarCommand.addEventListener_p:useCapture">
@@ -67699,7 +67692,7 @@ define('WinJS/Controls/Menu/_Command',[
     '../../Promise',
     '../../Utilities/_Control',
     '../../Utilities/_ElementUtilities',
-    '../_LegacyAppBar/_Constants',
+    '../AppBar/_Constants',
     '../Flyout/_Overlay'
 ], function menuCommandInit(exports, _Global, _Base, _ErrorFromName, _Resources, Promise, _Control, _ElementUtilities, _Constants, _Overlay) {
     "use strict";
@@ -67729,7 +67722,7 @@ define('WinJS/Controls/Menu/_Command',[
             };
 
             var MenuCommand = _Base.Class.define(function MenuCommand_ctor(element, options) {
-                /// <signature helpKeyword="WinJS.UI.MenuCommand.MenuCommand">
+                /// <signature helpKeyword="WinJS.UI.AppBarCommand.MenuCommand">
                 /// <summary locid="WinJS.UI.MenuCommand.constructor">
                 /// Creates a new MenuCommand object.
                 /// </summary>
@@ -68230,4298 +68223,6 @@ define('WinJS/Controls/Menu/_Command',[
 
 
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('WinJS/Controls/CommandingSurface/_MenuCommand',["require", "exports", "../Menu/_Command"], function (require, exports, _MenuCommandBase) {
-    var _MenuCommand = (function (_super) {
-        __extends(_MenuCommand, _super);
-        function _MenuCommand(element, options) {
-            if (options && options.beforeInvoke) {
-                this._beforeInvoke = options.beforeInvoke;
-            }
-            _super.call(this, element, options);
-        }
-        _MenuCommand.prototype._invoke = function (event) {
-            this._beforeInvoke && this._beforeInvoke(event);
-            _super.prototype._invoke.call(this, event);
-        };
-        return _MenuCommand;
-    })(_MenuCommandBase.MenuCommand);
-    exports._MenuCommand = _MenuCommand;
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-/// <reference path="../../../../typings/require.d.ts" />
-define('WinJS/Utilities/_OpenCloseMachine',["require", "exports", '../Core/_Global', '../Promise', '../_Signal'], function (require, exports, _Global, Promise, _Signal) {
-    "use strict";
-    // This module provides a state machine which is designed to be used by controls which need to
-    // open, close, and fire related events (e.g. beforeopen, afterclose). The state machine handles
-    // many edge cases. For example, what happens if:
-    //  - open is called when we're already opened?
-    //  - close is called while we're in the middle of opening?
-    //  - dispose is called while we're in the middle of firing beforeopen?
-    // The state machine takes care of all of these edge cases so that the control doesn't have to.
-    // The control is responible for knowing how to play its open/close animations and update its DOM.
-    // The state machine is responsible for ensuring that these things happen at the appropriate times.
-    // This module is broken up into 3 major pieces:
-    //   - OpenCloseMachine: Controls should instantiate one of these. The machine keeps track of the
-    //     current state and has methods for forwarding calls to the current state.
-    //   - IOpenCloseControl: Controls must provide an object which implements this interface. The
-    //     interface gives the machine hooks for invoking the control's open and close animations.
-    //   - States: The various states (e.g. Closed, Opened, Opening) that the machine can be in. Each
-    //     implements IOpenCloseState.
-    // Example usage:
-    //   class MyControl {
-    //       element: HTMLElement;
-    //       private _machine: OpenCloseMachine;
-    //
-    //       constructor(element?: HTMLElement, options: any = {}) {
-    //           this.element = element || document.createElement("div");
-    //
-    //           // Create the machine.
-    //           this._machine = new OpenCloseMachine({
-    //               eventElement: this.element,
-    //               onOpen: (): Promise<any> => {
-    //                   // Do the work to render the contol in its opened state with an animation.
-    //                   // Return the animation promise.
-    //               },
-    //               onClose: (): Promise<any> => {
-    //                   // Do the work to render the contol in its closed state with an animation.
-    //                   // Return the animation promise.
-    //               },
-    //               onUpdateDom() {
-    //                   // Do the work to render the internal state of the control to the DOM. If a
-    //                   // control restricts all its DOM modifications to onUpdateDom, the state machine
-    //                   // can guarantee that the control won't modify its DOM while it is animating.
-    //               },
-    //               onUpdateDomWithIsOpened: (isOpened: boolean ) => {
-    //                   // Do the same work as onUpdateDom but ensure that the DOM is rendered with either
-    //                   // the opened or closed visual as dictacted by isOpened. The control should have some
-    //                   // internal state to track whether it is currently opened or closed. Treat this as a
-    //                   // cue to mutate that internal state to reflect the value of isOpened.
-    //               },
-    //           });
-    //
-    //           // Initialize the control. During this time, the machine will not ask the control to
-    //           // play any animations or update its DOM.
-    //           this.opened = true;
-    //           _Control.setOptions(this, options);
-    //
-    //           // Tell the machine the control is initialized. After this, the machine will start asking
-    //           // the control to play animations and update its DOM as appropriate.
-    //           this._machine.exitInit();
-    //       }
-    //
-    //       get opened() {
-    //           return this._machine.opened;
-    //       }
-    //       set opened(value: boolean) {
-    //           this._machine.opened = value;
-    //       }
-    //       open() {
-    //           this._machine.open();
-    //       }
-    //       close() {
-    //           this._machine.close();
-    //       }
-    //       forceLayout() {
-    //           this._machine.updateDom();
-    //       }
-    //       dispose() {
-    //           this._machine.dispose();
-    //       }
-    //   }
-    var EventNames = {
-        beforeOpen: "beforeopen",
-        afterOpen: "afteropen",
-        beforeClose: "beforeclose",
-        afterClose: "afterclose"
-    };
-    //
-    // OpenCloseMachine
-    //
-    var OpenCloseMachine = (function () {
-        //
-        // Methods called by the control
-        //
-        // When the machine is created, it sits in the Init state. When in the Init state, calls to
-        // updateDom will be postponed until the machine exits the Init state. Consequently, while in
-        // this state, the control can feel free to call updateDom as many times as it wants without
-        // worrying about it being expensive due to updating the DOM many times. The control should call
-        // *exitInit* to move the machine out of the Init state.
-        function OpenCloseMachine(args) {
-            this._control = args;
-            this._initializedSignal = new _Signal();
-            this._disposed = false;
-            this._setState(States.Init);
-        }
-        // Moves the machine out of the Init state and into the Opened or Closed state depending on whether
-        // open or close was called more recently.
-        OpenCloseMachine.prototype.exitInit = function () {
-            this._initializedSignal.complete();
-        };
-        // These method calls are forwarded to the current state.
-        OpenCloseMachine.prototype.updateDom = function () {
-            this._state.updateDom();
-        };
-        OpenCloseMachine.prototype.open = function () {
-            this._state.open();
-        };
-        OpenCloseMachine.prototype.close = function () {
-            this._state.close();
-        };
-        Object.defineProperty(OpenCloseMachine.prototype, "opened", {
-            get: function () {
-                return this._state.opened;
-            },
-            set: function (value) {
-                if (value) {
-                    this.open();
-                }
-                else {
-                    this.close();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        // Puts the machine into the Disposed state.
-        OpenCloseMachine.prototype.dispose = function () {
-            this._setState(States.Disposed);
-            this._disposed = true;
-            this._control = null;
-        };
-        //
-        // Methods called by states
-        //
-        OpenCloseMachine.prototype._setState = function (NewState, arg0) {
-            if (!this._disposed) {
-                this._state && this._state.exit();
-                this._state = new NewState();
-                this._state.machine = this;
-                this._state.enter(arg0);
-            }
-        };
-        // Triggers arbitrary app code
-        OpenCloseMachine.prototype._fireEvent = function (eventName, options) {
-            options = options || {};
-            var detail = options.detail || null;
-            var cancelable = !!options.cancelable;
-            var eventObject = _Global.document.createEvent("CustomEvent");
-            eventObject.initCustomEvent(eventName, true, cancelable, detail);
-            return this._control.eventElement.dispatchEvent(eventObject);
-        };
-        // Triggers arbitrary app code
-        OpenCloseMachine.prototype._fireBeforeOpen = function () {
-            return this._fireEvent(EventNames.beforeOpen, {
-                cancelable: true
-            });
-        };
-        // Triggers arbitrary app code
-        OpenCloseMachine.prototype._fireBeforeClose = function () {
-            return this._fireEvent(EventNames.beforeClose, {
-                cancelable: true
-            });
-        };
-        return OpenCloseMachine;
-    })();
-    exports.OpenCloseMachine = OpenCloseMachine;
-    //
-    // States (each implements IOpenCloseState)
-    //
-    // WinJS animation promises always complete successfully. This
-    // helper allows an animation promise to complete in the canceled state
-    // so that the success handler can be skipped when the animation is
-    // interrupted.
-    function cancelablePromise(animationPromise) {
-        return Promise._cancelBlocker(animationPromise, function () {
-            animationPromise.cancel();
-        });
-    }
-    // Noop function, used in the various states to indicate that they don't support a given
-    // message. Named with the somewhat cute name '_' because it reads really well in the states.
-    function _() {
-    }
-    // Implementing the control as a state machine helps us correctly handle:
-    //   - re-entrancy while firing events
-    //   - calls into the control during asynchronous operations (e.g. animations)
-    //
-    // Many of the states do their "enter" work within a promise chain. The idea is that if
-    // the state is interrupted and exits, the rest of its work can be skipped by canceling
-    // the promise chain.
-    // An interesting detail is that anytime the state may trigger app code (e.g. due to
-    // firing an event), the current promise must end and a new promise must be chained off of it.
-    // This is necessary because the app code may interact with the control and cause it to
-    // change states. If we didn't create a new promise, then the very next line of code that runs
-    // after triggering app code may not be valid because the state may have exited. Starting a
-    // new promise after each triggering of app code prevents us from having to worry about this
-    // problem. In this configuration, when a promise's success handler runs, it guarantees that
-    // the state hasn't exited.
-    // For similar reasons, each of the promise chains created in "enter" starts off with a _Signal
-    // which is completed at the end of the "enter" function (this boilerplate is abstracted away by
-    // the "interruptible" function). The reason is that we don't want any of the code in "enter"
-    // to run until the promise chain has been stored in a variable. If we didn't do this (e.g. instead,
-    // started the promise chain with Promise.wrap()), then the "enter" code could trigger the "exit"
-    // function (via app code) before the promise chain had been stored in a variable. Under these
-    // circumstances, the promise chain would be uncancelable and so the "enter" work would be
-    // unskippable. This wouldn't be good when we needed the state to exit early.
-    // These two functions manage interruptible work promises (one creates them the other cancels
-    // them). They communicate with each other thru the _interruptibleWorkPromises property which
-    //  "interruptible" creates on your object.
-    function interruptible(object, workFn) {
-        object["_interruptibleWorkPromises"] = object["_interruptibleWorkPromises"] || [];
-        var workStoredSignal = new _Signal();
-        object["_interruptibleWorkPromises"].push(workFn(workStoredSignal.promise));
-        workStoredSignal.complete();
-    }
-    function cancelInterruptibles() {
-        (this["_interruptibleWorkPromises"] || []).forEach(function (workPromise) {
-            workPromise.cancel();
-        });
-    }
-    // Transitions:
-    //   When created, the state machine will take one of the following initialization
-    //   transitions depending on how the machines's APIs have been used by the time
-    //   exitInit() is called on it:
-    //     Init -> Closed
-    //     Init -> Opened
-    //   Following that, the life of the machine will be dominated by the following
-    //   sequences of transitions. In geneneral, these sequences are uninterruptible.
-    //     Closed -> BeforeOpen -> Closed (when preventDefault is called on beforeopen event)
-    //     Closed -> BeforeOpen -> Opening -> Opened
-    //     Opened -> BeforeClose -> Opened (when preventDefault is called on beforeclose event)
-    //     Opened -> BeforeClose -> Closing -> Closed
-    //   However, any state can be interrupted to go to the Disposed state:
-    //     * -> Disposed
-    var States;
-    (function (States) {
-        function updateDomImpl() {
-            this.machine._control.onUpdateDom();
-        }
-        // Initial state. Gives the control the opportunity to initialize itself without
-        // triggering any animations or DOM modifications. When done, the control should
-        // call *exitInit* to move the machine to the next state.
-        var Init = (function () {
-            function Init() {
-                this.name = "Init";
-                this.exit = cancelInterruptibles;
-                this.updateDom = _; // Postponed until immediately before we switch to another state
-            }
-            Init.prototype.enter = function () {
-                var _this = this;
-                interruptible(this, function (ready) {
-                    return ready.then(function () {
-                        return _this.machine._initializedSignal.promise;
-                    }).then(function () {
-                        _this.machine._control.onUpdateDomWithIsOpened(_this._opened);
-                        _this.machine._setState(_this._opened ? Opened : Closed);
-                    });
-                });
-            };
-            Object.defineProperty(Init.prototype, "opened", {
-                get: function () {
-                    return this._opened;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Init.prototype.open = function () {
-                this._opened = true;
-            };
-            Init.prototype.close = function () {
-                this._opened = false;
-            };
-            return Init;
-        })();
-        States.Init = Init;
-        // A rest state. The control is closed and is waiting for the app to call open.
-        var Closed = (function () {
-            function Closed() {
-                this.name = "Closed";
-                this.exit = _;
-                this.opened = false;
-                this.close = _;
-                this.updateDom = updateDomImpl;
-            }
-            Closed.prototype.enter = function (args) {
-                args = args || {};
-                if (args.openIsPending) {
-                    this.open();
-                }
-            };
-            Closed.prototype.open = function () {
-                this.machine._setState(BeforeOpen);
-            };
-            return Closed;
-        })();
-        // An event state. The control fires the beforeopen event.
-        var BeforeOpen = (function () {
-            function BeforeOpen() {
-                this.name = "BeforeOpen";
-                this.exit = cancelInterruptibles;
-                this.opened = false;
-                this.open = _;
-                this.close = _;
-                this.updateDom = updateDomImpl;
-            }
-            BeforeOpen.prototype.enter = function () {
-                var _this = this;
-                interruptible(this, function (ready) {
-                    return ready.then(function () {
-                        return _this.machine._fireBeforeOpen(); // Give opportunity for chain to be canceled when triggering app code
-                    }).then(function (shouldOpen) {
-                        if (shouldOpen) {
-                            _this.machine._setState(Opening);
-                        }
-                        else {
-                            _this.machine._setState(Closed);
-                        }
-                    });
-                });
-            };
-            return BeforeOpen;
-        })();
-        // An animation/event state. The control plays its open animation and fires afteropen.
-        var Opening = (function () {
-            function Opening() {
-                this.name = "Opening";
-                this.exit = cancelInterruptibles;
-                this.updateDom = _; // Postponed until immediately before we switch to another state
-            }
-            Opening.prototype.enter = function () {
-                var _this = this;
-                interruptible(this, function (ready) {
-                    return ready.then(function () {
-                        _this._closeIsPending = false;
-                        return cancelablePromise(_this.machine._control.onOpen());
-                    }).then(function () {
-                        _this.machine._fireEvent(EventNames.afterOpen); // Give opportunity for chain to be canceled when triggering app code
-                    }).then(function () {
-                        _this.machine._control.onUpdateDom();
-                        _this.machine._setState(Opened, { closeIsPending: _this._closeIsPending });
-                    });
-                });
-            };
-            Object.defineProperty(Opening.prototype, "opened", {
-                get: function () {
-                    return !this._closeIsPending;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Opening.prototype.open = function () {
-                this._closeIsPending = false;
-            };
-            Opening.prototype.close = function () {
-                this._closeIsPending = true;
-            };
-            return Opening;
-        })();
-        // A rest state. The control is opened and is waiting for the app to call close.
-        var Opened = (function () {
-            function Opened() {
-                this.name = "Opened";
-                this.exit = _;
-                this.opened = true;
-                this.open = _;
-                this.updateDom = updateDomImpl;
-            }
-            Opened.prototype.enter = function (args) {
-                args = args || {};
-                if (args.closeIsPending) {
-                    this.close();
-                }
-            };
-            Opened.prototype.close = function () {
-                this.machine._setState(BeforeClose);
-            };
-            return Opened;
-        })();
-        // An event state. The control fires the beforeclose event.
-        var BeforeClose = (function () {
-            function BeforeClose() {
-                this.name = "BeforeClose";
-                this.exit = cancelInterruptibles;
-                this.opened = true;
-                this.open = _;
-                this.close = _;
-                this.updateDom = updateDomImpl;
-            }
-            BeforeClose.prototype.enter = function () {
-                var _this = this;
-                interruptible(this, function (ready) {
-                    return ready.then(function () {
-                        return _this.machine._fireBeforeClose(); // Give opportunity for chain to be canceled when triggering app code
-                    }).then(function (shouldClose) {
-                        if (shouldClose) {
-                            _this.machine._setState(Closing);
-                        }
-                        else {
-                            _this.machine._setState(Opened);
-                        }
-                    });
-                });
-            };
-            return BeforeClose;
-        })();
-        // An animation/event state. The control plays the close animation and fires the afterclose event.
-        var Closing = (function () {
-            function Closing() {
-                this.name = "Closing";
-                this.exit = cancelInterruptibles;
-                this.updateDom = _; // Postponed until immediately before we switch to another state
-            }
-            Closing.prototype.enter = function () {
-                var _this = this;
-                interruptible(this, function (ready) {
-                    return ready.then(function () {
-                        _this._openIsPending = false;
-                        return cancelablePromise(_this.machine._control.onClose());
-                    }).then(function () {
-                        _this.machine._fireEvent(EventNames.afterClose); // Give opportunity for chain to be canceled when triggering app code
-                    }).then(function () {
-                        _this.machine._control.onUpdateDom();
-                        _this.machine._setState(Closed, { openIsPending: _this._openIsPending });
-                    });
-                });
-            };
-            Object.defineProperty(Closing.prototype, "opened", {
-                get: function () {
-                    return this._openIsPending;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Closing.prototype.open = function () {
-                this._openIsPending = true;
-            };
-            Closing.prototype.close = function () {
-                this._openIsPending = false;
-            };
-            return Closing;
-        })();
-        var Disposed = (function () {
-            function Disposed() {
-                this.name = "Disposed";
-                this.enter = _;
-                this.exit = _;
-                this.opened = false;
-                this.open = _;
-                this.close = _;
-                this.updateDom = _;
-            }
-            return Disposed;
-        })();
-        States.Disposed = Disposed;
-    })(States || (States = {}));
-});
-
-
-define('require-style!less/styles-commandingsurface',[],function(){});
-
-define('require-style!less/colors-commandingsurface',[],function(){});
-define('WinJS/Controls/CommandingSurface/_CommandingSurface',["require", "exports", "../../Animations", "../../Core/_Base", "../../Core/_BaseUtils", "../../BindingList", "../../ControlProcessor", "../CommandingSurface/_Constants", "../AppBar/_Command", "../CommandingSurface/_MenuCommand", "../../Utilities/_Control", "../../Utilities/_Dispose", "../../Utilities/_ElementUtilities", "../../Core/_ErrorFromName", '../../Core/_Events', "../../Controls/Flyout", "../../Core/_Global", "../../Utilities/_Hoverable", "../../Utilities/_KeyboardBehavior", '../../Promise', "../../Core/_Resources", "../../Scheduler", '../../Utilities/_OpenCloseMachine', '../../_Signal', "../../Core/_WriteProfilerMark"], function (require, exports, Animations, _Base, _BaseUtils, BindingList, ControlProcessor, _Constants, _Command, _CommandingSurfaceMenuCommand, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Events, _Flyout, _Global, _Hoverable, _KeyboardBehavior, Promise, _Resources, Scheduler, _OpenCloseMachine, _Signal, _WriteProfilerMark) {
-    require(["require-style!less/styles-commandingsurface"]);
-    require(["require-style!less/colors-commandingsurface"]);
-    "use strict";
-    var strings = {
-        get overflowButtonAriaLabel() {
-            return _Resources._getWinJSString("ui/commandingSurfaceOverflowButtonAriaLabel").value;
-        },
-        get badData() {
-            return "Invalid argument: The data property must an instance of a WinJS.Binding.List";
-        },
-        get mustContainCommands() {
-            return "The commandingSurface can only contain WinJS.UI.Command or WinJS.UI.AppBarCommand controls";
-        },
-        get duplicateConstruction() {
-            return "Invalid argument: Controls may only be instantiated one time for each DOM element";
-        }
-    };
-    var CommandLayoutPipeline = {
-        newDataStage: 3,
-        measuringStage: 2,
-        layoutStage: 1,
-        idle: 0,
-    };
-    var OverflowDirection = {
-        /// The _CommandingSurface expands towards the bottom of the screen when opened and the overflow area renders below the actionarea.
-        bottom: "bottom",
-        /// The _CommandingSurface expands towards the top of the screen when opened and the overflow area renders above the actionarea.
-        top: "top",
-    };
-    var overflowDirectionClassMap = {};
-    overflowDirectionClassMap[OverflowDirection.top] = _Constants.ClassNames.overflowTopClass;
-    overflowDirectionClassMap[OverflowDirection.bottom] = _Constants.ClassNames.overflowBottomClass;
-    var ClosedDisplayMode = {
-        /// When the _CommandingSurface is closed, the actionarea is not visible and doesn't take up any space.
-        none: "none",
-        /// When the _CommandingSurface is closed, the height of the actionarea is reduced to the minimal height required to display only the actionarea overflowbutton. All other content in the actionarea is not displayed.
-        minimal: "minimal",
-        /// When the _CommandingSurface is closed, the height of the actionarea is reduced such that button commands are still visible, but their labels are hidden.
-        compact: "compact",
-        /// When the _CommandingSurface is closed, the height of the actionarea is always sized to content and does not change between opened and closed states.
-        full: "full",
-    };
-    var closedDisplayModeClassMap = {};
-    closedDisplayModeClassMap[ClosedDisplayMode.none] = _Constants.ClassNames.noneClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.minimal] = _Constants.ClassNames.minimalClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.compact] = _Constants.ClassNames.compactClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.full] = _Constants.ClassNames.fullClass;
-    // Versions of add/removeClass that are no ops when called with falsy class names.
-    function addClass(element, className) {
-        className && _ElementUtilities.addClass(element, className);
-    }
-    function removeClass(element, className) {
-        className && _ElementUtilities.removeClass(element, className);
-    }
-    function diffElements(lhs, rhs) {
-        // Subtract array rhs from array lhs.
-        // Returns a new Array containing the subset of elements in lhs that are not also in rhs.
-        return lhs.filter(function (commandElement) {
-            return rhs.indexOf(commandElement) < 0;
-        });
-    }
-    /// Represents an apaptive surface for displaying commands.
-    var _CommandingSurface = (function () {
-        function _CommandingSurface(element, options) {
-            /// Creates a new CommandingSurface control.
-            /// @param element: The DOM element that will host the control.
-            /// @param options: The set of properties and values to apply to the new CommandingSurface control.
-            /// @return: The new CommandingSurface control.
-            var _this = this;
-            if (options === void 0) { options = {}; }
-            this._hoverable = _Hoverable.isHoverable; /* force dependency on hoverable module */
-            this._dataChangedEvents = ["itemchanged", "iteminserted", "itemmoved", "itemremoved", "reload"];
-            // State private to _updateDomImpl_renderDisplayMode. No other method should make use of it.
-            //
-            // Nothing has been rendered yet so these are all initialized to undefined. Because
-            // they are undefined, the first time _updateDomImpl is called, they will all be
-            // rendered.
-            this._updateDomImpl_renderedState = {
-                closedDisplayMode: undefined,
-                isOpenedMode: undefined,
-                overflowDirection: undefined,
-            };
-            this._writeProfilerMark("constructor,StartTM");
-            // Check to make sure we weren't duplicated
-            if (element && element["winControl"]) {
-                throw new _ErrorFromName("WinJS.UI._CommandingSurface.DuplicateConstruction", strings.duplicateConstruction);
-            }
-            this._initializeDom(element || _Global.document.createElement("div"));
-            this._machine = options.openCloseMachine || new _OpenCloseMachine.OpenCloseMachine({
-                eventElement: this._dom.root,
-                onOpen: function () {
-                    //this._cachedHiddenPaneThickness = null;
-                    //var hiddenPaneThickness = this._getHiddenPaneThickness();
-                    _this.synchronousOpen();
-                    //return this._playShowAnimation(hiddenPaneThickness);
-                    return Promise.wrap();
-                },
-                onClose: function () {
-                    //return this._playHideAnimation(this._getHiddenPaneThickness()).then(() => {
-                    _this.synchronousClose();
-                    //});
-                    return Promise.wrap();
-                },
-                onUpdateDom: function () {
-                    _this.updateDomImpl();
-                },
-                onUpdateDomWithIsOpened: function (isOpened) {
-                    _this._isOpenedMode = isOpened;
-                    _this.updateDomImpl();
-                }
-            });
-            // Initialize private state.
-            this._disposed = false;
-            this._primaryCommands = [];
-            this._secondaryCommands = [];
-            this._refreshBound = this._refresh.bind(this);
-            this._resizeHandlerBound = this._resizeHandler.bind(this);
-            this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this._dom.root);
-            this._refreshPending = false;
-            this._rtl = false;
-            this._initializedSignal = new _Signal();
-            this._nextLayoutStage = CommandLayoutPipeline.idle;
-            this._isOpenedMode = _Constants.defaultOpened;
-            // Initialize public properties.
-            this.overflowDirection = _Constants.defaultOverflowDirection;
-            this.closedDisplayMode = _Constants.defaultClosedDisplayMode;
-            this.opened = this._isOpenedMode;
-            if (!options.data) {
-                // Shallow copy object so we can modify it.
-                options = _BaseUtils._shallowCopy(options);
-                // Set default data
-                options.data = options.data || this._getDataFromDOMElements();
-            }
-            _Control.setOptions(this, options);
-            // Event handlers
-            _ElementUtilities._resizeNotifier.subscribe(this._dom.root, this._resizeHandlerBound);
-            this._dom.root.addEventListener('keydown', this._keyDownHandler.bind(this));
-            // Exit the Init state.
-            _ElementUtilities._inDom(this._dom.root).then(function () {
-                _this._rtl = _Global.getComputedStyle(_this._dom.root).direction === 'rtl';
-                if (!options.openCloseMachine) {
-                    // We should only call exitInit on the machine when we own the machine.
-                    _this._machine.exitInit();
-                }
-                _this._initializedSignal.complete();
-                _this._writeProfilerMark("constructor,StopTM");
-            });
-        }
-        Object.defineProperty(_CommandingSurface.prototype, "element", {
-            /// Gets the DOM element that hosts the CommandingSurface.
-            get: function () {
-                return this._dom.root;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(_CommandingSurface.prototype, "data", {
-            /// Gets or sets the Binding List of WinJS.UI.Command for the CommandingSurface.
-            get: function () {
-                return this._data;
-            },
-            set: function (value) {
-                this._writeProfilerMark("set_data,info");
-                if (value !== this.data) {
-                    if (!(value instanceof BindingList.List)) {
-                        throw new _ErrorFromName("WinJS.UI._CommandingSurface.BadData", strings.badData);
-                    }
-                    if (this._data) {
-                        this._removeDataListeners();
-                    }
-                    this._data = value;
-                    this._addDataListeners();
-                    this._dataUpdated();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(_CommandingSurface.prototype, "closedDisplayMode", {
-            /// Gets or sets the closedDisplayMode for the CommandingSurface. Values are "none", "minimal", "compact", and "full".
-            get: function () {
-                return this._closedDisplayMode;
-            },
-            set: function (value) {
-                this._writeProfilerMark("set_closedDisplayMode,info");
-                var isChangingState = (value !== this._closedDisplayMode);
-                if (ClosedDisplayMode[value] && isChangingState) {
-                    this._closedDisplayMode = value;
-                    this._machine.updateDom();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(_CommandingSurface.prototype, "overflowDirection", {
-            /// Gets or sets which direction the commandingSurface overflows when opened. Values are "top" and "bottom" for.
-            get: function () {
-                return this._overflowDirection;
-            },
-            set: function (value) {
-                var isChangingState = (value !== this._overflowDirection);
-                if (OverflowDirection[value] && isChangingState) {
-                    this._overflowDirection = value;
-                    this._machine.updateDom();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(_CommandingSurface.prototype, "opened", {
-            /// Gets or sets whether the _CommandingSurface is currently opened.
-            get: function () {
-                return this._machine.opened;
-            },
-            set: function (value) {
-                this._machine.opened = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        _CommandingSurface.prototype.open = function () {
-            /// Opens the _CommandingSurface's actionarea and overflowarea
-            this._machine.open();
-        };
-        _CommandingSurface.prototype.close = function () {
-            /// Closes the _CommandingSurface's actionarea and overflowarea
-            this._machine.close();
-        };
-        _CommandingSurface.prototype.dispose = function () {
-            /// Disposes this CommandingSurface.
-            if (this._disposed) {
-                return;
-            }
-            this._disposed = true;
-            this._machine.dispose();
-            _ElementUtilities._resizeNotifier.unsubscribe(this._dom.root, this._resizeHandlerBound);
-            if (this._contentFlyout) {
-                this._contentFlyout.dispose();
-                this._contentFlyout.element.parentNode.removeChild(this._contentFlyout.element);
-            }
-            _Dispose.disposeSubTree(this._dom.root);
-        };
-        _CommandingSurface.prototype.forceLayout = function () {
-            /// Forces the CommandingSurface to update its layout. Use this function when the window did not change size, but the container of the CommandingSurface changed size.
-            this._meaurementsDirty();
-            this._machine.updateDom();
-        };
-        _CommandingSurface.prototype.getBoundingRects = function () {
-            return {
-                actionArea: this._dom.actionArea.getBoundingClientRect(),
-                overflowArea: this._dom.overflowArea.getBoundingClientRect(),
-            };
-        };
-        _CommandingSurface.prototype.deferredDomUpate = function () {
-            // Notify the machine that an update has been requested.
-            this._machine.updateDom();
-        };
-        Object.defineProperty(_CommandingSurface.prototype, "initialized", {
-            get: function () {
-                return this._initializedSignal.promise;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        _CommandingSurface.prototype._writeProfilerMark = function (text) {
-            _WriteProfilerMark("WinJS.UI._CommandingSurface:" + this._id + ":" + text);
-        };
-        _CommandingSurface.prototype._initializeDom = function (root) {
-            var _this = this;
-            this._writeProfilerMark("_intializeDom,info");
-            // Attaching JS control to DOM element
-            root["winControl"] = this;
-            this._id = root.id || _ElementUtilities._uniqueID(root);
-            if (!root.hasAttribute("tabIndex")) {
-                root.tabIndex = -1;
-            }
-            _ElementUtilities.addClass(root, _Constants.ClassNames.controlCssClass);
-            _ElementUtilities.addClass(root, _Constants.ClassNames.disposableCssClass);
-            var actionArea = _Global.document.createElement("div");
-            _ElementUtilities.addClass(actionArea, _Constants.ClassNames.actionAreaCssClass);
-            _ElementUtilities._reparentChildren(root, actionArea);
-            root.appendChild(actionArea);
-            var spacer = _Global.document.createElement("div");
-            _ElementUtilities.addClass(spacer, _Constants.ClassNames.spacerCssClass);
-            actionArea.appendChild(spacer);
-            var overflowButton = _Global.document.createElement("button");
-            overflowButton.tabIndex = 0;
-            overflowButton.innerHTML = "<span class='" + _Constants.ClassNames.ellipsisCssClass + "'></span>";
-            _ElementUtilities.addClass(overflowButton, _Constants.ClassNames.overflowButtonCssClass);
-            actionArea.appendChild(overflowButton);
-            overflowButton.addEventListener("click", function () {
-                _this.opened = !_this.opened;
-            });
-            var overflowArea = _Global.document.createElement("div");
-            _ElementUtilities.addClass(overflowArea, _Constants.ClassNames.overflowAreaCssClass);
-            _ElementUtilities.addClass(overflowArea, _Constants.ClassNames.menuCssClass);
-            root.appendChild(overflowArea);
-            this._dom = {
-                root: root,
-                actionArea: actionArea,
-                spacer: spacer,
-                overflowButton: overflowButton,
-                overflowArea: overflowArea,
-            };
-        };
-        _CommandingSurface.prototype._getFocusableElementsInfo = function () {
-            var _this = this;
-            var focusableCommandsInfo = {
-                elements: [],
-                focusedIndex: -1
-            };
-            var elementsInReach = Array.prototype.slice.call(this._dom.actionArea.children);
-            var elementsInReach = Array.prototype.slice.call(this._dom.actionArea.children);
-            if (this._dom.overflowArea.style.display !== "none") {
-                elementsInReach = elementsInReach.concat(Array.prototype.slice.call(this._dom.overflowArea.children));
-            }
-            elementsInReach.forEach(function (element) {
-                if (_this._isElementFocusable(element)) {
-                    focusableCommandsInfo.elements.push(element);
-                    if (element.contains(_Global.document.activeElement)) {
-                        focusableCommandsInfo.focusedIndex = focusableCommandsInfo.elements.length - 1;
-                    }
-                }
-            });
-            return focusableCommandsInfo;
-        };
-        _CommandingSurface.prototype._dataUpdated = function () {
-            var _this = this;
-            this._primaryCommands = [];
-            this._secondaryCommands = [];
-            if (this.data.length > 0) {
-                this.data.forEach(function (command) {
-                    if (command.section === "secondary") {
-                        _this._secondaryCommands.push(command);
-                    }
-                    else {
-                        _this._primaryCommands.push(command);
-                    }
-                });
-            }
-            this._dataDirty();
-            this._machine.updateDom();
-        };
-        _CommandingSurface.prototype._refresh = function () {
-            var _this = this;
-            if (!this._refreshPending) {
-                this._refreshPending = true;
-                // Batch calls to _dataUpdated
-                Scheduler.schedule(function () {
-                    if (_this._refreshPending && !_this._disposed) {
-                        _this._refreshPending = false;
-                        _this._dataUpdated();
-                    }
-                }, Scheduler.Priority.high, null, "WinJS.UI._CommandingSurface._refresh");
-            }
-        };
-        _CommandingSurface.prototype._addDataListeners = function () {
-            var _this = this;
-            this._dataChangedEvents.forEach(function (eventName) {
-                _this._data.addEventListener(eventName, _this._refreshBound, false);
-            });
-        };
-        _CommandingSurface.prototype._removeDataListeners = function () {
-            var _this = this;
-            this._dataChangedEvents.forEach(function (eventName) {
-                _this._data.removeEventListener(eventName, _this._refreshBound, false);
-            });
-        };
-        _CommandingSurface.prototype._isElementFocusable = function (element) {
-            var focusable = false;
-            if (element) {
-                var command = element["winControl"];
-                if (command) {
-                    focusable = command.element.style.display !== "none" && command.type !== _Constants.typeSeparator && !command.hidden && !command.disabled && (!command.firstElementFocus || command.firstElementFocus.tabIndex >= 0 || command.lastElementFocus.tabIndex >= 0);
-                }
-                else {
-                    // e.g. the overflow button
-                    focusable = element.style.display !== "none" && getComputedStyle(element).visibility !== "hidden" && element.tabIndex >= 0;
-                }
-            }
-            return focusable;
-        };
-        _CommandingSurface.prototype._isCommandInActionArea = function (element) {
-            // Returns true if the element is a command in the actionarea, false otherwise
-            return element && element["winControl"] && element.parentElement === this._dom.actionArea;
-        };
-        _CommandingSurface.prototype._getLastElementFocus = function (element) {
-            if (this._isCommandInActionArea(element)) {
-                // Only commands in the actionarea support lastElementFocus
-                return element["winControl"].lastElementFocus;
-            }
-            else {
-                return element;
-            }
-        };
-        _CommandingSurface.prototype._getFirstElementFocus = function (element) {
-            if (this._isCommandInActionArea(element)) {
-                // Only commands in the actionarea support firstElementFocus
-                return element["winControl"].firstElementFocus;
-            }
-            else {
-                return element;
-            }
-        };
-        _CommandingSurface.prototype._keyDownHandler = function (ev) {
-            if (!ev.altKey) {
-                if (_ElementUtilities._matchesSelector(ev.target, ".win-interactive, .win-interactive *")) {
-                    return;
-                }
-                var Key = _ElementUtilities.Key;
-                var focusableElementsInfo = this._getFocusableElementsInfo();
-                var targetCommand;
-                if (focusableElementsInfo.elements.length) {
-                    switch (ev.keyCode) {
-                        case (this._rtl ? Key.rightArrow : Key.leftArrow):
-                        case Key.upArrow:
-                            var index = Math.max(0, focusableElementsInfo.focusedIndex - 1);
-                            targetCommand = this._getLastElementFocus(focusableElementsInfo.elements[index % focusableElementsInfo.elements.length]);
-                            break;
-                        case (this._rtl ? Key.leftArrow : Key.rightArrow):
-                        case Key.downArrow:
-                            var index = Math.min(focusableElementsInfo.focusedIndex + 1, focusableElementsInfo.elements.length - 1);
-                            targetCommand = this._getFirstElementFocus(focusableElementsInfo.elements[index]);
-                            break;
-                        case Key.home:
-                            var index = 0;
-                            targetCommand = this._getFirstElementFocus(focusableElementsInfo.elements[index]);
-                            break;
-                        case Key.end:
-                            var index = focusableElementsInfo.elements.length - 1;
-                            targetCommand = this._getLastElementFocus(focusableElementsInfo.elements[index]);
-                            break;
-                    }
-                }
-                if (targetCommand && targetCommand !== _Global.document.activeElement) {
-                    targetCommand.focus();
-                    ev.preventDefault();
-                }
-            }
-        };
-        _CommandingSurface.prototype._getDataFromDOMElements = function () {
-            this._writeProfilerMark("_getDataFromDOMElements,info");
-            ControlProcessor.processAll(this._dom.actionArea, true);
-            var commands = [];
-            var childrenLength = this._dom.actionArea.children.length;
-            var child;
-            for (var i = 0; i < childrenLength; i++) {
-                child = this._dom.actionArea.children[i];
-                if (child["winControl"] && child["winControl"] instanceof _Command.AppBarCommand) {
-                    commands.push(child["winControl"]);
-                }
-                else if (child !== this._dom.overflowButton && child !== this._dom.spacer) {
-                    throw new _ErrorFromName("WinJS.UI._CommandingSurface.MustContainCommands", strings.mustContainCommands);
-                }
-            }
-            return new BindingList.List(commands);
-        };
-        _CommandingSurface.prototype._resizeHandler = function () {
-            if (this._dom.root.offsetWidth) {
-                var currentActionAreaWidth = _ElementUtilities.getContentWidth(this._dom.actionArea);
-                if (this._cachedMeasurements && this._cachedMeasurements.actionAreaContentBoxWidth !== currentActionAreaWidth) {
-                    this._cachedMeasurements.actionAreaContentBoxWidth = currentActionAreaWidth;
-                    this._layoutDirty();
-                    this._machine.updateDom();
-                }
-            }
-        };
-        // Should be called while _CommandingSurface is rendered in its opened mode
-        // Overridden by tests.
-        _CommandingSurface.prototype._playShowAnimation = function () {
-            return Promise.wrap();
-        };
-        // Should be called while SplitView is rendered in its opened mode
-        // Overridden by tests.
-        _CommandingSurface.prototype._playHideAnimation = function () {
-            return Promise.wrap();
-        };
-        _CommandingSurface.prototype._dataDirty = function () {
-            this._nextLayoutStage = Math.max(CommandLayoutPipeline.newDataStage, this._nextLayoutStage);
-        };
-        _CommandingSurface.prototype._meaurementsDirty = function () {
-            this._nextLayoutStage = Math.max(CommandLayoutPipeline.measuringStage, this._nextLayoutStage);
-        };
-        _CommandingSurface.prototype._layoutDirty = function () {
-            this._nextLayoutStage = Math.max(CommandLayoutPipeline.layoutStage, this._nextLayoutStage);
-        };
-        _CommandingSurface.prototype.synchronousOpen = function () {
-            this._isOpenedMode = true;
-            this.updateDomImpl();
-        };
-        _CommandingSurface.prototype.synchronousClose = function () {
-            this._isOpenedMode = false;
-            this.updateDomImpl();
-        };
-        _CommandingSurface.prototype.updateDomImpl = function () {
-            this._updateDomImpl_renderDisplayMode();
-            this._updateDomImpl_updateCommands();
-        };
-        _CommandingSurface.prototype._updateDomImpl_renderDisplayMode = function () {
-            var rendered = this._updateDomImpl_renderedState;
-            if (rendered.isOpenedMode !== this._isOpenedMode) {
-                if (this._isOpenedMode) {
-                    // Render opened
-                    removeClass(this._dom.root, _Constants.ClassNames.closedClass);
-                    addClass(this._dom.root, _Constants.ClassNames.openedClass);
-                }
-                else {
-                    // Render closed
-                    removeClass(this._dom.root, _Constants.ClassNames.openedClass);
-                    addClass(this._dom.root, _Constants.ClassNames.closedClass);
-                }
-                rendered.isOpenedMode = this._isOpenedMode;
-            }
-            if (rendered.closedDisplayMode !== this.closedDisplayMode) {
-                removeClass(this._dom.root, closedDisplayModeClassMap[rendered.closedDisplayMode]);
-                addClass(this._dom.root, closedDisplayModeClassMap[this.closedDisplayMode]);
-                rendered.closedDisplayMode = this.closedDisplayMode;
-            }
-            if (rendered.overflowDirection !== this.overflowDirection) {
-                removeClass(this._dom.root, overflowDirectionClassMap[rendered.overflowDirection]);
-                addClass(this._dom.root, overflowDirectionClassMap[this.overflowDirection]);
-                rendered.overflowDirection = this.overflowDirection;
-            }
-        };
-        _CommandingSurface.prototype._updateDomImpl_updateCommands = function () {
-            this._writeProfilerMark("_updateDomImpl_updateCommands,info");
-            var nextStage = this._nextLayoutStage;
-            while (nextStage !== CommandLayoutPipeline.idle) {
-                var currentStage = nextStage;
-                var okToProceed = false;
-                switch (currentStage) {
-                    case CommandLayoutPipeline.newDataStage:
-                        nextStage = CommandLayoutPipeline.measuringStage;
-                        okToProceed = this._processNewData();
-                        break;
-                    case CommandLayoutPipeline.measuringStage:
-                        nextStage = CommandLayoutPipeline.layoutStage;
-                        okToProceed = this._measure();
-                        break;
-                    case CommandLayoutPipeline.layoutStage:
-                        nextStage = CommandLayoutPipeline.idle;
-                        okToProceed = this._layoutCommands();
-                        break;
-                }
-                if (!okToProceed) {
-                    // If a stage fails, exit the loop and track that stage
-                    // to be restarted the next time _updateCommands is run.
-                    nextStage = currentStage;
-                    break;
-                }
-            }
-            this._nextLayoutStage = nextStage;
-        };
-        _CommandingSurface.prototype._getDataChangeInfo = function () {
-            var i = 0, len = 0;
-            var added = [];
-            var deleted = [];
-            var affected = [];
-            var currentShown = [];
-            var currentElements = [];
-            var newShown = [];
-            var newHidden = [];
-            var newElements = [];
-            Array.prototype.forEach.call(this._dom.actionArea.querySelectorAll(_Constants.commandSelector), function (commandElement) {
-                if (commandElement.style.display !== "none") {
-                    currentShown.push(commandElement);
-                }
-                currentElements.push(commandElement);
-            });
-            this.data.forEach(function (command) {
-                if (command.element.style.display !== "none") {
-                    newShown.push(command.element);
-                }
-                else {
-                    newHidden.push(command.element);
-                }
-                newElements.push(command.element);
-            });
-            deleted = diffElements(currentShown, newShown);
-            affected = diffElements(currentShown, deleted);
-            // "added" must also include the elements from "newHidden" to ensure that we continue
-            // to animate any command elements that have underflowed back into the actionarea
-            // as a part of this data change.
-            added = diffElements(newShown, currentShown).concat(newHidden);
-            return {
-                newElements: newElements,
-                currentElements: currentElements,
-                added: added,
-                deleted: deleted,
-                affected: affected,
-            };
-        };
-        _CommandingSurface.prototype._processNewData = function () {
-            var _this = this;
-            this._writeProfilerMark("_processNewData,info");
-            var changeInfo = this._getDataChangeInfo();
-            // Take a snapshot of the current state
-            var updateCommandAnimation = Animations._createUpdateListAnimation(changeInfo.added, changeInfo.deleted, changeInfo.affected);
-            // Remove current ICommand elements
-            changeInfo.currentElements.forEach(function (element) {
-                if (element.parentElement) {
-                    element.parentElement.removeChild(element);
-                }
-            });
-            // Add new ICommand elements in the right order.
-            changeInfo.newElements.forEach(function (element) {
-                _this._dom.actionArea.appendChild(element);
-            });
-            // Ensure that the overflow button is always the last element in the actionarea
-            this._dom.actionArea.appendChild(this._dom.overflowButton);
-            if (this.data.length > 0) {
-                _ElementUtilities.removeClass(this._dom.root, _Constants.ClassNames.emptyCommandingSurfaceCssClass);
-            }
-            else {
-                _ElementUtilities.addClass(this._dom.root, _Constants.ClassNames.emptyCommandingSurfaceCssClass);
-            }
-            // Execute the animation.
-            updateCommandAnimation.execute();
-            // Indicate processing was successful.
-            return true;
-        };
-        _CommandingSurface.prototype._measure = function () {
-            var _this = this;
-            this._writeProfilerMark("_measure,info");
-            var canMeasure = (_Global.document.body.contains(this._dom.root) && this._dom.actionArea.offsetWidth > 0);
-            if (canMeasure) {
-                var overflowButtonWidth = _ElementUtilities.getTotalWidth(this._dom.overflowButton), actionAreaContentBoxWidth = _ElementUtilities.getContentWidth(this._dom.actionArea), separatorWidth = 0, standardCommandWidth = 0, contentCommandWidths = {};
-                this._primaryCommands.forEach(function (command) {
-                    // Ensure that the element we are measuring does not have display: none (e.g. it was just added, and it
-                    // will be animated in)
-                    var originalDisplayStyle = command.element.style.display;
-                    command.element.style.display = "";
-                    if (command.type === _Constants.typeContent) {
-                        // Measure each 'content' command type that we find
-                        contentCommandWidths[_this._commandUniqueId(command)] = _ElementUtilities.getTotalWidth(command.element);
-                    }
-                    else if (command.type === _Constants.typeSeparator) {
-                        // Measure the first 'separator' command type we find.
-                        if (!separatorWidth) {
-                            separatorWidth = _ElementUtilities.getTotalWidth(command.element);
-                        }
-                    }
-                    else {
-                        // Button, toggle, 'flyout' command types have the same width. Measure the first one we find.
-                        if (!standardCommandWidth) {
-                            standardCommandWidth = _ElementUtilities.getTotalWidth(command.element);
-                        }
-                    }
-                    // Restore the original display style
-                    command.element.style.display = originalDisplayStyle;
-                });
-                this._cachedMeasurements = {
-                    contentCommandWidths: contentCommandWidths,
-                    separatorWidth: separatorWidth,
-                    standardCommandWidth: standardCommandWidth,
-                    overflowButtonWidth: overflowButtonWidth,
-                    actionAreaContentBoxWidth: actionAreaContentBoxWidth,
-                };
-                // Indicate measure was successful
-                return true;
-            }
-            else {
-                // Indicate measure was unsuccessful
-                return false;
-            }
-        };
-        _CommandingSurface.prototype._layoutCommands = function () {
-            var _this = this;
-            this._writeProfilerMark("_layoutCommands,StartTM");
-            //
-            // Filter commands that will not be visible in the actionarea
-            //
-            this._primaryCommands.forEach(function (command) {
-                command.element.style.display = (command.hidden ? "none" : "");
-            });
-            var primaryCommandsLocation = this._getPrimaryCommandsLocation();
-            this._hideSeparatorsIfNeeded(primaryCommandsLocation.actionArea);
-            // Primary commands that will be mirrored in the overflow area should be hidden so
-            // that they are not visible in the actionarea.
-            primaryCommandsLocation.overflowArea.forEach(function (command) {
-                command.element.style.display = "none";
-            });
-            // The secondary commands in the actionarea should be hidden since they are always
-            // mirrored as new elements in the overflow area.
-            this._secondaryCommands.forEach(function (command) {
-                command.element.style.display = "none";
-            });
-            var overflowCommands = primaryCommandsLocation.overflowArea;
-            var showOverflowButton = (overflowCommands.length > 0 || this._secondaryCommands.length > 0);
-            this._dom.overflowButton.style.display = showOverflowButton ? "" : "none";
-            // Set up a custom content flyout if there will be "content" typed commands in the overflowarea.
-            var isCustomContent = function (command) {
-                return command.type === _Constants.typeContent;
-            };
-            var hasCustomContent = overflowCommands.some(isCustomContent) || this._secondaryCommands.some(isCustomContent);
-            if (hasCustomContent && !this._contentFlyout) {
-                this._contentFlyoutInterior = _Global.document.createElement("div");
-                _ElementUtilities.addClass(this._contentFlyoutInterior, _Constants.ClassNames.contentFlyoutCssClass);
-                this._contentFlyout = new _Flyout.Flyout();
-                this._contentFlyout.element.appendChild(this._contentFlyoutInterior);
-                _Global.document.body.appendChild(this._contentFlyout.element);
-                this._contentFlyout.onbeforeshow = function () {
-                    _ElementUtilities.empty(_this._contentFlyoutInterior);
-                    _ElementUtilities._reparentChildren(_this._chosenCommand.element, _this._contentFlyoutInterior);
-                };
-                this._contentFlyout.onafterhide = function () {
-                    _ElementUtilities._reparentChildren(_this._contentFlyoutInterior, _this._chosenCommand.element);
-                };
-            }
-            //
-            // Project overflowing and secondary commands into the overflowArea as MenuCommands
-            //
-            _ElementUtilities.empty(this._dom.overflowArea);
-            var hasToggleCommands = false, menuCommandProjections = [];
-            // Add primary commands that have overflowed.
-            overflowCommands.forEach(function (command) {
-                if (command.type === _Constants.typeToggle) {
-                    hasToggleCommands = true;
-                }
-                menuCommandProjections.push(_this._projectAsMenuCommand(command));
-            });
-            // Add separator between primary and secondary command if applicable
-            var secondaryCommandsLength = this._secondaryCommands.length;
-            if (overflowCommands.length > 0 && secondaryCommandsLength > 0) {
-                var separator = new _CommandingSurfaceMenuCommand._MenuCommand(null, {
-                    type: _Constants.typeSeparator
-                });
-                menuCommandProjections.push(separator);
-            }
-            // Add secondary commands
-            this._secondaryCommands.forEach(function (command) {
-                if (!command.hidden) {
-                    if (command.type === _Constants.typeToggle) {
-                        hasToggleCommands = true;
-                    }
-                    menuCommandProjections.push(_this._projectAsMenuCommand(command));
-                }
-            });
-            this._hideSeparatorsIfNeeded(menuCommandProjections);
-            menuCommandProjections.forEach(function (command) {
-                _this._dom.overflowArea.appendChild(command.element);
-            });
-            _ElementUtilities[hasToggleCommands ? "addClass" : "removeClass"](this._dom.overflowArea, _Constants.ClassNames.menuContainsToggleCommandClass);
-            this._writeProfilerMark("_layoutCommands,StopTM");
-            // Indicate layout was successful.
-            return true;
-        };
-        _CommandingSurface.prototype._commandUniqueId = function (command) {
-            return _ElementUtilities._uniqueID(command.element);
-        };
-        _CommandingSurface.prototype._getCommandsInfo = function () {
-            var width = 0;
-            var commands = [];
-            var priority = 0;
-            var currentAssignedPriority = 0;
-            for (var i = this._primaryCommands.length - 1; i >= 0; i--) {
-                var command = this._primaryCommands[i];
-                if (command.priority === undefined) {
-                    priority = currentAssignedPriority--;
-                }
-                else {
-                    priority = command.priority;
-                }
-                width = (command.element.style.display === "none" ? 0 : this._getCommandWidth(command));
-                commands.unshift({
-                    command: command,
-                    width: width,
-                    priority: priority
-                });
-            }
-            return commands;
-        };
-        _CommandingSurface.prototype._getPrimaryCommandsLocation = function () {
-            this._writeProfilerMark("_getCommandsLocation,info");
-            var actionAreaCommands = [];
-            var overflowAreaCommands = [];
-            var overflowButtonSpace = 0;
-            var hasSecondaryCommands = this._secondaryCommands.length > 0;
-            var commandsInfo = this._getCommandsInfo();
-            var sortedCommandsInfo = commandsInfo.slice(0).sort(function (commandInfo1, commandInfo2) {
-                return commandInfo1.priority - commandInfo2.priority;
-            });
-            var maxPriority = Number.MAX_VALUE;
-            var availableWidth = this._cachedMeasurements.actionAreaContentBoxWidth;
-            for (var i = 0, len = sortedCommandsInfo.length; i < len; i++) {
-                availableWidth -= sortedCommandsInfo[i].width;
-                // The overflow button needs space if there are secondary commands, or we are not evaluating the last command.
-                overflowButtonSpace = (hasSecondaryCommands || (i < len - 1) ? this._cachedMeasurements.overflowButtonWidth : 0);
-                if (availableWidth - overflowButtonSpace < 0) {
-                    maxPriority = sortedCommandsInfo[i].priority - 1;
-                    break;
-                }
-            }
-            commandsInfo.forEach(function (commandInfo) {
-                if (commandInfo.priority <= maxPriority) {
-                    actionAreaCommands.push(commandInfo.command);
-                }
-                else {
-                    overflowAreaCommands.push(commandInfo.command);
-                }
-            });
-            return {
-                actionArea: actionAreaCommands,
-                overflowArea: overflowAreaCommands
-            };
-        };
-        _CommandingSurface.prototype._getCommandWidth = function (command) {
-            if (command.type === _Constants.typeContent) {
-                return this._cachedMeasurements.contentCommandWidths[this._commandUniqueId(command)];
-            }
-            else if (command.type === _Constants.typeSeparator) {
-                return this._cachedMeasurements.separatorWidth;
-            }
-            else {
-                return this._cachedMeasurements.standardCommandWidth;
-            }
-        };
-        _CommandingSurface.prototype._projectAsMenuCommand = function (originalCommand) {
-            var _this = this;
-            var menuCommand = new _CommandingSurfaceMenuCommand._MenuCommand(null, {
-                label: originalCommand.label,
-                type: (originalCommand.type === _Constants.typeContent ? _Constants.typeFlyout : originalCommand.type) || _Constants.typeButton,
-                disabled: originalCommand.disabled,
-                flyout: originalCommand.flyout,
-                beforeInvoke: function () {
-                    // Save the command that was selected
-                    _this._chosenCommand = (menuCommand["_originalICommand"]);
-                    // If this WinJS.UI.MenuCommand has type: toggle, we should also toggle the value of the original WinJS.UI.Command
-                    if (_this._chosenCommand.type === _Constants.typeToggle) {
-                        _this._chosenCommand.selected = !_this._chosenCommand.selected;
-                    }
-                }
-            });
-            if (originalCommand.selected) {
-                menuCommand.selected = true;
-            }
-            if (originalCommand.extraClass) {
-                menuCommand.extraClass = originalCommand.extraClass;
-            }
-            if (originalCommand.type === _Constants.typeContent) {
-                if (!menuCommand.label) {
-                    menuCommand.label = _Constants.contentMenuCommandDefaultLabel;
-                }
-                menuCommand.flyout = this._contentFlyout;
-            }
-            else {
-                menuCommand.onclick = originalCommand.onclick;
-            }
-            menuCommand["_originalICommand"] = originalCommand;
-            return menuCommand;
-        };
-        _CommandingSurface.prototype._hideSeparatorsIfNeeded = function (commands) {
-            var prevType = _Constants.typeSeparator;
-            var command;
-            // Hide all leading or consecutive separators
-            var commandsLength = commands.length;
-            commands.forEach(function (command) {
-                if (command.type === _Constants.typeSeparator && prevType === _Constants.typeSeparator) {
-                    command.element.style.display = "none";
-                }
-                prevType = command.type;
-            });
-            for (var i = commandsLength - 1; i >= 0; i--) {
-                command = commands[i];
-                if (command.type === _Constants.typeSeparator) {
-                    command.element.style.display = "none";
-                }
-                else {
-                    break;
-                }
-            }
-        };
-        /// Display options for the actionarea when the _CommandingSurface is closed.
-        _CommandingSurface.ClosedDisplayMode = ClosedDisplayMode;
-        /// Display options used by the _Commandingsurface to determine which direction it should expand when opening.
-        _CommandingSurface.OverflowDirection = OverflowDirection;
-        _CommandingSurface.supportedForProcessing = true;
-        return _CommandingSurface;
-    })();
-    exports._CommandingSurface = _CommandingSurface;
-    _Base.Class.mix(_CommandingSurface, _Events.createEventProperties(_Constants.EventNames.beforeOpen, _Constants.EventNames.afterOpen, _Constants.EventNames.beforeClose, _Constants.EventNames.afterClose));
-    // addEventListener, removeEventListener, dispatchEvent
-    _Base.Class.mix(_CommandingSurface, _Control.DOMEventMixin);
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-/// <reference path="../../../../typings/require.d.ts" />
-define('WinJS/Controls/CommandingSurface',["require", "exports"], function (require, exports) {
-    var module = null;
-    function getModule() {
-        if (!module) {
-            require(["./CommandingSurface/_CommandingSurface"], function (m) {
-                module = m;
-            });
-        }
-        return module._CommandingSurface;
-    }
-    var publicMembers = Object.create({}, {
-        _CommandingSurface: {
-            get: function () {
-                return getModule();
-            }
-        }
-    });
-    return publicMembers;
-});
-
-
-define('require-style!less/styles-toolbar',[],function(){});
-
-define('require-style!less/colors-toolbar',[],function(){});
-define('WinJS/Controls/ToolBar/_ToolBar',["require", "exports", "../../Core/_Base", "../ToolBar/_Constants", "../CommandingSurface", "../../Utilities/_Control", "../../Utilities/_Dispose", "../../Utilities/_ElementUtilities", "../../Core/_ErrorFromName", '../../Core/_Events', "../../Core/_Global", '../../Promise', "../../Core/_Resources", '../../Utilities/_OpenCloseMachine', "../../Core/_WriteProfilerMark"], function (require, exports, _Base, _Constants, _CommandingSurface, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Events, _Global, Promise, _Resources, _OpenCloseMachine, _WriteProfilerMark) {
-    require(["require-style!less/styles-toolbar"]);
-    require(["require-style!less/colors-toolbar"]);
-    "use strict";
-    var strings = {
-        get ariaLabel() {
-            return _Resources._getWinJSString("ui/toolbarAriaLabel").value;
-        },
-        get overflowButtonAriaLabel() {
-            return _Resources._getWinJSString("ui/toolbarOverflowButtonAriaLabel").value;
-        },
-        get mustContainCommands() {
-            return "The toolbar can only contain WinJS.UI.Command or WinJS.UI.AppBarCommand controls";
-        },
-        get duplicateConstruction() {
-            return "Invalid argument: Controls may only be instantiated one time for each DOM element";
-        }
-    };
-    var ClosedDisplayMode = {
-        /// <field locid="WinJS.UI.ToolBar.ClosedDisplayMode.compact" helpKeyword="WinJS.UI.ToolBar.ClosedDisplayMode.compact">
-        /// When the ToolBar is closed, the height of the ToolBar is reduced such that button commands are still visible, but their labels are hidden.
-        /// </field>
-        compact: "compact",
-        /// <field locid="WinJS.UI.ToolBar.ClosedDisplayMode.full" helpKeyword="WinJS.UI.ToolBar.ClosedDisplayMode.full">
-        /// When the ToolBar is closed, the height of the ToolBar is always sized to content.
-        /// </field>
-        full: "full",
-    };
-    var closedDisplayModeClassMap = {};
-    closedDisplayModeClassMap[ClosedDisplayMode.compact] = _Constants.ClassNames.compactClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.full] = _Constants.ClassNames.fullClass;
-    // Versions of add/removeClass that are no ops when called with falsy class names.
-    function addClass(element, className) {
-        className && _ElementUtilities.addClass(element, className);
-    }
-    function removeClass(element, className) {
-        className && _ElementUtilities.removeClass(element, className);
-    }
-    /// <field>
-    /// <summary locid="WinJS.UI.ToolBar">
-    /// Displays ICommands within the flow of the app. Use the ToolBar around other statically positioned app content.
-    /// </summary>
-    /// </field>
-    /// <icon src="ui_winjs.ui.toolbar.12x12.png" width="12" height="12" />
-    /// <icon src="ui_winjs.ui.toolbar.16x16.png" width="16" height="16" />
-    /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.ToolBar">
-    /// <button data-win-control="WinJS.UI.Command" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
-    /// </div>]]></htmlSnippet>
-    /// <part name="toolbar" class="win-toolbar" locid="WinJS.UI.ToolBar_part:toolbar">The entire ToolBar control.</part>
-    /// <part name="toolbar-overflowbutton" class="win-toolbar-overflowbutton" locid="WinJS.UI.ToolBar_part:ToolBar-overflowbutton">The toolbar overflow button.</part>
-    /// <part name="toolbar-overflowarea" class="win-toolbar-overflowarea" locid="WinJS.UI.ToolBar_part:ToolBar-overflowarea">The container for toolbar commands that overflow.</part>
-    /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
-    /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
-    var ToolBar = (function () {
-        function ToolBar(element, options) {
-            /// <signature helpKeyword="WinJS.UI.ToolBar.ToolBar">
-            /// <summary locid="WinJS.UI.ToolBar.constructor">
-            /// Creates a new ToolBar control.
-            /// </summary>
-            /// <param name="element" type="HTMLElement" domElement="true" locid="WinJS.UI.ToolBar.constructor_p:element">
-            /// The DOM element that will host the control.
-            /// </param>
-            /// <param name="options" type="Object" locid="WinJS.UI.ToolBar.constructor_p:options">
-            /// The set of properties and values to apply to the new ToolBar control.
-            /// </param>
-            /// <returns type="WinJS.UI.ToolBar" locid="WinJS.UI.ToolBar.constructor_returnValue">
-            /// The new ToolBar control.
-            /// </returns>
-            /// </signature>
-            var _this = this;
-            if (options === void 0) { options = {}; }
-            // State private to the _updateDomImpl family of method. No other methods should make use of it.
-            //
-            // Nothing has been rendered yet so these are all initialized to undefined. Because
-            // they are undefined, the first time _updateDomImpl is called, they will all be
-            // rendered.
-            this._updateDomImpl_renderedState = {
-                isOpenedMode: undefined,
-                closedDisplayMode: undefined,
-                prevInlineWidth: undefined,
-            };
-            this._writeProfilerMark("constructor,StartTM");
-            // Check to make sure we weren't duplicated
-            if (element && element["winControl"]) {
-                throw new _ErrorFromName("WinJS.UI.ToolBar.DuplicateConstruction", strings.duplicateConstruction);
-            }
-            this._initializeDom(element || _Global.document.createElement("div"));
-            var stateMachine = new _OpenCloseMachine.OpenCloseMachine({
-                eventElement: this.element,
-                onOpen: function () {
-                    _this._synchronousOpen();
-                    // Animate
-                    return Promise.wrap();
-                },
-                onClose: function () {
-                    _this._synchronousClose();
-                    // Animate
-                    return Promise.wrap();
-                },
-                onUpdateDom: function () {
-                    _this._updateDomImpl();
-                },
-                onUpdateDomWithIsOpened: function (isOpened) {
-                    _this._isOpenedMode = isOpened;
-                    _this._updateDomImpl();
-                }
-            });
-            // Initialize private state.
-            this._disposed = false;
-            this._commandingSurface = new _CommandingSurface._CommandingSurface(this._dom.commandingSurfaceEl, { openCloseMachine: stateMachine });
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-actionarea"), _Constants.ClassNames.actionAreaCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-overflowarea"), _Constants.ClassNames.overflowAreaCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-overflowbutton"), _Constants.ClassNames.overflowButtonCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-ellipsis"), _Constants.ClassNames.ellipsisCssClass);
-            this._isOpenedMode = _Constants.defaultOpened;
-            // Initialize public properties.
-            this.closedDisplayMode = _Constants.defaultClosedDisplayMode;
-            this.opened = this._isOpenedMode;
-            _Control.setOptions(this, options);
-            // Exit the Init state.
-            _ElementUtilities._inDom(this.element).then(function () {
-                return _this._commandingSurface.initialized;
-            }).then(function () {
-                stateMachine.exitInit();
-                _this._writeProfilerMark("constructor,StopTM");
-            });
-        }
-        Object.defineProperty(ToolBar.prototype, "element", {
-            /// <field type="HTMLElement" domElement="true" hidden="true" locid="WinJS.UI.ToolBar.element" helpKeyword="WinJS.UI.ToolBar.element">
-            /// Gets the DOM element that hosts the ToolBar.
-            /// </field>
-            get: function () {
-                return this._dom.root;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ToolBar.prototype, "data", {
-            /// <field type="WinJS.Binding.List" locid="WinJS.UI.ToolBar.data" helpKeyword="WinJS.UI.ToolBar.data">
-            /// Gets or sets the Binding List of WinJS.UI.Command for the ToolBar.
-            /// </field>
-            get: function () {
-                return this._commandingSurface.data;
-            },
-            set: function (value) {
-                this._commandingSurface.data = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ToolBar.prototype, "closedDisplayMode", {
-            /// <field type="String" locid="WinJS.UI.ToolBar.closedDisplayMode" helpKeyword="WinJS.UI.ToolBar.closedDisplayMode">
-            /// Gets or sets the closedDisplayMode for the ToolBar. Values are "compact" and "full".
-            /// </field>
-            get: function () {
-                return this._commandingSurface.closedDisplayMode;
-            },
-            set: function (value) {
-                if (ClosedDisplayMode[value]) {
-                    this._commandingSurface.closedDisplayMode = value;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ToolBar.prototype, "opened", {
-            /// <field type="Boolean" hidden="true" locid="WinJS.UI.ToolBar.opened" helpKeyword="WinJS.UI.ToolBar.opened">
-            /// Gets or sets whether the ToolBar is currently opened.
-            /// </field>
-            get: function () {
-                return this._commandingSurface.opened;
-            },
-            set: function (value) {
-                this._commandingSurface.opened = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ToolBar.prototype.open = function () {
-            /// <signature helpKeyword="WinJS.UI.ToolBar.open">
-            /// <summary locid="WinJS.UI.ToolBar.open">
-            /// Opens the ToolBar
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.open();
-        };
-        ToolBar.prototype.close = function () {
-            /// <signature helpKeyword="WinJS.UI.ToolBar.close">
-            /// <summary locid="WinJS.UI.ToolBar.close">
-            /// Closes the ToolBar
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.close();
-        };
-        ToolBar.prototype.dispose = function () {
-            /// <signature helpKeyword="WinJS.UI.ToolBar.dispose">
-            /// <summary locid="WinJS.UI.ToolBar.dispose">
-            /// Disposes this ToolBar.
-            /// </summary>
-            /// </signature>
-            if (this._disposed) {
-                return;
-            }
-            this._disposed = true;
-            // Disposing the _commandingSurface will trigger dispose on its OpenCloseMachine and synchronously complete any animations that might have been running.
-            this._commandingSurface.dispose();
-            // If page navigation is happening, we don't want to ToolBar left behind in the body.
-            // Synchronoulsy close the ToolBar to force it out of the body and back into its parent element.
-            this._synchronousClose();
-            _Dispose.disposeSubTree(this.element);
-            //TODO: Does the placeHolder element need a dispose method on it as well, so that will be called if its parent subtree is disposed?
-            // If the placeholder is in the DOM at all, it means the toolbar is temporarily open and absolutely positioned in the docuent.body.
-            // Also, can we accomplish this just by hanging this._winControl off of the placeHolder element as well?
-        };
-        ToolBar.prototype.forceLayout = function () {
-            /// <signature helpKeyword="WinJS.UI.ToolBar.forceLayout">
-            /// <summary locid="WinJS.UI.ToolBar.forceLayout">
-            /// Forces the ToolBar to update its layout. Use this function when the window did not change size, but the container of the ToolBar changed size.
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.forceLayout();
-        };
-        ToolBar.prototype._writeProfilerMark = function (text) {
-            _WriteProfilerMark("WinJS.UI.ToolBar:" + this._id + ":" + text);
-        };
-        ToolBar.prototype._initializeDom = function (root) {
-            this._writeProfilerMark("_intializeDom,info");
-            // Attaching JS control to DOM element
-            root["winControl"] = this;
-            this._id = root.id || _ElementUtilities._uniqueID(root);
-            if (!root.hasAttribute("tabIndex")) {
-                root.tabIndex = -1;
-            }
-            _ElementUtilities.addClass(root, _Constants.ClassNames.controlCssClass);
-            _ElementUtilities.addClass(root, _Constants.ClassNames.disposableCssClass);
-            // Make sure we have an ARIA role
-            var role = root.getAttribute("role");
-            if (!role) {
-                root.setAttribute("role", "menubar");
-            }
-            var label = root.getAttribute("aria-label");
-            if (!label) {
-                root.setAttribute("aria-label", strings.ariaLabel);
-            }
-            // Create element for commandingSurface and reparent any declarative Commands.
-            // commandingSurface will parse child elements as AppBarCommands.
-            var commandingSurfaceEl = document.createElement("DIV");
-            _ElementUtilities._reparentChildren(root, commandingSurfaceEl);
-            root.appendChild(commandingSurfaceEl);
-            var placeHolder = _Global.document.createElement("DIV");
-            _ElementUtilities.addClass(placeHolder, _Constants.ClassNames.placeHolderCssClass);
-            this._dom = {
-                root: root,
-                commandingSurfaceEl: commandingSurfaceEl,
-                placeHolder: placeHolder,
-            };
-        };
-        ToolBar.prototype._synchronousOpen = function () {
-            this._isOpenedMode = true;
-            this._updateDomImpl();
-        };
-        ToolBar.prototype._synchronousClose = function () {
-            this._isOpenedMode = false;
-            this._updateDomImpl();
-        };
-        ToolBar.prototype._updateDomImpl = function () {
-            var rendered = this._updateDomImpl_renderedState;
-            if (rendered.isOpenedMode !== this._isOpenedMode) {
-                if (this._isOpenedMode) {
-                    this._updateDomImpl_renderOpened();
-                }
-                else {
-                    this._updateDomImpl_renderClosed();
-                }
-                rendered.isOpenedMode = this._isOpenedMode;
-            }
-            if (rendered.closedDisplayMode !== this.closedDisplayMode) {
-                removeClass(this._dom.root, closedDisplayModeClassMap[rendered.closedDisplayMode]);
-                addClass(this._dom.root, closedDisplayModeClassMap[this.closedDisplayMode]);
-                rendered.closedDisplayMode = this.closedDisplayMode;
-            }
-            this._commandingSurface.updateDomImpl();
-        };
-        ToolBar.prototype._updateDomImpl_renderOpened = function () {
-            var _this = this;
-            // Measure closed state.
-            var closedActionAreaRect = this._commandingSurface.getBoundingRects().actionArea;
-            this._updateDomImpl_renderedState.prevInlineWidth = this._dom.root.style.width;
-            // Get replacement element
-            var placeHolder = this._dom.placeHolder;
-            placeHolder.style.width = closedActionAreaRect.width + "px";
-            placeHolder.style.height = closedActionAreaRect.height + "px";
-            // Move ToolBar element to the body and leave placeHolder element in our place to avoid reflowing surrounding app content.
-            this._dom.root.parentElement.insertBefore(placeHolder, this._dom.root);
-            _Global.document.body.appendChild(this._dom.root);
-            // Render opened state
-            _ElementUtilities.addClass(this._dom.root, _Constants.ClassNames.openedClass);
-            _ElementUtilities.removeClass(this._dom.root, _Constants.ClassNames.closedClass);
-            this._dom.root.style.width = closedActionAreaRect.width + "px";
-            this._dom.root.style.left = closedActionAreaRect.left + "px";
-            this._commandingSurface.synchronousOpen();
-            // Measure opened state
-            var openedRects = this._commandingSurface.getBoundingRects();
-            //
-            // Determine _commandingSurface overflowDirection
-            //
-            var topOfViewport = 0, bottomOfViewport = topOfViewport + _Global.innerHeight, tolerance = 1;
-            var alignTop = function () {
-                _this._commandingSurface.overflowDirection = "bottom"; // TODO: Is it safe to use the static commandingSurface "OverflowDirection" enum for this value? (lazy loading... et al)
-                _this._dom.root.style.top = closedActionAreaRect.top + "px";
-            };
-            var alignBottom = function () {
-                _this._commandingSurface.overflowDirection = "top"; // TODO: Is it safe to use the static commandingSurface "OverflowDirection" enum for this value? (lazy loading... et al)
-                _this._dom.root.style.bottom = (bottomOfViewport - closedActionAreaRect.bottom) + "px";
-            };
-            function fitsBelow() {
-                // If we orient the commandingSurface from top to bottom, would the bottom of the overflow area fit above the bottom edge of the window?
-                var bottomOfOverFlowArea = closedActionAreaRect.top + openedRects.actionArea.height + openedRects.overflowArea.height;
-                return bottomOfOverFlowArea < bottomOfViewport + tolerance;
-            }
-            function fitsAbove() {
-                // If we orient the commandingSurface from bottom to top, would the top of the overflow area fit below the top edge of the window?
-                var topOfOverFlowArea = closedActionAreaRect.bottom - openedRects.actionArea.height - openedRects.overflowArea.height;
-                return topOfOverFlowArea > topOfViewport - tolerance;
-            }
-            if (fitsBelow()) {
-                alignTop();
-            }
-            else if (fitsAbove()) {
-                alignBottom();
-            }
-            else {
-                // TODO, orient ourselves top to bottom and shrink the height of the overflowarea to make us fit within the available space.
-                alignTop();
-            }
-        };
-        ToolBar.prototype._updateDomImpl_renderClosed = function () {
-            // Restore our placement in the DOM
-            if (this._dom.placeHolder.parentElement) {
-                var placeHolder = this._dom.placeHolder;
-                placeHolder.parentElement.insertBefore(this._dom.root, placeHolder);
-                placeHolder.parentElement.removeChild(placeHolder);
-            }
-            // Render Closed
-            this._dom.root.style.top = "";
-            this._dom.root.style.right = "";
-            this._dom.root.style.bottom = "";
-            this._dom.root.style.left = "";
-            this._dom.root.style.width = this._updateDomImpl_renderedState.prevInlineWidth;
-            _ElementUtilities.addClass(this._dom.root, _Constants.ClassNames.closedClass);
-            _ElementUtilities.removeClass(this._dom.root, _Constants.ClassNames.openedClass);
-            this._commandingSurface.synchronousClose();
-        };
-        /// <field locid="WinJS.UI.ToolBar.ClosedDisplayMode" helpKeyword="WinJS.UI.ToolBar.ClosedDisplayMode">
-        /// Display options for the actionarea when the ToolBar is closed.
-        /// </field>
-        ToolBar.ClosedDisplayMode = ClosedDisplayMode;
-        ToolBar.supportedForProcessing = true;
-        return ToolBar;
-    })();
-    exports.ToolBar = ToolBar;
-    _Base.Class.mix(ToolBar, _Events.createEventProperties(_Constants.EventNames.beforeOpen, _Constants.EventNames.afterOpen, _Constants.EventNames.beforeClose, _Constants.EventNames.afterClose));
-    // addEventListener, removeEventListener, dispatchEvent
-    _Base.Class.mix(ToolBar, _Control.DOMEventMixin);
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-/// <reference path="../../../../typings/require.d.ts" />
-define('WinJS/Controls/ToolBar',["require", "exports", '../Core/_Base'], function (require, exports, _Base) {
-    var module = null;
-    _Base.Namespace.define("WinJS.UI", {
-        ToolBar: {
-            get: function () {
-                if (!module) {
-                    require(["./ToolBar/_ToolBar"], function (m) {
-                        module = m;
-                    });
-                }
-                return module.ToolBar;
-            }
-        }
-    });
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-define('WinJS/Controls/_LegacyAppBar/_Layouts',[
-    'exports',
-    '../../Animations/_TransitionAnimation',
-    '../../BindingList',
-    '../../Core/_BaseUtils',
-    '../../Core/_Global',
-    '../../Core/_Base',
-    '../../Core/_ErrorFromName',
-    '../../Core/_Resources',
-    '../../Core/_WriteProfilerMark',
-    '../../Controls/ToolBar',
-    '../../Controls/ToolBar/_Constants',
-    '../../Promise',
-    '../../Scheduler',
-    '../../Utilities/_Control',
-    '../../Utilities/_Dispose',
-    '../../Utilities/_ElementUtilities',
-    '../AppBar/_Command',
-    './_Constants'
-], function appBarLayoutsInit(exports, _TransitionAnimation, BindingList, _BaseUtils, _Global, _Base, _ErrorFromName, _Resources, _WriteProfilerMark, ToolBar, _ToolBarConstants, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Command, _Constants) {
-    "use strict";
-
-    // AppBar will use this when AppBar.layout property is set to "custom"
-    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
-        _AppBarBaseLayout: _Base.Namespace._lazy(function () {
-            var baseType = _Constants.appBarLayoutCustom;
-
-            var strings = {
-                get nullCommand() { return "Invalid argument: command must not be null"; }
-            };
-
-            var _AppBarBaseLayout = _Base.Class.define(function _AppBarBaseLayout_ctor(appBarEl, options) {
-                this._disposed = false;
-
-                options = options || {};
-                _Control.setOptions(this, options);
-
-                if (appBarEl) {
-                    this.connect(appBarEl);
-                }
-            }, {
-                // Members
-                className: {
-                    get: function _AppBarBaseLayout_get_className() {
-                        return this._className;
-                    },
-                },
-                type: {
-                    get: function _AppBarBaseLayout_get_className() {
-                        return this._type || baseType;
-                    },
-                },
-                commandsInOrder: {
-                    get: function _AppBarBaseLayout_get_commandsInOrder() {
-                        // Get a DOM ordered collection of the AppBarCommand elements in the AppBar.
-                        var commandElements = this.appBarEl.querySelectorAll("." + _Constants.appBarCommandClass);
-
-                        // Return an array of AppBarCommand objects.
-                        return Array.prototype.map.call(commandElements, function (commandElement) {
-                            return commandElement.winControl;
-                        });
-                    }
-                },
-                connect: function _AppBarBaseLayout_connect(appBarEl) {
-                    if (this.className) {
-                        _ElementUtilities.addClass(appBarEl, this.className);
-                    }
-                    this.appBarEl = appBarEl;
-                },
-                disconnect: function _AppBarBaseLayout_disconnect() {
-                    if (this.className) {
-                        _ElementUtilities.removeClass(this.appBarEl, this.className);
-                    }
-                    this.appBarEl = null;
-                    this.dispose();
-                },
-                layout: function _AppBarBaseLayout_layout(commands) {
-                    // Append commands to the DOM.
-                    var len = commands.length;
-                    for (var i = 0; i < len; i++) {
-                        var command = this.sanitizeCommand(commands[i]);
-                        this.appBarEl.appendChild(command._element);
-                    }
-                },
-                showCommands: function _AppBarBaseLayout_showCommands(commands) {
-                    // Use the default overlay showCommands implementation
-                    this.appBarEl.winControl._showCommands(commands);
-                },
-                showOnlyCommands: function _AppBarBaseLayout_showOnlyCommands(commands) {
-                    // Use the default overlay _showOnlyCommands implementation
-                    this.appBarEl.winControl._showOnlyCommands(commands);
-                },
-                hideCommands: function _AppBarBaseLayout_hideCommands(commands) {
-                    // Use the default overlay _hideCommands implementation
-                    this.appBarEl.winControl._hideCommands(commands);
-                },
-                sanitizeCommand: function _AppBarBaseLayout_sanitizeCommand(command) {
-                    if (!command) {
-                        throw new _ErrorFromName("WinJS.UI.AppBar.NullCommand", strings.nullCommand);
-                    }
-                    // See if it's a command already
-                    command = command.winControl || command;
-                    if (!command._element) {
-                        // Not a command, so assume it is options for the command's constructor.
-                        command = new _Command.AppBarCommand(null, command);
-                    }
-                    // If we were attached somewhere else, detach us
-                    if (command._element.parentElement) {
-                        command._element.parentElement.removeChild(command._element);
-                    }
-
-                    return command;
-                },
-                dispose: function _AppBarBaseLayout_dispose() {
-                    this._disposed = true;
-                },
-                disposeChildren: function _AppBarBaseLayout_disposeChildren() {
-                    var appBarFirstDiv = this.appBarEl.querySelectorAll("." + _Constants.firstDivClass);
-                    appBarFirstDiv = appBarFirstDiv.length >= 1 ? appBarFirstDiv[0] : null;
-                    var appBarFinalDiv = this.appBarEl.querySelectorAll("." + _Constants.finalDivClass);
-                    appBarFinalDiv = appBarFinalDiv.length >= 1 ? appBarFinalDiv[0] : null;
-
-                    var children = this.appBarEl.children;
-                    var length = children.length;
-                    for (var i = 0; i < length; i++) {
-                        var element = children[i];
-                        if (element === appBarFirstDiv || element === appBarFinalDiv) {
-                            continue;
-                        } else {
-                            _Dispose.disposeSubTree(element);
-                        }
-                    }
-                },
-                handleKeyDown: function _AppBarBaseLayout_handleKeyDown() {
-                    // NOP
-                },
-                commandsUpdated: function _AppBarBaseLayout_commandsUpdated() {
-                    // NOP
-                },
-                beginAnimateCommands: function _AppBarBaseLayout_beginAnimateCommands() {
-                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
-                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
-                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
-                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
-
-                    // NOP
-                },
-                endAnimateCommands: function _AppBarBaseLayout_endAnimateCommands() {
-                    // NOP
-                },
-                scale: function _AppBarBaseLayout_scale() {
-                    // NOP
-                },
-                resize: function _AppBarBaseLayout_resize() {
-                    // NOP
-                },
-                positionChanging: function _AppBarBaseLayout_positionChanging(fromPosition, toPosition) {
-                    // NOP
-                    return Promise.wrap();
-                },
-                setFocusOnShow: function _AppBarBaseLayout_setFocusOnShow() {
-                    this.appBarEl.winControl._setFocusToAppBar();
-                }
-            });
-            return _AppBarBaseLayout;
-        }),
-    });
-
-    // AppBar will use this when AppBar.layout property is set to "commands"
-    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
-        _AppBarCommandsLayout: _Base.Namespace._lazy(function () {
-            var layoutClassName = _Constants.commandLayoutClass;
-            var layoutType = _Constants.appBarLayoutCommands;
-
-            var _AppBarCommandsLayout = _Base.Class.derive(exports._AppBarBaseLayout, function _AppBarCommandsLayout_ctor(appBarEl) {
-                exports._AppBarBaseLayout.call(this, appBarEl, { _className: layoutClassName, _type: layoutType });
-                this._commandLayoutsInit(appBarEl);
-            }, {
-                commandsInOrder: {
-                    get: function _AppBarCommandsLayout_get_commandsInOrder() {
-                        return this._originalCommands.filter(function (command) {
-                            // Make sure the element is still in the AppBar.
-                            return this.appBarEl.contains(command.element);
-                        }, this);
-                    }
-                },
-                layout: function _AppBarCommandsLayout_layout(commands) {
-                    // Insert commands and other layout specific DOM into the AppBar element.
-
-                    // Empty our tree.
-                    _ElementUtilities.empty(this._primaryCommands);
-                    _ElementUtilities.empty(this._secondaryCommands);
-
-                    // Keep track of the order we receive the commands in.
-                    this._originalCommands = [];
-
-                    // Layout commands
-                    for (var i = 0, len = commands.length; i < len; i++) {
-                        var command = this.sanitizeCommand(commands[i]);
-
-                        this._originalCommands.push(command);
-
-                        if ("primary" === command.section || "global" === command.section) {
-                            this._primaryCommands.appendChild(command._element);
-                        } else {
-                            this._secondaryCommands.appendChild(command._element);
-                        }
-                    }
-
-                    // Append layout containers to AppBar element.
-                    // Secondary Commands should come first in Tab Order.
-                    this.appBarEl.appendChild(this._secondaryCommands);
-                    this.appBarEl.appendChild(this._primaryCommands);
-
-
-                    // Need to measure all content commands after they have been added to the AppBar to make sure we allow
-                    // user defined CSS rules based on the ancestor of the content command to take affect.
-                    this._needToMeasureNewCommands = true;
-
-                    // In case this is called from the constructor before the AppBar element has been appended to the DOM,
-                    // we schedule the initial scaling of commands, with the expectation that the element will be added
-                    // synchronously, in the same block of code that called the constructor.
-                    Scheduler.schedule(function () {
-                        if (this._needToMeasureNewCommands && !this._disposed) {
-                            this.scale();
-                        }
-                    }.bind(this), Scheduler.Priority.idle, this, "WinJS._commandLayoutsMixin._scaleNewCommands");
-
-                },
-                disposeChildren: function _AppBarCommandsLayout_disposeChildren() {
-                    _Dispose.disposeSubTree(this._primaryCommands);
-                    _Dispose.disposeSubTree(this._secondaryCommands);
-                },
-                handleKeyDown: function _AppBarCommandsLayout_handleKeyDown(event) {
-                    var Key = _ElementUtilities.Key;
-
-                    if (_ElementUtilities._matchesSelector(event.target, ".win-interactive, .win-interactive *")) {
-                        return; // Ignore left, right, home & end keys if focused element has win-interactive class.
-                    }
-                    var rtl = _Global.getComputedStyle(this.appBarEl).direction === "rtl";
-                    var leftKey = rtl ? Key.rightArrow : Key.leftArrow;
-                    var rightKey = rtl ? Key.leftArrow : Key.rightArrow;
-
-                    if (event.keyCode === leftKey || event.keyCode === rightKey || event.keyCode === Key.home || event.keyCode === Key.end) {
-
-                        var globalCommandHasFocus = this._primaryCommands.contains(_Global.document.activeElement);
-                        var focusableCommands = this._getFocusableCommandsInLogicalOrder(globalCommandHasFocus);
-                        var targetCommand;
-
-                        if (focusableCommands.length) {
-                            switch (event.keyCode) {
-                                case leftKey:
-                                    // Arrowing past the last command wraps back around to the first command.
-                                    var index = Math.max(-1, focusableCommands.focusedIndex - 1) + focusableCommands.length;
-                                    targetCommand = focusableCommands[index % focusableCommands.length].winControl.lastElementFocus;
-                                    break;
-
-                                case rightKey:
-                                    // Arrowing previous to the first command wraps back around to the last command.
-                                    var index = focusableCommands.focusedIndex + 1 + focusableCommands.length;
-                                    targetCommand = focusableCommands[index % focusableCommands.length].winControl.firstElementFocus;
-                                    break;
-
-                                case Key.home:
-                                    var index = 0;
-                                    targetCommand = focusableCommands[index].winControl.firstElementFocus;
-                                    break;
-
-                                case Key.end:
-                                    var index = focusableCommands.length - 1;
-                                    targetCommand = focusableCommands[index].winControl.lastElementFocus;
-                                    break;
-                            }
-                        }
-
-                        if (targetCommand && targetCommand !== _Global.document.activeElement) {
-                            targetCommand.focus();
-                            // Prevent default so that the browser doesn't also evaluate the keydown event on the newly focused element.
-                            event.preventDefault();
-                        }
-                    }
-                },
-                commandsUpdated: function _AppBarCommandsLayout_commandsUpdated(newSetOfVisibleCommands) {
-                    // Whenever new commands are set or existing commands are hiding/showing in the AppBar, this
-                    // function is called to update the cached width measurement of all visible AppBarCommands.
-
-                    var visibleCommands = (newSetOfVisibleCommands) ? newSetOfVisibleCommands : this.commandsInOrder.filter(function (command) {
-                        return !command.hidden;
-                    });
-                    this._fullSizeWidthOfLastKnownVisibleCommands = this._getWidthOfFullSizeCommands(visibleCommands);
-                },
-                beginAnimateCommands: function _AppBarCommandsLayout_beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands) {
-                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
-                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
-                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
-                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
-
-                    this._scaleAfterAnimations = false;
-
-                    // Determine if the overall width of visible commands in the primary row will be increasing OR decreasing.
-                    var changeInWidth = this._getWidthOfFullSizeCommands(showCommands) - this._getWidthOfFullSizeCommands(hideCommands);
-                    if (changeInWidth > 0) {
-                        // Width of contents is going to increase, update our command counts now, to what they will be after we complete the animations.
-                        var visibleCommandsAfterAnimations = otherVisibleCommands.concat(showCommands);
-                        this.commandsUpdated(visibleCommandsAfterAnimations);
-                        // Make sure we will have enough room to fit everything on a single row.
-                        this.scale();
-                    } else if (changeInWidth < 0) {
-                        // Width of contents is going to decrease. Once animations are complete, check if
-                        // there is enough available space to make the remaining commands full size.
-                        this._scaleAfterAnimations = true;
-                    }
-                },
-                endAnimateCommands: function _AppBarCommandsLayout_endAnimateCommands() {
-                    if (this._scaleAfterAnimations) {
-                        this.commandsUpdated();
-                        this.scale();
-                    }
-                },
-                resize: function _AppBarCommandsLayout_resize() {
-                    if (!this._disposed) {
-                        // Check for horizontal window resizes.
-                        this._appBarTotalKnownWidth = null;
-                        if (this.appBarEl.winControl.opened) {
-                            this.scale();
-                        }
-                    }
-                },
-                disconnect: function _AppBarCommandsLayout_disconnect() {
-                    exports._AppBarBaseLayout.prototype.disconnect.call(this);
-                },
-                _getWidthOfFullSizeCommands: function _AppBarCommandsLayout_getWidthOfFullSizeCommands(commands) {
-                    // Commands layout puts primary commands and secondary commands into the primary row.
-                    // Return the total width of all visible primary and secondary commands as if they were full-size.
-
-                    // Perform any pending measurements on "content" type AppBarCommands.
-                    if (this._needToMeasureNewCommands) {
-                        this._measureContentCommands();
-                    }
-                    var accumulatedWidth = 0;
-                    var separatorsCount = 0;
-                    var buttonsCount = 0;
-
-                    if (!commands) {
-                        // Return the cached full size width of the last known visible commands in the AppBar.
-                        return this._fullSizeWidthOfLastKnownVisibleCommands;
-                    } else {
-                        // Return the width of the specified commands.
-                        var command;
-                        for (var i = 0, len = commands.length; i < len; i++) {
-                            command = commands[i].winControl || commands[i];
-                            if (command._type === _Constants.typeSeparator) {
-                                separatorsCount++;
-                            } else if (command._type !== _Constants.typeContent) {
-                                // button, toggle, and flyout types all have the same width.
-                                buttonsCount++;
-                            } else {
-                                accumulatedWidth += command._fullSizeWidth;
-                            }
-                        }
-                    }
-                    return accumulatedWidth += (separatorsCount * _Constants.separatorWidth) + (buttonsCount * _Constants.buttonWidth);
-                },
-                _getFocusableCommandsInLogicalOrder: function _AppBarCommandsLayout_getCommandsInLogicalOrder() {
-                    // Function returns an array of all the contained AppBarCommands which are reachable by left/right arrows.
-
-                    var secondaryCommands = this._secondaryCommands.children,
-                        primaryCommands = this._primaryCommands.children,
-                        focusedIndex = -1;
-
-                    var getFocusableCommandsHelper = function (commandsInReach) {
-                        var focusableCommands = [];
-                        for (var i = 0, len = commandsInReach.length; i < len; i++) {
-                            var element = commandsInReach[i];
-                            if (_ElementUtilities.hasClass(element, _Constants.appBarCommandClass) && element.winControl) {
-                                var containsFocus = element.contains(_Global.document.activeElement);
-                                // With the inclusion of content type commands, it may be possible to tab to elements in AppBarCommands that are not reachable by arrow keys.
-                                // Regardless, when an AppBarCommand contains the element with focus, we just include the whole command so that we can determine which
-                                // commands are adjacent to it when looking for the next focus destination.
-                                if (element.winControl._isFocusable() || containsFocus) {
-                                    focusableCommands.push(element);
-                                    if (containsFocus) {
-                                        focusedIndex = focusableCommands.length - 1;
-                                    }
-                                }
-                            }
-                        }
-                        return focusableCommands;
-                    };
-
-                    // Determines which set of commands the user could potentially reach through Home, End, and arrow keys.
-                    // All commands in the commands layout AppBar, from left to right are in reach. Secondary (previously known as Selection)
-                    // then Primary (previously known as Global).
-                    var commandsInReach = Array.prototype.slice.call(secondaryCommands).concat(Array.prototype.slice.call(primaryCommands));
-
-                    var focusableCommands = getFocusableCommandsHelper(commandsInReach);
-                    focusableCommands.focusedIndex = focusedIndex;
-                    return focusableCommands;
-                },
-                _commandLayoutsInit: function _AppBarCommandsLayout_commandLayoutsInit() {
-                    // Create layout infrastructure
-                    this._primaryCommands = _Global.document.createElement("DIV");
-                    this._secondaryCommands = _Global.document.createElement("DIV");
-                    _ElementUtilities.addClass(this._primaryCommands, _Constants.primaryCommandsClass);
-                    _ElementUtilities.addClass(this._secondaryCommands, _Constants.secondaryCommandsClass);
-                },
-                _scaleHelper: function _AppBarCommandsLayout_scaleHelper() {
-                    // This exists as a single line function so that unit tests can
-                    // overwrite it since they can't resize the WWA window.
-
-                    // It is expected that AppBar is an immediate child of the <body> and will have 100% width.
-                    // We measure the clientWidth of the documentElement so that we can scale the AppBar lazily
-                    // even while its element is display: 'none'
-                    var extraPadding = this.appBarEl.winControl.closedDisplayMode === "minimal" ? _Constants.appBarInvokeButtonWidth : 0;
-                    return _Global.document.documentElement.clientWidth - extraPadding;
-                },
-                _measureContentCommands: function _AppBarCommandsLayout_measureContentCommands() {
-                    // AppBar measures the width of content commands when they are first added
-                    // and then caches that value to avoid additional layouts in the future.
-
-                    // Can't measure unless We're in the document body
-                    if (_Global.document.body.contains(this.appBarEl)) {
-                        this._needToMeasureNewCommands = false;
-
-                        var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, "win-navbar-closed");
-                        _ElementUtilities.removeClass(this.appBarEl, "win-navbar-closed");
-
-                        // Make sure AppBar and children have width dimensions.
-                        var prevAppBarDisplay = this.appBarEl.style.display;
-                        this.appBarEl.style.display = "";
-                        var prevCommandDisplay;
-
-                        var contentElements = this.appBarEl.querySelectorAll("div." + _Constants.appBarCommandClass);
-                        var element;
-                        for (var i = 0, len = contentElements.length; i < len; i++) {
-                            element = contentElements[i];
-                            if (element.winControl && element.winControl._type === _Constants.typeContent) {
-                                // Make sure command has width dimensions before we measure.
-                                prevCommandDisplay = element.style.display;
-                                element.style.display = "";
-                                element.winControl._fullSizeWidth = _ElementUtilities.getTotalWidth(element) || 0;
-                                element.style.display = prevCommandDisplay;
-                            }
-                        }
-
-                        // Restore state to AppBar.
-                        this.appBarEl.style.display = prevAppBarDisplay;
-                        if (hadHiddenClass) {
-                            _ElementUtilities.addClass(this.appBarEl, "win-navbar-closed");
-                        }
-
-                        this.commandsUpdated();
-                    }
-                },
-            });
-            return _AppBarCommandsLayout;
-        }),
-    });
-
-    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
-        _AppBarMenuLayout: _Base.Namespace._lazy(function () {
-            var layoutClassName = _Constants.menuLayoutClass;
-            var layoutType = _Constants.appBarLayoutMenu;
-
-            //
-            // Resize animation
-            //  The resize animation requires 2 animations to run simultaneously in sync with each other. It's implemented
-            //  without PVL because PVL doesn't provide a way to guarantee that 2 animations will start at the same time.
-            //
-            var transformNames = _BaseUtils._browserStyleEquivalents["transform"];
-            function transformWithTransition(element, transition) {
-                // transition's properties:
-                // - duration: Number representing the duration of the animation in milliseconds.
-                // - timing: String representing the CSS timing function that controls the progress of the animation.
-                // - to: The value of *element*'s transform property after the animation.
-                var duration = transition.duration * _TransitionAnimation._animationFactor;
-                var transitionProperty = _BaseUtils._browserStyleEquivalents["transition"].scriptName;
-                element.style[transitionProperty] = duration + "ms " + transformNames.cssName + " " + transition.timing;
-                element.style[transformNames.scriptName] = transition.to;
-
-                var finish;
-                return new Promise(function (c) {
-                    var onTransitionEnd = function (eventObject) {
-                        if (eventObject.target === element && eventObject.propertyName === transformNames.cssName) {
-                            finish();
-                        }
-                    };
-
-                    var didFinish = false;
-                    finish = function () {
-                        if (!didFinish) {
-                            _Global.clearTimeout(timeoutId);
-                            element.removeEventListener(_BaseUtils._browserEventEquivalents["transitionEnd"], onTransitionEnd);
-                            element.style[transitionProperty] = "";
-                            didFinish = true;
-                        }
-                        c();
-                    };
-
-                    // Watch dog timeout
-                    var timeoutId = _Global.setTimeout(function () {
-                        timeoutId = _Global.setTimeout(finish, duration);
-                    }, 50);
-
-                    element.addEventListener(_BaseUtils._browserEventEquivalents["transitionEnd"], onTransitionEnd);
-                }, function () {
-                    finish(); // On cancelation, complete the promise successfully to match PVL
-                });
-            }
-            // See resizeTransition's comment for documentation on *args*.
-            function growTransition(elementClipper, element, args) {
-                var diff = args.anchorTrailingEdge ? args.to.total - args.from.total : args.from.total - args.to.total;
-                var translate = args.dimension === "width" ? "translateX" : "translateY";
-                var size = args.dimension;
-                var duration = args.duration || 367;
-                var timing = args.timing || "cubic-bezier(0.1, 0.9, 0.2, 1)";
-
-                // Set up
-                elementClipper.style[size] = args.to.total + "px";
-                elementClipper.style[transformNames.scriptName] = translate + "(" + diff + "px)";
-                element.style[size] = args.to.content + "px";
-                element.style[transformNames.scriptName] = translate + "(" + -diff + "px)";
-
-                // Resolve styles
-                _Global.getComputedStyle(elementClipper).opacity;
-                _Global.getComputedStyle(element).opacity;
-
-                // Animate
-                var transition = {
-                    duration: duration,
-                    timing: timing,
-                    to: ""
-                };
-                return Promise.join([
-                    transformWithTransition(elementClipper,  transition),
-                    transformWithTransition(element, transition)
-                ]);
-            }
-            // See resizeTransition's comment for documentation on *args*.
-            function shrinkTransition(elementClipper, element, args) {
-                var diff = args.anchorTrailingEdge ? args.from.total - args.to.total : args.to.total - args.from.total;
-                var translate = args.dimension === "width" ? "translateX" : "translateY";
-                var duration = args.duration || 367;
-                var timing = args.timing || "cubic-bezier(0.1, 0.9, 0.2, 1)";
-
-                // Set up
-                elementClipper.style[transformNames.scriptName] = "";
-                element.style[transformNames.scriptName] = "";
-
-                // Resolve styles
-                _Global.getComputedStyle(elementClipper).opacity;
-                _Global.getComputedStyle(element).opacity;
-
-                // Animate
-                var transition = {
-                    duration: duration,
-                    timing: timing
-                };
-                var clipperTransition = _BaseUtils._merge(transition, { to: translate + "(" + diff + "px)" });
-                var elementTransition = _BaseUtils._merge(transition, { to: translate + "(" + -diff + "px)" });
-                return Promise.join([
-                    transformWithTransition(elementClipper, clipperTransition),
-                    transformWithTransition(element, elementTransition)
-                ]);
-            }
-            // Plays an animation which makes an element look like it is resizing in 1 dimension. Arguments:
-            // - elementClipper: The parent of *element*. It shouldn't have any margin, border, or padding and its
-            //   size should match element's size. Its purpose is to clip *element* during the animation to give
-            //   it the illusion that it is resizing.
-            // - element: The element that should look like it's resizing.
-            // - args: An object with the following required properties:
-            //   - from: An object representing the old width/height of the element.
-            //   - to: An object representing the new width/height of the element.
-            //     from/to are objects of the form { content: number; total: number; }. "content" is the
-            //     width/height of *element*'s content box (e.g. getContentWidth). "total" is the width/height
-            //     of *element*'s margin box (e.g. getTotalWidth).
-            //   - duration: The CSS transition duration property.
-            //   - timing: The CSS transition timing property.
-            //   - dimension: The dimension on which *element* is resizing. Either "width" or "height".
-            //   - anchorTrailingEdge: During the resize animation, one edge will move and the other edge will
-            //     remain where it is. This flag specifies which edge is anchored (i.e. won't move).
-            //
-            function resizeTransition(elementClipper, element, args) {
-                if (args.to.total > args.from.total) {
-                    return growTransition(elementClipper, element, args);
-                } else if (args.to.total < args.from.total) {
-                    return shrinkTransition(elementClipper, element, args);
-                } else {
-                    return Promise.as();
-                }
-            }
-
-            var _AppBarMenuLayout = _Base.Class.derive(exports._AppBarBaseLayout, function _AppBarMenuLayout_ctor(appBarEl) {
-                exports._AppBarBaseLayout.call(this, appBarEl, { _className: layoutClassName, _type: layoutType });
-                this._tranformNames = _BaseUtils._browserStyleEquivalents["transform"];
-                this._animationCompleteBound = this._animationComplete.bind(this);
-                this._positionToolBarBound = this._positionToolBar.bind(this);
-            }, {
-                commandsInOrder: {
-                    get: function _AppBarMenuLayout_get_commandsInOrder() {
-                        return this._originalCommands;
-                    }
-                },
-                layout: function _AppBarMenuLayout_layout(commands) {
-                    this._writeProfilerMark("layout,info");
-
-                    commands = commands || [];
-                    this._originalCommands = [];
-
-                    var that = this;
-                    commands.forEach(function (command) {
-                        that._originalCommands.push(that.sanitizeCommand(command));
-                    });
-                    this._displayedCommands = this._originalCommands.slice(0);
-
-                    if (this._menu) {
-                        _ElementUtilities.empty(this._menu);
-                    } else {
-                        this._menu = _Global.document.createElement("div");
-                        _ElementUtilities.addClass(this._menu, _Constants.menuContainerClass);
-                    }
-                    this.appBarEl.appendChild(this._menu);
-
-                    this._toolbarEl = _Global.document.createElement("div");
-                    this._menu.appendChild(this._toolbarEl);
-
-                    this._createToolBar(commands);
-                },
-
-                showCommands: function _AppBarMenuLayout_showCommands(commands) {
-                    var elements = this._getCommandsElements(commands);
-                    var data = [];
-                    var newDisplayedCommands = [];
-                    var that = this;
-                    this._originalCommands.forEach(function (command) {
-                        if (elements.indexOf(command.element) >= 0 || that._displayedCommands.indexOf(command) >= 0) {
-                            newDisplayedCommands.push(command);
-                            data.push(command);
-                        }
-                    });
-                    this._displayedCommands = newDisplayedCommands;
-                    this._updateData(data);
-                },
-
-                showOnlyCommands: function _AppBarMenuLayout_showOnlyCommands(commands) {
-                    this._displayedCommands = [];
-                    this.showCommands(commands);
-                },
-
-                hideCommands: function _AppBarMenuLayout_hideCommands(commands) {
-                    var elements = this._getCommandsElements(commands);
-                    var data = [];
-                    var newDisplayedCommands = [];
-                    var that = this;
-                    this._originalCommands.forEach(function (command) {
-                        if (elements.indexOf(command.element) === -1 && that._displayedCommands.indexOf(command) >= 0) {
-                            newDisplayedCommands.push(command);
-                            data.push(command);
-                        }
-                    });
-                    this._displayedCommands = newDisplayedCommands;
-                    this._updateData(data);
-                },
-
-                connect: function _AppBarMenuLayout_connect(appBarEl) {
-                    this._writeProfilerMark("connect,info");
-
-                    exports._AppBarBaseLayout.prototype.connect.call(this, appBarEl);
-                    this._id = _ElementUtilities._uniqueID(appBarEl);
-                },
-
-                resize: function _AppBarMenuLayout_resize() {
-                    this._writeProfilerMark("resize,info");
-
-                    if (this._initialized) {
-                        this._forceLayoutPending = true;
-                    }
-                },
-
-                positionChanging: function _AppBarMenuLayout_positionChanging(fromPosition, toPosition) {
-                    this._writeProfilerMark("positionChanging from:" + fromPosition + " to: " + toPosition + ",info");
-
-                    this._animationPromise = this._animationPromise || Promise.wrap();
-
-                    if (this._animating) {
-                        this._animationPromise.cancel();
-                    }
-
-                    this._animating = true;
-                    if (toPosition === "shown" || (fromPosition !== "shown" && toPosition === "compact")) {
-                        this._positionToolBar();
-                        this._animationPromise = this._animateToolBarEntrance();
-                    } else {
-                        if (fromPosition === "minimal" || fromPosition === "compact" || fromPosition === "hidden") {
-                            this._animationPromise = Promise.wrap();
-                        } else {
-                            this._animationPromise = this._animateToolBarExit();
-                        }
-                    }
-                    this._animationPromise.then(this._animationCompleteBound, this._animationCompleteBound);
-                    return this._animationPromise;
-                },
-
-                disposeChildren: function _AppBarMenuLayout_disposeChildren() {
-                    this._writeProfilerMark("disposeChildren,info");
-
-                    if (this._toolbar) {
-                        _Dispose.disposeSubTree(this._toolbarEl);
-                    }
-                    this._originalCommands = [];
-                    this._displayedCommands = [];
-                },
-
-                setFocusOnShow: function _AppBarMenuLayout_setFocusOnShow() {
-                    // Make sure the menu (used for clipping during the resize animation)
-                    // doesn't scroll when we give focus to the AppBar.
-                    this.appBarEl.winControl._setFocusToAppBar(true, this._menu);
-                },
-
-                _updateData: function _AppBarMenuLayout_updateData(data) {
-                    var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, "win-navbar-closed");
-                    var hadShownClass = _ElementUtilities.hasClass(this.appBarEl, "win-navbar-opened");
-                    _ElementUtilities.removeClass(this.appBarEl, "win-navbar-closed");
-
-                    // Make sure AppBar and children have width dimensions.
-                    var prevAppBarDisplay = this.appBarEl.style.display;
-                    this.appBarEl.style.display = "";
-
-
-                    this._toolbar.data = new BindingList.List(data);
-                    if (hadHiddenClass) {
-                        this._positionToolBar();
-                    }
-
-                    // Restore state to AppBar.
-                    this.appBarEl.style.display = prevAppBarDisplay;
-                    if (hadHiddenClass) {
-                        _ElementUtilities.addClass(this.appBarEl, "win-navbar-closed");
-                    }
-
-                    if (hadShownClass) {
-                        this._positionToolBar();
-                        this._animateToolBarEntrance();
-                    }
-                },
-
-                _getCommandsElements: function _AppBarMenuLayout_getCommandsElements(commands) {
-                    if (!commands) {
-                        return [];
-                    }
-
-                    if (typeof commands === "string" || !commands || !commands.length) {
-                        commands = [commands];
-                    }
-
-                    var elements = [];
-                    for (var i = 0, len = commands.length; i < len; i++) {
-                        if (commands[i]) {
-                            if (typeof commands[i] === "string") {
-                                var element = _Global.document.getElementById(commands[i]);
-                                if (element) {
-                                    elements.push(element);
-                                } else {
-                                    // Check in the list we are tracking, since it might not be in the DOM yet
-                                    for (var j = 0, len2 = this._originalCommands.length; j < len2; j++) {
-                                        var element = this._originalCommands[j].element;
-                                        if (element.id === commands[i]) {
-                                            elements.push(element);
-                                        }
-                                    }
-                                }
-                            } else if (commands[i].element) {
-                                elements.push(commands[i].element);
-                            } else {
-                                elements.push(commands[i]);
-                            }
-                        }
-                    }
-
-                    return elements;
-                },
-
-                _animationComplete: function _AppBarMenuLayout_animationComplete() {
-                    if (!this._disposed) {
-                        this._animating = false;
-                    }
-                },
-
-                _createToolBar: function _AppBarMenuLayout_createToolBar(commands) {
-                    this._writeProfilerMark("_createToolBar,info");
-
-                    var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, "win-navbar-closed");
-                    _ElementUtilities.removeClass(this.appBarEl, "win-navbar-closed");
-
-                    // Make sure AppBar and children have width dimensions.
-                    var prevAppBarDisplay = this.appBarEl.style.display;
-                    this.appBarEl.style.display = "";
-
-                    this._toolbar = new ToolBar.ToolBar(this._toolbarEl, {
-                        data: new BindingList.List(this._originalCommands),
-                        shownDisplayMode: 'full',
-                    });
-
-                    var that = this;
-                    this._appbarInvokeButton = this.appBarEl.querySelector("." + _Constants.invokeButtonClass);
-                    this._overflowButton = this._toolbarEl.querySelector("." + _ToolBarConstants.overflowButtonCssClass);
-                    this._overflowButton.addEventListener("click", function () {
-                        that._appbarInvokeButton.click();
-                    });
-
-                    this._positionToolBar();
-
-                    // Restore state to AppBar.
-                    this.appBarEl.style.display = prevAppBarDisplay;
-                    if (hadHiddenClass) {
-                        _ElementUtilities.addClass(this.appBarEl, "win-navbar-closed");
-                    }
-                },
-
-                _positionToolBar: function _AppBarMenuLayout_positionToolBar() {
-                    if (!this._disposed) {
-                        this._writeProfilerMark("_positionToolBar,info");
-                        this._initialized = true;
-                    }
-                },
-
-                _animateToolBarEntrance: function _AppBarMenuLayout_animateToolBarEntrance() {
-                    this._writeProfilerMark("_animateToolBarEntrance,info");
-
-                    if (this._forceLayoutPending) {
-                        this._forceLayoutPending = false;
-                        this._toolbar.forceLayout();
-                        this._positionToolBar();
-                    }
-                    var heightVisible = this._isMinimal() ? 0 : this.appBarEl.offsetHeight;
-                    if (this._isBottom()) {
-                        // Bottom AppBar Animation
-                        var offsetTop = this._menu.offsetHeight - heightVisible;
-                        return this._executeTranslate(this._menu, "translateY(" + -offsetTop + "px)");
-                    } else {
-                        // Top AppBar Animation
-                        return resizeTransition(this._menu, this._toolbarEl, {
-                            from: { content: heightVisible, total: heightVisible },
-                            to: { content: this._menu.offsetHeight, total: this._menu.offsetHeight },
-                            dimension: "height",
-                            duration: 400,
-                            timing: "ease-in",
-                        });
-                    }
-                },
-
-                _animateToolBarExit: function _AppBarMenuLayout_animateToolBarExit() {
-                    this._writeProfilerMark("_animateToolBarExit,info");
-
-                    var heightVisible = this._isMinimal() ? 0 : this.appBarEl.offsetHeight;
-                    if (this._isBottom()) {
-                        return this._executeTranslate(this._menu, "none");
-                    } else {
-                        // Top AppBar Animation
-                        return resizeTransition(this._menu, this._toolbarEl, {
-                            from: { content: this._menu.offsetHeight, total: this._menu.offsetHeight },
-                            to: { content: heightVisible, total: heightVisible },
-                            dimension: "height",
-                            duration: 400,
-                            timing: "ease-in",
-                        });
-                    }
-                },
-
-                _executeTranslate: function _AppBarMenuLayout_executeTranslate(element, value) {
-                    return _TransitionAnimation.executeTransition(element,
-                        {
-                            property: this._tranformNames.cssName,
-                            delay: 0,
-                            duration: 400,
-                            timing: "ease-in",
-                            to: value
-                        });
-                },
-
-                _isMinimal: function _AppBarMenuLayout_isMinimal() {
-                    return this.appBarEl.winControl.closedDisplayMode === "minimal";
-                },
-
-                _isBottom: function _AppBarMenuLayout_isBottom() {
-                    return this.appBarEl.winControl.placement === "bottom";
-                },
-
-                _writeProfilerMark: function _AppBarMenuLayout_writeProfilerMark(text) {
-                    _WriteProfilerMark("WinJS.UI._AppBarMenuLayout:" + this._id + ":" + text);
-                }
-            });
-
-            return _AppBarMenuLayout;
-        }),
-    });
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-// _LegacyAppBar
-/// <dictionary>appbar,appBars,Flyout,Flyouts,iframe,Statics,unfocus,WinJS</dictionary>
-define('WinJS/Controls/_LegacyAppBar',[
-    'exports',
-    '../Core/_Global',
-    '../Core/_WinRT',
-    '../Core/_Base',
-    '../Core/_BaseUtils',
-    '../Core/_ErrorFromName',
-    '../Core/_Events',
-    '../Core/_Resources',
-    '../Core/_WriteProfilerMark',
-    '../Animations',
-    '../Promise',
-    '../Scheduler',
-    '../Utilities/_Control',
-    '../Utilities/_Dispose',
-    '../Utilities/_ElementUtilities',
-    '../Utilities/_Hoverable',
-    '../Utilities/_KeyboardBehavior',
-    './_LegacyAppBar/_Constants',
-    './_LegacyAppBar/_Layouts',
-    './AppBar/_Command',
-    './AppBar/_Icon',
-    './Flyout/_Overlay',
-    '../Application'
-], function appBarInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Events, _Resources, _WriteProfilerMark, Animations, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Hoverable, _KeyboardBehavior, _Constants, _Layouts, _Command, _Icon, _Overlay, Application) {
-    "use strict";
-
-    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
-        /// <field>
-        /// <summary locid="WinJS.UI._LegacyAppBar">
-        /// Represents an application toolbar for display commands.
-        /// </summary>
-        /// </field>
-        /// <icon src="ui_winjs.ui.appbar.12x12.png" width="12" height="12" />
-        /// <icon src="ui_winjs.ui.appbar.16x16.png" width="16" height="16" />
-        /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI._LegacyAppBar">
-        /// <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
-        /// </div>]]></htmlSnippet>
-        /// <event name="beforeopen" locid="WinJS.UI._LegacyAppBar_e:beforeopen">Raised just before showing the _LegacyAppBar.</event>
-        /// <event name="afteropen" locid="WinJS.UI._LegacyAppBar_e:afteropen">Raised immediately after the _LegacyAppBar is fully shown.</event>
-        /// <event name="beforeclose" locid="WinJS.UI._LegacyAppBar_e:beforeclose">Raised just before hiding the _LegacyAppBar.</event>
-        /// <event name="afterclose" locid="WinJS.UI._LegacyAppBar_e:afterclose">Raised immediately after the _LegacyAppBar is fully hidden.</event>
-        /// <part name="appbar" class="win-commandlayout" locid="WinJS.UI._LegacyAppBar_part:appbar">The _LegacyAppBar control itself.</part>
-        /// <part name="appBarCustom" class="win-navbar" locid="WinJS.UI._LegacyAppBar_part:appBarCustom">Style for a custom layout _LegacyAppBar.</part>
-        /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
-        /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
-        _LegacyAppBar: _Base.Namespace._lazy(function () {
-            var Key = _ElementUtilities.Key;
-
-            var EVENTS = {
-                beforeOpen: "beforeopen",
-                afterOpen: "afteropen",
-                beforeClose: "beforeclose",
-                afterClose: "afterclose",
-            };
-
-            var createEvent = _Events._createEventProperty;
-
-            // Enum of known constant pixel values for display modes.
-            var knownVisibleHeights = {
-                none: 0,
-                hidden: 0,
-                minimal: 25,
-                compact: 48
-            };
-
-            // Maps each notion of a display modes to the corresponding visible position
-            var displayModeVisiblePositions = {
-                none: "hidden",
-                hidden: "hidden",
-                minimal: "minimal",
-                shown: "shown",
-                compact: "compact"
-            };
-
-            // Enum of closedDisplayMode constants
-            var closedDisplayModes = {
-                none: "none",
-                minimal: "minimal",
-                compact: "compact"
-            };
-
-            // Constants shown/hidden states
-            var appbarShownState = "shown",
-                appbarHiddenState = "hidden";
-
-            // Hook into event
-            var globalEventsInitialized = false;
-            var edgyHappening = null;
-
-            // Handler for the edgy starting/completed/cancelled events
-            function _completedEdgy(e) {
-                // If we had a right click on a flyout, ignore it.
-                if (_Overlay._Overlay._containsRightMouseClick &&
-                    e.kind === _WinRT.Windows.UI.Input.EdgeGestureKind.mouse) {
-                    return;
-                }
-                if (edgyHappening) {
-                    // Edgy was happening, just skip it
-                    edgyHappening = null;
-                } else {
-                    // Edgy wasn't happening, so toggle
-                    var keyboardInvoked = e.kind === _WinRT.Windows.UI.Input.EdgeGestureKind.keyboard;
-                    _LegacyAppBar._toggleAllAppBarsState(keyboardInvoked);
-                }
-            }
-
-            function _startingEdgy() {
-                if (!edgyHappening) {
-                    // Edgy wasn't happening, so toggle & start it
-                    edgyHappening = _LegacyAppBar._toggleAllAppBarsState(false);
-                }
-            }
-
-            function _canceledEdgy() {
-                // Shouldn't get here unless edgy was happening.
-                // Undo whatever we were doing.
-                var bars = _getDynamicBarsForEdgy();
-                if (edgyHappening === "showing") {
-                    _Overlay._Overlay._hideAppBars(bars, false);
-                } else if (edgyHappening === "hiding") {
-                    _Overlay._Overlay._showAppBars(bars, false);
-                }
-                edgyHappening = null;
-            }
-
-            function _allManipulationChanged(event) {
-                var elements = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                if (elements) {
-                    var len = elements.length;
-                    for (var i = 0; i < len; i++) {
-                        var element = elements[i];
-                        var appbar = element.winControl;
-                        if (appbar && !element.disabled) {
-                            appbar._manipulationChanged(event);
-                        }
-                    }
-                }
-            }
-
-            // Get all the non-sticky bars and return them.
-            // Returns array of _LegacyAppBar objects.
-            // The array also has _hidden and/or _shown set if ANY are hidden or shown.
-            function _getDynamicBarsForEdgy() {
-                var elements = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                var len = elements.length;
-                var _LegacyAppBars = [];
-                _LegacyAppBars._shown = false;
-                _LegacyAppBars._hidden = false;
-                for (var i = 0; i < len; i++) {
-                    var element = elements[i];
-                    if (element.disabled) {
-                        // Skip disabled _LegacyAppBars
-                        continue;
-                    }
-                    var _LegacyAppBar = element.winControl;
-                    if (_LegacyAppBar) {
-                        _LegacyAppBars.push(_LegacyAppBar);
-                        if (_ElementUtilities.hasClass(_LegacyAppBar._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(_LegacyAppBar._element, _Constants.hidingClass)) {
-                            _LegacyAppBars._hidden = true;
-                        } else {
-                            _LegacyAppBars._shown = true;
-                        }
-                    }
-                }
-
-                return _LegacyAppBars;
-            }
-
-            // Sets focus to the last _LegacyAppBar in the provided appBars array with given placement.
-            // Returns true if focus was set.  False otherwise.
-            function _setFocusToPreviousAppBarHelper(startIndex, appBarPlacement, appBars) {
-                var appBar;
-                for (var i = startIndex; i >= 0; i--) {
-                    appBar = appBars[i].winControl;
-                    if (appBar
-                     && appBar.placement === appBarPlacement
-                     && appBar.opened
-                     && appBar._focusOnLastFocusableElement
-                     && appBar._focusOnLastFocusableElement()) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            // Sets focus to the last tab stop of the previous _LegacyAppBar
-            // _LegacyAppBar tabbing order:
-            //    1) Bottom _LegacyAppBars
-            //    2) Top _LegacyAppBars
-            // DOM order is respected, because an _LegacyAppBar should not have a defined tabIndex
-            function _setFocusToPreviousAppBar() {
-                /*jshint validthis: true */
-                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                if (!appBars.length) {
-                    return;
-                }
-
-                var thisAppBarIndex = 0;
-                for (var i = 0; i < appBars.length; i++) {
-                    if (appBars[i] === this.parentElement) {
-                        thisAppBarIndex = i;
-                        break;
-                    }
-                }
-
-                var appBarControl = this.parentElement.winControl;
-                if (appBarControl.placement === _Constants.appBarPlacementBottom) {
-                    // Bottom appBar: Focus order: (1)previous bottom appBars (2)top appBars (3)bottom appBars
-                    if (thisAppBarIndex && _setFocusToPreviousAppBarHelper(thisAppBarIndex - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
-                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementTop, appBars)) { return; }
-                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
-                } else if (appBarControl.placement === _Constants.appBarPlacementTop) {
-                    // Top appBar: Focus order: (1)previous top appBars (2)bottom appBars (3)top appBars
-                    if (thisAppBarIndex && _setFocusToPreviousAppBarHelper(thisAppBarIndex - 1, _Constants.appBarPlacementTop, appBars)) { return; }
-                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
-                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementTop, appBars)) { return; }
-                }
-            }
-
-            // Sets focus to the first _LegacyAppBar in the provided appBars array with given placement.
-            // Returns true if focus was set.  False otherwise.
-            function _setFocusToNextAppBarHelper(startIndex, appBarPlacement, appBars) {
-                var appBar;
-                for (var i = startIndex; i < appBars.length; i++) {
-                    appBar = appBars[i].winControl;
-                    if (appBar
-                     && appBar.placement === appBarPlacement
-                     && appBar.opened
-                     && appBar._focusOnFirstFocusableElement
-                     && appBar._focusOnFirstFocusableElement()) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            // Sets focus to the first tab stop of the next _LegacyAppBar
-            // _LegacyAppBar tabbing order:
-            //    1) Bottom _LegacyAppBars
-            //    2) Top _LegacyAppBars
-            // DOM order is respected, because an _LegacyAppBar should not have a defined tabIndex
-            function _setFocusToNextAppBar() {
-                /*jshint validthis: true */
-                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-
-                var thisAppBarIndex = 0;
-                for (var i = 0; i < appBars.length; i++) {
-                    if (appBars[i] === this.parentElement) {
-                        thisAppBarIndex = i;
-                        break;
-                    }
-                }
-
-                if (this.parentElement.winControl.placement === _Constants.appBarPlacementBottom) {
-                    // Bottom appBar: Focus order: (1)next bottom appBars (2)top appBars (3)bottom appBars
-                    if (_setFocusToNextAppBarHelper(thisAppBarIndex + 1, _Constants.appBarPlacementBottom, appBars)) { return; }
-                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementTop, appBars)) { return; }
-                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementBottom, appBars)) { return; }
-                } else if (this.parentElement.winControl.placement === _Constants.appBarPlacementTop) {
-                    // Top appBar: Focus order: (1)next top appBars (2)bottom appBars (3)top appBars
-                    if (_setFocusToNextAppBarHelper(thisAppBarIndex + 1, _Constants.appBarPlacementTop, appBars)) { return; }
-                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementBottom, appBars)) { return; }
-                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementTop, appBars)) { return; }
-                }
-            }
-
-            // Updates the firstDiv & finalDiv of all shown _LegacyAppBars
-            function _updateAllAppBarsFirstAndFinalDiv() {
-                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                var appBar;
-                for (var i = 0; i < appBars.length; i++) {
-                    appBar = appBars[i].winControl;
-                    if (appBar
-                     && appBar.opened
-                     && appBar._updateFirstAndFinalDiv) {
-                        appBar._updateFirstAndFinalDiv();
-                    }
-                }
-            }
-
-            // Returns true if a visible non-sticky (light dismiss) _LegacyAppBar is found in the document
-            function _isThereVisibleNonStickyBar() {
-                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                for (var i = 0; i < appBars.length; i++) {
-                    var appBarControl = appBars[i].winControl;
-                    if (appBarControl && !appBarControl.sticky &&
-                        (appBarControl.opened || appBarControl._element.winAnimating === displayModeVisiblePositions.shown)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            // If the previous focus was not a _LegacyAppBar or CED, store it in the cache
-            // (_isAppBarOrChild tests CED for us).
-            function _checkStorePreviousFocus(focusEvent) {
-                if (focusEvent.relatedTarget
-                 && focusEvent.relatedTarget.focus
-             && !_Overlay._Overlay._isAppBarOrChild(focusEvent.relatedTarget)) {
-                    _storePreviousFocus(focusEvent.relatedTarget);
-                }
-            }
-
-            // Cache the previous focus information
-            function _storePreviousFocus(element) {
-                if (element) {
-                    _Overlay._Overlay._ElementWithFocusPreviousToAppBar = element;
-                }
-            }
-
-            // Try to return focus to what had focus before.
-            // If successfully return focus to a textbox, restore the selection too.
-            function _restorePreviousFocus() {
-                _Overlay._Overlay._trySetActive(_Overlay._Overlay._ElementWithFocusPreviousToAppBar);
-            }
-
-            var strings = {
-                get ariaLabel() { return _Resources._getWinJSString("ui/appBarAriaLabel").value; },
-                get requiresCommands() { return "Invalid argument: commands must not be empty"; },
-                get cannotChangePlacementWhenVisible() { return "Invalid argument: The placement property cannot be set when the AppBar is visible, call hide() first"; },
-                get cannotChangeLayoutWhenVisible() { return "Invalid argument: The layout property cannot be set when the AppBar is visible, call hide() first"; }
-            };
-
-            var _LegacyAppBar = _Base.Class.derive(_Overlay._Overlay, function _LegacyAppBar_ctor(element, options) {
-                /// <signature helpKeyword="WinJS.UI._LegacyAppBar._LegacyAppBar">
-                /// <summary locid="WinJS.UI._LegacyAppBar.constructor">
-                /// Creates a new _LegacyAppBar control.
-                /// </summary>
-                /// <param name="element" type="HTMLElement" domElement="true" locid="WinJS.UI._LegacyAppBar.constructor_p:element">
-                /// The DOM element that will host the control.
-                /// </param>
-                /// <param name="options" type="Object" locid="WinJS.UI._LegacyAppBar.constructor_p:options">
-                /// The set of properties and values to apply to the new _LegacyAppBar control.
-                /// </param>
-                /// <returns type="WinJS.UI._LegacyAppBar" locid="WinJS.UI._LegacyAppBar.constructor_returnValue">
-                /// The new _LegacyAppBar control.
-                /// </returns>
-                /// </signature>
-
-                this._initializing = true;
-
-                // Simplify checking later
-                options = options || {};
-
-                // Make sure there's an element
-                this._element = element || _Global.document.createElement("div");
-                this._id = this._element.id || _ElementUtilities._uniqueID(this._element);
-                this._writeProfilerMark("constructor,StartTM");
-
-                // Attach our css class.
-                _ElementUtilities.addClass(this._element, _Constants.appBarClass);
-
-                // Make sure we have an ARIA role
-                var role = this._element.getAttribute("role");
-                if (!role) {
-                    this._element.setAttribute("role", "menubar");
-                }
-                var label = this._element.getAttribute("aria-label");
-                if (!label) {
-                    this._element.setAttribute("aria-label", strings.ariaLabel);
-                }
-
-                // Call the _Overlay constructor helper to finish setting up our element.
-                // Don't pass constructor options, _LegacyAppBar needs to set those itself specific order.
-                this._baseOverlayConstructor(this._element);
-
-                // Start off hidden
-                this._lastPositionVisited = displayModeVisiblePositions.none;
-                _ElementUtilities.addClass(this._element, _Constants.hiddenClass);
-
-                // Add Invoke button.
-                this._invokeButton = _Global.document.createElement("button");
-                this._invokeButton.tabIndex = 0;
-                this._invokeButton.setAttribute("type", "button");
-                this._invokeButton.innerHTML = "<span class='" + _Constants.ellipsisClass + "'></span>";
-                _ElementUtilities.addClass(this._invokeButton, _Constants.invokeButtonClass);
-                this._element.appendChild(this._invokeButton);
-                var that = this;
-                this._invokeButton.addEventListener("click", function () {
-                    that._keyboardInvoked = _KeyboardBehavior._keyboardSeenLast;
-                    if (that.opened) {
-                        that._hide();
-                    } else {
-                        that._show();
-                    }
-                }, false);
-
-                // Run layout setter immediately. We need to know our layout in order to correctly
-                // position any commands that may be getting set through the constructor.
-                this._layout = _Constants.appBarLayoutCustom;
-                delete options._layout;
-
-                // Need to set placement before closedDisplayMode, closedDisplayMode sets our starting position, which is dependant on placement.
-                this.placement = options.placement || _Constants.appBarPlacementBottom;
-                this.closedDisplayMode = options.closedDisplayMode || closedDisplayModes.compact;
-
-                _Control.setOptions(this, options);
-
-                var commandsUpdatedBound = this._commandsUpdated.bind(this);
-                this._element.addEventListener(_Constants.commandVisibilityChanged, function (ev) {
-                    if (that._disposed) {
-                        return;
-                    }
-                    if (that.opened) {
-                        ev.preventDefault();
-                    }
-                    commandsUpdatedBound();
-                });
-
-                this._initializing = false;
-
-                this._setFocusToAppBarBound = this._setFocusToAppBar.bind(this);
-
-                // Make a click eating div
-                _Overlay._Overlay._createClickEatingDivAppBar();
-
-                // Handle key down (esc) and (left & right)
-                this._element.addEventListener("keydown", this._handleKeyDown.bind(this), false);
-
-                // Attach global event handlers
-                if (!globalEventsInitialized) {
-                    // We'll trigger on invoking.  Could also have invoked or canceled
-                    // Eventually we may want click up on invoking and drop back on invoked.
-                    Application.addEventListener("edgystarting", _startingEdgy);
-                    Application.addEventListener("edgycompleted", _completedEdgy);
-                    Application.addEventListener("edgycanceled", _canceledEdgy);
-
-                    // Need to know if the IHM is done scrolling
-                    _Global.document.addEventListener("MSManipulationStateChanged", _allManipulationChanged, false);
-
-                    globalEventsInitialized = true;
-                }
-
-                // Need to store what had focus before
-                _ElementUtilities._addEventListener(this._element, "focusin", function (event) { _checkStorePreviousFocus(event); }, false);
-
-                // Need to hide ourselves if we lose focus
-                _ElementUtilities._addEventListener(this._element, "focusout", function () { _Overlay._Overlay._hideIfAllAppBarsLostFocus(); }, false);
-
-
-                if (this.closedDisplayMode === closedDisplayModes.none && this.layout === _Constants.appBarLayoutCommands) {
-                    // Remove the commands layout _LegacyAppBar from the layout tree at this point so we don't cause unnecessary layout costs whenever
-                    // the window resizes or when CSS changes are applied to the commands layout _LegacyAppBar's parent element.
-                    this._element.style.display = "none";
-                }
-
-                this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this._element);
-
-                this._writeProfilerMark("constructor,StopTM");
-
-                return this;
-            }, {
-                // Public Properties
-
-                /// <field type="String" defaultValue="bottom" oamOptionsDatatype="WinJS.UI._LegacyAppBar.placement" locid="WinJS.UI._LegacyAppBar.placement" helpKeyword="WinJS.UI._LegacyAppBar.placement">The placement of the _LegacyAppBar on the display.  Values are "top" or "bottom".</field>
-                placement: {
-                    get: function _LegacyAppBar_get_placement() {
-                        return this._placement;
-                    },
-                    set: function _LegacyAppBar_set_placement(value) {
-                        // In designer we may have to move it
-                        var wasShown = false;
-                        if (_WinRT.Windows.ApplicationModel.DesignMode.designModeEnabled) {
-                            this._hide();
-                            wasShown = true;
-                        }
-
-                        if (this.opened) {
-                            throw new _ErrorFromName("WinJS.UI._LegacyAppBar.CannotChangePlacementWhenVisible", strings.cannotChangePlacementWhenVisible);
-                        }
-
-                        // Set placement, coerce invalid values to 'bottom'
-                        this._placement = (value === _Constants.appBarPlacementTop) ? _Constants.appBarPlacementTop : _Constants.appBarPlacementBottom;
-
-                        // Clean up win-top, win-bottom styles
-                        if (this._placement === _Constants.appBarPlacementTop) {
-                            _ElementUtilities.addClass(this._element, _Constants.topClass);
-                            _ElementUtilities.removeClass(this._element, _Constants.bottomClass);
-                        } else if (this._placement === _Constants.appBarPlacementBottom) {
-                            _ElementUtilities.removeClass(this._element, _Constants.topClass);
-                            _ElementUtilities.addClass(this._element, _Constants.bottomClass);
-                        }
-
-                        // Update our position on screen.
-                        this._ensurePosition();
-                        if (wasShown) {
-                            // Show again if we hid ourselves for the designer
-                            this._show();
-                        }
-                    }
-                },
-
-                _layout: {
-                    get: function _LegacyAppBar_get_layout() {
-                        return this._layoutImpl.type;
-                    },
-                    set: function (layout) {
-                        if (layout !== _Constants.appBarLayoutCommands &&
-                            layout !== _Constants.appBarLayoutCustom &&
-                            layout !== _Constants.appBarLayoutMenu) {
-                        }
-
-                        // In designer we may have to redraw it
-                        var wasShown = false;
-                        if (_WinRT.Windows.ApplicationModel.DesignMode.designModeEnabled) {
-                            this._hide();
-                            wasShown = true;
-                        }
-
-                        if (this.opened) {
-                            throw new _ErrorFromName("WinJS.UI._LegacyAppBar.CannotChangeLayoutWhenVisible", strings.cannotChangeLayoutWhenVisible);
-                        }
-
-                        var commands;
-                        if (!this._initializing) {
-                            // Gather commands in preparation for hand off to new layout.
-                            // We expect prev layout to return commands in the order they were set in,
-                            // not necessarily the current DOM order the layout is using.
-                            commands = this._layoutImpl.commandsInOrder;
-                            this._layoutImpl.disconnect();
-                        }
-
-                        // Set layout
-                        if (layout === _Constants.appBarLayoutCommands) {
-                            this._layoutImpl = new _Layouts._AppBarCommandsLayout();
-                        } else if (layout === _Constants.appBarLayoutMenu) {
-                            this._layoutImpl = new _Layouts._AppBarMenuLayout();
-                        } else {
-                            // Custom layout uses Base _LegacyAppBar Layout class.
-                            this._layoutImpl = new _Layouts._AppBarBaseLayout();
-                        }
-                        this._layoutImpl.connect(this._element);
-
-                        if (commands && commands.length) {
-                            // Reset _LegacyAppBar since layout changed.
-                            this._layoutCommands(commands);
-                        }
-
-                        // Show again if we hid ourselves for the designer
-                        if (wasShown) {
-                            this._show();
-                        }
-                    },
-                    configurable: true
-                },
-
-                /// <field type="Array" locid="WinJS.UI._LegacyAppBar.commands" helpKeyword="WinJS.UI._LegacyAppBar.commands" isAdvanced="true">
-                /// Sets the AppBarCommands in the _LegacyAppBar. This property accepts an array of AppBarCommand objects.
-                /// </field>
-                commands: {
-                    set: function _LegacyAppBar_set_commands(commands) {
-                        // Fail if trying to set when shown
-                        if (this.opened) {
-                            throw new _ErrorFromName("WinJS.UI._LegacyAppBar.CannotChangeCommandsWhenVisible", _Resources._formatString(_Overlay._Overlay.commonstrings.cannotChangeCommandsWhenVisible, "_LegacyAppBar"));
-                        }
-
-                        // Dispose old commands before tossing them out.
-                        if (!this._initializing) {
-                            // AppBarCommands defined in markup don't want to be disposed during initialization.
-                            this._disposeChildren();
-                        }
-                        this._layoutCommands(commands);
-                    }
-                },
-
-                _layoutCommands: function _LegacyAppBar_layoutCommands(commands) {
-                    // Function precondition: _LegacyAppBar must not be shown.
-
-                    // Empties _LegacyAppBar HTML and repopulates with passed in commands.
-                    _ElementUtilities.empty(this._element);
-                    this._element.appendChild(this._invokeButton); // Keep our Show/Hide button.
-
-                    // In case they had only one command to set...
-                    if (!Array.isArray(commands)) {
-                        commands = [commands];
-                    }
-
-                    this._layoutImpl.layout(commands);
-                },
-
-                /// <field type="String" defaultValue="compact" locid="WinJS.UI._LegacyAppBar.closedDisplayMode" helpKeyword="WinJS.UI._LegacyAppBar.closedDisplayMode" isAdvanced="true">
-                /// Gets/Sets how _LegacyAppBar will display itself while hidden. Values are "none", "minimal" and '"compact".
-                /// </field>
-                closedDisplayMode: {
-                    get: function _LegacyAppBar_get_closedDisplayMode() {
-                        return this._closedDisplayMode;
-                    },
-                    set: function _LegacyAppBar_set_closedDisplayMode(value) {
-                        var oldValue = this._closedDisplayMode;
-
-                        if (oldValue !== value) {
-
-                            // Determine if the visible position is changing. This can be used to determine if we need to delay updating closedDisplayMode related CSS classes
-                            // to avoid affecting the animation.
-                            var changeVisiblePosition = _ElementUtilities.hasClass(this._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(this._element, _Constants.hidingClass);
-
-                            if (value === closedDisplayModes.none) {
-                                this._closedDisplayMode = closedDisplayModes.none;
-                                if (!changeVisiblePosition || !oldValue) {
-                                    _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
-                                    _ElementUtilities.removeClass(this._element, _Constants.compactClass);
-                                }
-                            } else if (value === closedDisplayModes.minimal) {
-                                this._closedDisplayMode = closedDisplayModes.minimal;
-                                if (!changeVisiblePosition || !oldValue || oldValue === closedDisplayModes.none) {
-                                    _ElementUtilities.addClass(this._element, _Constants.minimalClass);
-                                    _ElementUtilities.removeClass(this._element, _Constants.compactClass);
-                                }
-                            } else {
-                                // Compact is default fallback.
-                                this._closedDisplayMode = closedDisplayModes.compact;
-                                _ElementUtilities.addClass(this._element, _Constants.compactClass);
-                                _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
-                            }
-
-                            // The invoke button has changed the amount of available space in the _LegacyAppBar. Layout might need to scale.
-                            this._layoutImpl.resize();
-
-                            if (changeVisiblePosition) {
-                                // If the value is being set while we are not showing, change to our new position.
-                                this._changeVisiblePosition(displayModeVisiblePositions[this._closedDisplayMode]);
-                            }
-                        }
-                    },
-                },
-
-
-
-                /// <field type="Boolean" hidden="true" locid="WinJS.UI._LegacyAppBar.opened" helpKeyword="WinJS.UI._LegacyAppBar.opened">Read only, true if an _LegacyAppBar is 'hidden'.</field>
-                opened: {
-                    get: function () {
-                        // Returns true if _LegacyAppBar is not 'hidden'.
-                        return !_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) &&
-                            !_ElementUtilities.hasClass(this._element, _Constants.hidingClass) &&
-                            this._doNext !== displayModeVisiblePositions.minimal &&
-                            this._doNext !== displayModeVisiblePositions.compact &&
-                            this._doNext !== displayModeVisiblePositions.none;
-                    },
-                },
-
-                /// <field type="Function" locid="WinJS.UI._LegacyAppBar.onbeforeopen" helpKeyword="WinJS.UI._LegacyAppBar.onbeforeopen">
-                /// Occurs immediately before the control is opened.
-                /// </field>
-                onbeforeopen: createEvent(EVENTS.beforeOpen),
-
-                /// <field type="Function" locid="WinJS.UI._LegacyAppBar.onafteropen" helpKeyword="WinJS.UI._LegacyAppBar.onafteropen">
-                /// Occurs immediately after the control is opened.
-                /// </field>
-                onafteropen: createEvent(EVENTS.afterOpen),
-
-                /// <field type="Function" locid="WinJS.UI._LegacyAppBar.onbeforeclose" helpKeyword="WinJS.UI._LegacyAppBar.onbeforeclose">
-                /// Occurs immediately before the control is closed.
-                /// </field>
-                onbeforeclose: createEvent(EVENTS.beforeClose),
-
-                /// <field type="Function" locid="WinJS.UI._LegacyAppBar.onafterclose" helpKeyword="WinJS.UI._LegacyAppBar.onafterclose">
-                /// Occurs immediately after the control is closed.
-                /// </field>
-                onafterclose: createEvent(EVENTS.afterClose),
-
-                getCommandById: function (id) {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.getCommandById">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.getCommandById">
-                    /// Retrieves the command with the specified ID from this _LegacyAppBar.
-                    /// If more than one command is found, this method returns them all.
-                    /// </summary>
-                    /// <param name="id" type="String" locid="WinJS.UI._LegacyAppBar.getCommandById_p:id">Id of the command to return.</param>
-                    /// <returns type="object" locid="WinJS.UI._LegacyAppBar.getCommandById_returnValue">
-                    /// The command found, an array of commands if more than one have the same ID, or null if no command is found.
-                    /// </returns>
-                    /// </signature>
-                    var commands = this._layoutImpl.commandsInOrder.filter(function (command) {
-                        return command.id === id || command.element.id === id;
-                    });
-
-                    if (commands.length === 1) {
-                        return commands[0];
-                    } else if (commands.length === 0) {
-                        return null;
-                    }
-
-                    return commands;
-                },
-
-                showCommands: function (commands) {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.showCommands">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.showCommands">
-                    /// Show the specified commands of the _LegacyAppBar.
-                    /// </summary>
-                    /// <param name="commands" type="Array" locid="WinJS.UI._LegacyAppBar.showCommands_p:commands">
-                    /// An array of the commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
-                    /// </param>
-                    /// </signature>
-                    if (!commands) {
-                        throw new _ErrorFromName("WinJS.UI._LegacyAppBar.RequiresCommands", strings.requiresCommands);
-                    }
-
-                    this._layoutImpl.showCommands(commands);
-                },
-
-                hideCommands: function (commands) {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.hideCommands">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.hideCommands">
-                    /// Hides the specified commands of the _LegacyAppBar.
-                    /// </summary>
-                    /// <param name="commands" type="Array" locid="WinJS.UI._LegacyAppBar.hideCommands_p:commands">Required. Command or Commands to hide, either String, DOM elements, or WinJS objects.</param>
-                    /// </signature>
-                    if (!commands) {
-                        throw new _ErrorFromName("WinJS.UI._LegacyAppBar.RequiresCommands", strings.requiresCommands);
-                    }
-
-                    this._layoutImpl.hideCommands(commands);
-                },
-
-                showOnlyCommands: function (commands) {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.showOnlyCommands">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.showOnlyCommands">
-                    /// Show the specified commands, hiding all of the others in the _LegacyAppBar.
-                    /// </summary>
-                    /// <param name="commands" type="Array" locid="WinJS.UI._LegacyAppBar.showOnlyCommands_p:commands">
-                    /// An array of the commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
-                    /// </param>
-                    /// </signature>
-                    if (!commands) {
-                        throw new _ErrorFromName("WinJS.UI._LegacyAppBar.RequiresCommands", strings.requiresCommands);
-                    }
-
-                    this._layoutImpl.showOnlyCommands(commands);
-                },
-
-                open: function () {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.open">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.open">
-                    /// Opens the _LegacyAppBar, if closed and not disabled, regardless of other state.
-                    /// </summary>
-                    /// </signature>
-                    // Just wrap the private one, turning off keyboard invoked flag
-                    this._writeProfilerMark("show,StartTM");
-                    this._keyboardInvoked = false;
-                    this._doNotFocus = !!this.sticky;
-                    this._show();
-                },
-
-                _show: function _LegacyAppBar_show() {
-
-                    var toPosition = displayModeVisiblePositions.shown;
-                    var showing = null;
-
-                    // If we're already shown, we are just going to animate our position, not fire events or manage focus.
-                    if (!this.disabled && (_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(this._element, _Constants.hidingClass))) {
-                        showing = appbarShownState;
-                    }
-
-                    this._changeVisiblePosition(toPosition, showing);
-
-                    if (showing) {
-                        // Configure shown state for lightdismiss & sticky appbars.
-                        if (!this.sticky) {
-                            // Need click-eating div to be visible ASAP.
-                            _Overlay._Overlay._showClickEatingDivAppBar();
-                        }
-
-                        // Clean up tabbing behavior by making sure first and final divs are correct after showing.
-                        if (!this.sticky && _isThereVisibleNonStickyBar()) {
-                            _updateAllAppBarsFirstAndFinalDiv();
-                        } else {
-                            this._updateFirstAndFinalDiv();
-                        }
-
-                        // Check if we should steal focus
-                        if (!this._doNotFocus && this._shouldStealFocus()) {
-                            // Store what had focus if nothing currently is stored
-                            if (!_Overlay._Overlay._ElementWithFocusPreviousToAppBar) {
-                                _storePreviousFocus(_Global.document.activeElement);
-                            }
-
-                            this._layoutImpl.setFocusOnShow();
-                        }
-                    }
-                },
-
-                close: function () {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar.close">
-                    /// <summary locid="WinJS.UI._LegacyAppBar.close">
-                    /// Closes the _LegacyAppBar.
-                    /// </summary>
-                    /// </signature>
-                    // Just wrap the private one
-                    this._writeProfilerMark("hide,StartTM");
-                    this._hide();
-                },
-
-                _hide: function _LegacyAppBar_hide(toPosition) {
-
-                    var toPosition = toPosition || displayModeVisiblePositions[this.closedDisplayMode];
-                    var hiding = null;
-
-                    // If were already hidden, we are just going to animate our position, not fire events or manage focus again.
-                    if (!_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) && !_ElementUtilities.hasClass(this._element, _Constants.hidingClass)) {
-                        hiding = appbarHiddenState;
-                    }
-
-                    this._changeVisiblePosition(toPosition, hiding);
-                    if (hiding) {
-                        // Determine if there are any _LegacyAppBars that are shown.
-                        // Set the focus to the next shown _LegacyAppBar.
-                        // If there are none, set the focus to the control stored in the cache, which
-                        //   is what had focus before the _LegacyAppBars were given focus.
-                        var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
-                        var areOtherAppBars = false;
-                        var areOtherNonStickyAppBars = false;
-                        var i;
-                        for (i = 0; i < appBars.length; i++) {
-                            var appBarControl = appBars[i].winControl;
-                            if (appBarControl && appBarControl.opened && (appBarControl !== this)) {
-                                areOtherAppBars = true;
-
-                                if (!appBarControl.sticky) {
-                                    areOtherNonStickyAppBars = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        var settingsFlyouts = _Global.document.querySelectorAll("." + _Constants.settingsFlyoutClass);
-                        var areVisibleSettingsFlyouts = false;
-                        for (i = 0; i < settingsFlyouts.length; i++) {
-                            var settingsFlyoutControl = settingsFlyouts[i].winControl;
-                            if (settingsFlyoutControl && !settingsFlyoutControl.hidden) {
-                                areVisibleSettingsFlyouts = true;
-                                break;
-                            }
-                        }
-
-                        if (!areOtherNonStickyAppBars && !areVisibleSettingsFlyouts) {
-                            // Hide the click eating div because there are no other _LegacyAppBars showing
-                            _Overlay._Overlay._hideClickEatingDivAppBar();
-                        }
-
-                        var that = this;
-                        if (!areOtherAppBars) {
-                            // Set focus to what had focus before showing the _LegacyAppBar
-                            if (_Overlay._Overlay._ElementWithFocusPreviousToAppBar &&
-                                (!_Global.document.activeElement || _Overlay._Overlay._isAppBarOrChild(_Global.document.activeElement))) {
-                                _restorePreviousFocus();
-                            }
-                            // Always clear the previous focus (to prevent temporary leaking of element)
-                            _Overlay._Overlay._ElementWithFocusPreviousToAppBar = null;
-                        } else if (_LegacyAppBar._isWithinAppBarOrChild(_Global.document.activeElement, that.element)) {
-                            // Set focus to next visible _LegacyAppBar in DOM
-
-                            var foundCurrentAppBar = false;
-                            for (i = 0; i <= appBars.length; i++) {
-                                if (i === appBars.length) {
-                                    i = 0;
-                                }
-
-                                var appBar = appBars[i];
-                                if (appBar === this.element) {
-                                    foundCurrentAppBar = true;
-                                } else if (foundCurrentAppBar && appBar.winControl.opened) {
-                                    appBar.winControl._keyboardInvoked = !!this._keyboardInvoked;
-                                    appBar.winControl._setFocusToAppBar();
-                                    break;
-                                }
-                            }
-                        }
-
-                        // If we are hiding the last lightDismiss _LegacyAppBar,
-                        //   then we need to update the tabStops of the other _LegacyAppBars
-                        if (!this.sticky && !_isThereVisibleNonStickyBar()) {
-                            _updateAllAppBarsFirstAndFinalDiv();
-                        }
-
-                        // Reset these values
-                        this._keyboardInvoked = false;
-                        this._doNotFocus = false;
-                    }
-                },
-
-                _dispose: function _LegacyAppBar_dispose() {
-                    _Dispose.disposeSubTree(this.element);
-                    this._layoutImpl.dispose();
-                    this.disabled = true;
-                    this.close();
-                },
-
-                _disposeChildren: function _LegacyAppBar_disposeChildren() {
-                    // Be purposeful about what we dispose.
-                    this._layoutImpl.disposeChildren();
-                },
-
-                _isLightDismissible: function _LegacyAppBar_isLightDismissible() {
-                    // An _LegacyAppBar is considered light dismissible if there is at least one visible non sticky _LegacyAppBar.
-                    return _Overlay._Overlay.prototype._isLightDismissible.call(this) || _isThereVisibleNonStickyBar();
-                },
-
-                _handleKeyDown: function _LegacyAppBar_handleKeyDown(event) {
-                    // On Left/Right arrow keys, moves focus to previous/next AppbarCommand element.
-                    // On "Esc" key press hide flyouts and hide light dismiss _LegacyAppBars.
-
-                    // Esc hides light-dismiss _LegacyAppBars in all layouts but if the user has a text box with an IME
-                    // candidate window open, we want to skip the ESC key event since it is handled by the IME.
-                    // When the IME handles a key it sets event.keyCode === Key.IME for an easy check.
-                    if (event.keyCode === Key.escape && event.keyCode !== Key.IME) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        this._lightDismiss(true);
-                    }
-
-                    // If the current active element isn't an intrinsic part of the _LegacyAppBar,
-                    // Layout might want to handle additional keys.
-                    if (!this._invokeButton.contains(_Global.document.activeElement)) {
-                        this._layoutImpl.handleKeyDown(event);
-                    }
-                },
-
-                _visiblePixels: {
-                    get: function () {
-                        // Returns object containing pixel height of each visible position
-                        return {
-                            hidden: knownVisibleHeights.hidden,
-                            minimal: knownVisibleHeights.minimal,
-                            compact: Math.max(this._heightWithoutLabels || 0, knownVisibleHeights.compact),
-                            // Element can change size as content gets added or removed or if it
-                            // experinces style changes. We have to look this up at run time.
-                            shown: this._element.offsetHeight,
-                        };
-                    }
-                },
-
-                _visiblePosition: {
-                    // Returns string value of our nearest, stationary, visible position.
-                    get: function () {
-                        // If we're animating into a new posistion, return the position we're animating into.
-                        if (this._animating && displayModeVisiblePositions[this._element.winAnimating]) {
-                            return this._element.winAnimating;
-                        } else {
-                            return this._lastPositionVisited;
-                        }
-                    }
-                },
-
-                _visible: {
-                    // Returns true if our visible position is not completely hidden, else false.
-                    get: function () {
-                        return (this._visiblePosition !== displayModeVisiblePositions.none);
-                    }
-                },
-
-                _changeVisiblePosition: function (toPosition, newState) {
-                    /// <signature helpKeyword="WinJS.UI._LegacyAppBar._changeVisiblePosition">
-                    /// <summary locid="WinJS.UI._LegacyAppBar._changeVisiblePosition">
-                    /// Changes the visible position of the _LegacyAppBar.
-                    /// </summary>
-                    /// <param name="toPosition" type="String" locid="WinJS.UI._LegacyAppBar._changeVisiblePosition_p:toPosition">
-                    /// Name of the visible position we want to move to.
-                    /// </param>
-                    /// <param name="newState" type="String" locid="WinJS.UI._LegacyAppBar._changeVisiblePosition_p:newState">
-                    /// Name of the state we are entering. Values can be "showing", "hiding" or null.
-                    /// If the value is null, then we are not changing states, only changing visible position.
-                    /// </param>
-                    /// </signature>
-
-                    if ((this._visiblePosition === toPosition && !this._keyboardObscured) ||
-                        (this.disabled && toPosition !== displayModeVisiblePositions.disabled)) {
-                        // If we want to go where we already are, or we're disabled, return false.
-                        this._afterPositionChange(null);
-                    } else if (this._animating || this._needToHandleShowingKeyboard || this._needToHandleHidingKeyboard) {
-                        // Only do one thing at a time. If we are already animating,
-                        // or the IHM is animating, schedule this for later.
-                        this._doNext = toPosition;
-                        this._afterPositionChange(null);
-                    } else {
-                        // Begin position changing sequence.
-
-                        // Set the animating flag to block any queued position changes until we're done.
-                        this._element.winAnimating = toPosition;
-                        var performAnimation = this._initializing ? false : true;
-
-                        // Assume we are animating from the last position visited.
-                        var fromPosition = this._lastPositionVisited;
-
-                        // We'll need to measure our element to determine how far we need to animate.
-                        // Make sure we have accurate dimensions.
-                        this._element.style.display = "";
-
-                        // Are we hiding completely, or about to become visible?
-                        var hidingCompletely = (toPosition === displayModeVisiblePositions.hidden);
-
-                        if (this._keyboardObscured) {
-                            // We're changing position while covered by the IHM.
-                            if (hidingCompletely) {
-                                // If we're covered by the IHM we already look hidden.
-                                // We can skip our animation and just hide.
-                                performAnimation = false;
-                            } else {
-                                // Some portion of the _LegacyAppBar should be visible to users after its position changes.
-
-                                // Un-obscure ourselves and become visible to the user again.
-                                // Need to animate to our desired position as if we were coming up from behind the keyboard.
-                                fromPosition = displayModeVisiblePositions.hidden;
-                            }
-                            this._keyboardObscured = false;
-                        }
-
-                        // Fire "before" event if we are changing state.
-                        if (newState === appbarShownState) {
-                            this._beforeShow();
-                        } else if (newState === appbarHiddenState) {
-                            this._beforeHide();
-                        }
-
-                        // Position our element into the correct "end of animation" position,
-                        // also accounting for any viewport scrolling or soft keyboard positioning.
-                        this._ensurePosition();
-
-                        this._element.style.opacity = 1;
-                        this._element.style.visibility = "visible";
-
-                        this._animationPromise = (performAnimation) ? this._animatePositionChange(fromPosition, toPosition) : Promise.wrap();
-                        this._animationPromise.then(
-                            function () { this._afterPositionChange(toPosition, newState); }.bind(this),
-                            function () { this._afterPositionChange(toPosition, newState); }.bind(this)
-                        );
-                    }
-                },
-
-                _afterPositionChange: function _LegacyAppBar_afterPositionChange(newPosition, newState) {
-                    // Defines body of work to perform after changing positions.
-                    if (this._disposed) {
-                        return;
-                    }
-
-                    if (newPosition) {
-
-                        // Update closedDisplayMode related CSS classes, which were delayed from the closedDisplayMode setter to avoid affecting the animation
-                        if (newPosition === displayModeVisiblePositions.minimal) {
-                            _ElementUtilities.addClass(this._element, _Constants.minimalClass);
-                            _ElementUtilities.removeClass(this._element, _Constants.compactClass);
-                        }
-
-                        if (newPosition === displayModeVisiblePositions.hidden && this.closedDisplayMode === closedDisplayModes.none) {
-                            _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
-                            _ElementUtilities.removeClass(this._element, _Constants.compactClass);
-                        }
-
-                        // Clear animation flag and record having visited this position.
-                        this._element.winAnimating = "";
-                        this._lastPositionVisited = newPosition;
-
-                        if (this._doNext === this._lastPositionVisited) {
-                            this._doNext = "";
-                        }
-
-                        if (newPosition === displayModeVisiblePositions.hidden) {
-                            // Make sure animation is finished.
-                            this._element.style.visibility = "hidden";
-                            this._element.style.display = "none";
-                        }
-
-                        // Clean up animation transforms.
-                        var transformProperty = _BaseUtils._browserStyleEquivalents["transform"].scriptName;
-                        this._element.style[transformProperty] = "";
-
-                        // Fire "after" event if we changed state.
-                        if (newState === appbarShownState) {
-                            this._afterShow();
-                        } else if (newState === appbarHiddenState) {
-                            this._afterHide();
-                        }
-
-                        // If we had something queued, do that
-                        Scheduler.schedule(this._checkDoNext, Scheduler.Priority.normal, this, "WinJS.UI._LegacyAppBar._checkDoNext");
-                    }
-
-                    this._afterPositionChangeCallBack();
-                },
-
-                _afterPositionChangeCallBack: function () {
-                    // Leave this blank for unit tests to overwrite.
-                },
-
-                _beforeShow: function _LegacyAppBar_beforeShow() {
-                    // Each overlay tracks the size of the <HTML> element for triggering light-dismiss in the window resize handler.
-                    this._cachedDocumentSize = this._cachedDocumentSize || _Overlay._Overlay._sizeOfDocument();
-
-                    // In case their event 'beforeopen' event listener is going to manipulate commands,
-                    // first see if there are any queued command animations we can handle while we're still hidden.
-                    if (this._queuedCommandAnimation) {
-                        this._showAndHideFast(this._queuedToShow, this._queuedToHide);
-                        this._queuedToShow = [];
-                        this._queuedToHide = [];
-                    }
-
-                    // Make sure everything fits before showing
-                    this._layoutImpl.scale();
-
-                    if (this.closedDisplayMode === closedDisplayModes.compact) {
-                        this._heightWithoutLabels = this._element.offsetHeight;
-                    }
-
-                    _ElementUtilities.removeClass(this._element, _Constants.hiddenClass);
-                    _ElementUtilities.addClass(this._element, _Constants.showingClass);
-
-                    // Send our "beforeopen" event
-                    this._sendEvent(EVENTS.beforeOpen);
-                },
-
-                _afterShow: function _LegacyAppBar_afterShow() {
-                    _ElementUtilities.removeClass(this._element, _Constants.showingClass);
-                    _ElementUtilities.addClass(this._element, _Constants.shownClass);
-
-                    // Send our "afteropen" event
-                    this._sendEvent(EVENTS.afterOpen);
-                    this._writeProfilerMark("show,StopTM");
-                },
-
-                _beforeHide: function _LegacyAppBar_beforeHide() {
-
-                    _ElementUtilities.removeClass(this._element, _Constants.shownClass);
-                    _ElementUtilities.addClass(this._element, _Constants.hidingClass);
-
-                    // Send our "beforeclose" event
-                    this._sendEvent(EVENTS.beforeClose);
-                },
-
-                _afterHide: function _LegacyAppBar_afterHide() {
-
-                    // In case their 'afterclose' event handler is going to manipulate commands,
-                    // first see if there are any queued command animations we can handle now we're hidden.
-                    if (this._queuedCommandAnimation) {
-                        this._showAndHideFast(this._queuedToShow, this._queuedToHide);
-                        this._queuedToShow = [];
-                        this._queuedToHide = [];
-                    }
-
-                    _ElementUtilities.removeClass(this._element, _Constants.hidingClass);
-                    _ElementUtilities.addClass(this._element, _Constants.hiddenClass);
-
-                    // Send our "afterclose" event
-                    this._sendEvent(EVENTS.afterClose);
-                    this._writeProfilerMark("hide,StopTM");
-                },
-
-                _animatePositionChange: function _LegacyAppBar_animatePositionChange(fromPosition, toPosition) {
-                    // Determines and executes the proper transition between visible positions
-
-                    var layoutElementsAnimationPromise = this._layoutImpl.positionChanging(fromPosition, toPosition),
-                        appBarElementAnimationPromise;
-
-                    // Get values in terms of pixels to perform animation.
-                    var beginningVisiblePixelHeight = this._visiblePixels[fromPosition],
-                        endingVisiblePixelHeight = this._visiblePixels[toPosition],
-                        distance = Math.abs(endingVisiblePixelHeight - beginningVisiblePixelHeight),
-                        offsetTop = (this._placement === _Constants.appBarPlacementTop) ? -distance : distance;
-
-                    if ((this._placement === _Constants.appBarPlacementTop) &&
-                        ((fromPosition === displayModeVisiblePositions.shown &&
-                        toPosition === displayModeVisiblePositions.compact) ||
-                        (fromPosition === displayModeVisiblePositions.compact &&
-                        toPosition === displayModeVisiblePositions.shown))) {
-                        // Command icons remain in the same location on a top appbar
-                        // when going from compact > shown or shown > compact.
-                        offsetTop = 0;
-                    }
-
-                    // Animate
-                    if (endingVisiblePixelHeight > beginningVisiblePixelHeight) {
-                        var fromOffset = { top: offsetTop + "px", left: "0px" };
-                        appBarElementAnimationPromise = Animations.showEdgeUI(this._element, fromOffset, { mechanism: "transition" });
-                    } else {
-                        var toOffset = { top: offsetTop + "px", left: "0px" };
-                        appBarElementAnimationPromise = Animations.hideEdgeUI(this._element, toOffset, { mechanism: "transition" });
-                    }
-
-                    return Promise.join([layoutElementsAnimationPromise, appBarElementAnimationPromise]);
-                },
-
-                _checkDoNext: function _LegacyAppBar_checkDoNext() {
-                    // Do nothing if we're still animating
-                    if (this._animating || this._needToHandleShowingKeyboard || this._needToHandleHidingKeyboard || this._disposed) {
-                        return;
-                    }
-
-                    if (this._doNext === displayModeVisiblePositions.disabled ||
-                        this._doNext === displayModeVisiblePositions.hidden ||
-                        this._doNext === displayModeVisiblePositions.minimal ||
-                        this._doNext === displayModeVisiblePositions.compact) {
-                        // Do hide first because animating commands would be easier
-                        this._hide(this._doNext);
-                        this._doNext = "";
-                    } else if (this._queuedCommandAnimation) {
-                        // Do queued commands before showing if possible
-                        this._showAndHideQueue();
-                    } else if (this._doNext === displayModeVisiblePositions.shown) {
-                        // Show last so that we don't unnecessarily animate commands
-                        this._show();
-                        this._doNext = "";
-                    }
-                },
-
-                _isABottomAppBarInTheProcessOfShowing: function _LegacyAppBar_isABottomAppBarInTheProcessOfShowing() {
-                    var appbars = _Global.document.querySelectorAll("." + _Constants.appBarClass + "." + _Constants.bottomClass);
-                    for (var i = 0; i < appbars.length; i++) {
-                        if (appbars[i].winAnimating === displayModeVisiblePositions.shown) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                },
-
-                // Returns true if
-                //   1) This is a bottom appbar
-                //   2) No appbar has focus and a bottom appbar is not in the process of showing
-                //   3) What currently has focus is neither a bottom appbar nor a top appbar
-                //      AND a bottom appbar is not in the process of showing.
-                // Otherwise Returns false
-                _shouldStealFocus: function _LegacyAppBar_shouldStealFocus() {
-                    var activeElementAppBar = _Overlay._Overlay._isAppBarOrChild(_Global.document.activeElement);
-                    if (this._element === activeElementAppBar) {
-                        // This appbar already has focus and we don't want to move focus
-                        // from where it currently is in this appbar.
-                        return false;
-                    }
-                    if (this._placement === _Constants.appBarPlacementBottom) {
-                        // This is a bottom appbar
-                        return true;
-                    }
-
-                    var isBottomAppBarShowing = this._isABottomAppBarInTheProcessOfShowing();
-                    if (!activeElementAppBar) {
-                        // Currently no appbar has focus.
-                        // Return true if a bottom appbar is not in the process of showing.
-                        return !isBottomAppBarShowing;
-                    }
-                    if (!activeElementAppBar.winControl) {
-                        // This should not happen, but if it does we want to make sure
-                        // that an _LegacyAppBar ends up with focus.
-                        return true;
-                    }
-                    if ((activeElementAppBar.winControl._placement !== _Constants.appBarPlacementBottom)
-                     && (activeElementAppBar.winControl._placement !== _Constants.appBarPlacementTop)
-                     && !isBottomAppBarShowing) {
-                        // What currently has focus is neither a bottom appbar nor a top appbar
-                        // -and-
-                        // a bottom appbar is not in the process of showing.
-                        return true;
-                    }
-                    return false;
-                },
-
-                // Set focus to the passed in _LegacyAppBar
-                _setFocusToAppBar: function _LegacyAppBar_setFocusToAppBar(useSetActive, scroller) {
-                    if (!this._focusOnFirstFocusableElement(useSetActive, scroller)) {
-                        // No first element, set it to appbar itself
-                        _Overlay._Overlay._trySetActive(this._element, scroller);
-                    }
-                },
-
-                _commandsUpdated: function _LegacyAppBar_commandsUpdated() {
-                    // If we are still initializing then we don't have a layout yet so it doesn't need updating.
-                    if (!this._initializing) {
-                        this._layoutImpl.commandsUpdated();
-                        this._layoutImpl.scale();
-                    }
-                },
-
-                _beginAnimateCommands: function _LegacyAppBar_beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands) {
-                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
-                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
-                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
-                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
-                    this._layoutImpl.beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands);
-                },
-
-                _endAnimateCommands: function _LegacyAppBar_endAnimateCommands() {
-                    this._layoutImpl.endAnimateCommands();
-                    this._endAnimateCommandsCallBack();
-                },
-
-                _endAnimateCommandsCallBack: function _LegacyAppBar_endAnimateCommandsCallBack() {
-                    // Leave this blank for unit tests to overwrite.
-                },
-
-                // Get the top offset for top appbars.
-                _getTopOfVisualViewport: function _LegacyAppBar_getTopOfVisualViewPort() {
-                    return _Overlay._Overlay._keyboardInfo._visibleDocTop;
-                },
-
-                // Get the bottom offset for bottom appbars.
-                _getAdjustedBottom: function _LegacyAppBar_getAdjustedBottom() {
-                    // Need the distance the IHM moved as well.
-                    return _Overlay._Overlay._keyboardInfo._visibleDocBottomOffset;
-                },
-
-                _showingKeyboard: function _LegacyAppBar_showingKeyboard(event) {
-                    // Remember keyboard showing state.
-                    this._keyboardObscured = false;
-                    this._needToHandleHidingKeyboard = false;
-
-                    // If we're already moved, then ignore the whole thing
-                    if (_Overlay._Overlay._keyboardInfo._visible && this._alreadyInPlace()) {
-                        return;
-                    }
-
-                    this._needToHandleShowingKeyboard = true;
-                    // If focus is in the appbar, don't cause scrolling.
-                    if (this.opened && this._element.contains(_Global.document.activeElement)) {
-                        event.ensuredFocusedElementInView = true;
-                    }
-
-                    // Check if appbar moves or if we're ok leaving it obscured instead.
-                    if (this._visible && this._placement !== _Constants.appBarPlacementTop && _Overlay._Overlay._isFlyoutVisible()) {
-                        // Remember that we're obscured
-                        this._keyboardObscured = true;
-                    } else {
-                        // Don't be obscured, clear _scrollHappened flag to give us inference later on when to re-show ourselves.
-                        this._scrollHappened = false;
-                    }
-
-                    // Also set timeout regardless, so we can clean up our _keyboardShowing flag.
-                    var that = this;
-                    _Global.setTimeout(function (e) { that._checkKeyboardTimer(e); }, _Overlay._Overlay._keyboardInfo._animationShowLength + _Overlay._Overlay._scrollTimeout);
-                },
-
-                _hidingKeyboard: function _LegacyAppBar_hidingKeyboard() {
-                    // We'll either just reveal the current space under the IHM or restore the window height.
-
-                    // We won't be obscured
-                    this._keyboardObscured = false;
-                    this._needToHandleShowingKeyboard = false;
-                    this._needToHandleHidingKeyboard = true;
-
-                    // We'll either just reveal the current space or resize the window
-                    if (!_Overlay._Overlay._keyboardInfo._isResized) {
-                        // If we're not completely hidden, only fake hiding under keyboard, or already animating,
-                        // then snap us to our final position.
-                        if (this._visible || this._animating) {
-                            // Not resized, update our final position immediately
-                            this._checkScrollPosition();
-                            this._element.style.display = "";
-                        }
-                        this._needToHandleHidingKeyboard = false;
-                    }
-                    // Else resize should clear keyboardHiding.
-                },
-
-                _resize: function _LegacyAppBar_resize(event) {
-                    // If we're hidden by the keyboard, then hide bottom appbar so it doesn't pop up twice when it scrolls
-                    if (this._needToHandleShowingKeyboard) {
-                        // Top is allowed to scroll off the top, but we don't want bottom to peek up when
-                        // scrolled into view since we'll show it ourselves and don't want a stutter effect.
-                        if (this._visible) {
-                            if (this._placement !== _Constants.appBarPlacementTop && !this._keyboardObscured) {
-                                // If viewport doesn't match window, need to vanish momentarily so it doesn't scroll into view,
-                                // however we don't want to toggle the visibility="hidden" hidden flag.
-                                this._element.style.display = "none";
-                            }
-                        }
-                        // else if we're top we stay, and if there's a flyout, stay obscured by the keyboard.
-                    } else if (this._needToHandleHidingKeyboard) {
-                        this._needToHandleHidingKeyboard = false;
-                        if (this._visible || this._animating) {
-                            // Snap to final position
-                            this._checkScrollPosition();
-                            this._element.style.display = "";
-                        }
-                    }
-
-                    // Make sure everything still fits.
-                    if (!this._initializing) {
-                        this._layoutImpl.resize(event);
-                    }
-                },
-
-                _checkKeyboardTimer: function _LegacyAppBar_checkKeyboardTimer() {
-                    if (!this._scrollHappened) {
-                        this._mayEdgeBackIn();
-                    }
-                },
-
-                _manipulationChanged: function _LegacyAppBar_manipulationChanged(event) {
-                    // See if we're at the not manipulating state, and we had a scroll happen,
-                    // which is implicitly after the keyboard animated.
-                    if (event.currentState === 0 && this._scrollHappened) {
-                        this._mayEdgeBackIn();
-                    }
-                },
-
-                _mayEdgeBackIn: function _LegacyAppBar_mayEdgeBackIn() {
-                    // May need to react to IHM being resized event
-                    if (this._needToHandleShowingKeyboard) {
-                        // If not top appbar or viewport isn't still at top, then need to show again
-                        this._needToHandleShowingKeyboard = false;
-                        // If obscured (IHM + flyout showing), it's ok to stay obscured.
-                        // If bottom we have to move, or if top scrolled off screen.
-                        if (!this._keyboardObscured &&
-                            (this._placement !== _Constants.appBarPlacementTop || _Overlay._Overlay._keyboardInfo._visibleDocTop !== 0)) {
-                            var toPosition = this._visiblePosition;
-                            this._lastPositionVisited = displayModeVisiblePositions.hidden;
-                            this._changeVisiblePosition(toPosition, false);
-                        } else {
-                            // Ensure any animations dropped during the showing keyboard are caught up.
-                            this._checkDoNext();
-                        }
-                    }
-                    this._scrollHappened = false;
-                },
-
-                _ensurePosition: function _LegacyAppBar_ensurePosition() {
-                    // Position the _LegacyAppBar element relative to the top or bottom edge of the visible
-                    // document, based on the the visible position we think we need to be in.
-                    var offSet = this._computePositionOffset();
-                    this._element.style.bottom = offSet.bottom;
-                    this._element.style.top = offSet.top;
-
-                },
-
-                _computePositionOffset: function _LegacyAppBar_computePositionOffset() {
-                    // Calculates and returns top and bottom offsets for the _LegacyAppBar element, relative to the top or bottom edge of the visible
-                    // document.
-                    var positionOffSet = {};
-
-                    if (this._placement === _Constants.appBarPlacementBottom) {
-                        // If the IHM is open, the bottom of the visual viewport may or may not be obscured
-                        // Use _getAdjustedBottom to account for the IHM if it is covering the bottom edge.
-                        positionOffSet.bottom = this._getAdjustedBottom() + "px";
-                        positionOffSet.top = "";
-                    } else if (this._placement === _Constants.appBarPlacementTop) {
-                        positionOffSet.bottom = "";
-                        positionOffSet.top = this._getTopOfVisualViewport() + "px";
-                    }
-
-                    return positionOffSet;
-                },
-
-                _checkScrollPosition: function _LegacyAppBar_checkScrollPosition() {
-                    // If IHM has appeared, then remember we may come in
-                    if (this._needToHandleShowingKeyboard) {
-                        // Tag that it's OK to edge back in.
-                        this._scrollHappened = true;
-                        return;
-                    }
-
-                    // We only need to update if we're not completely hidden.
-                    if (this._visible || this._animating) {
-                        this._ensurePosition();
-                        // Ensure any animations dropped during the showing keyboard are caught up.
-                        this._checkDoNext();
-                    }
-                },
-
-                _alreadyInPlace: function _LegacyAppBar_alreadyInPlace() {
-                    // See if we're already where we're supposed to be.
-                    var offSet = this._computePositionOffset();
-                    return (offSet.top === this._element.style.top && offSet.bottom === this._element.style.bottom);
-                },
-
-                // If there is a shown non-sticky _LegacyAppBar then it sets the firstDiv tabIndex to
-                //   the minimum tabIndex found in the _LegacyAppBars and finalDiv to the max found.
-                // Otherwise sets their tabIndex to -1 so they are not tab stops.
-                _updateFirstAndFinalDiv: function _LegacyAppBar_updateFirstAndFinalDiv() {
-                    var appBarFirstDiv = this._element.querySelectorAll("." + _Constants.firstDivClass);
-                    appBarFirstDiv = appBarFirstDiv.length >= 1 ? appBarFirstDiv[0] : null;
-
-                    var appBarFinalDiv = this._element.querySelectorAll("." + _Constants.finalDivClass);
-                    appBarFinalDiv = appBarFinalDiv.length >= 1 ? appBarFinalDiv[0] : null;
-
-                    // Remove the firstDiv & finalDiv if they are not at the appropriate locations
-                    if (appBarFirstDiv && (this._element.children[0] !== appBarFirstDiv)) {
-                        appBarFirstDiv.parentNode.removeChild(appBarFirstDiv);
-                        appBarFirstDiv = null;
-                    }
-                    if (appBarFinalDiv && (this._element.children[this._element.children.length - 1] !== appBarFinalDiv)) {
-                        appBarFinalDiv.parentNode.removeChild(appBarFinalDiv);
-                        appBarFinalDiv = null;
-                    }
-
-                    // Create and add the firstDiv & finalDiv if they don't already exist
-                    if (!appBarFirstDiv) {
-                        // Add a firstDiv that will be the first child of the appBar.
-                        // On focus set focus to the previous appBar.
-                        // The div should only be focusable if there are shown non-sticky _LegacyAppBars.
-                        appBarFirstDiv = _Global.document.createElement("div");
-                        // display: inline is needed so that the div doesn't take up space and cause the page to scroll on focus
-                        appBarFirstDiv.style.display = "inline";
-                        appBarFirstDiv.className = _Constants.firstDivClass;
-                        appBarFirstDiv.tabIndex = -1;
-                        appBarFirstDiv.setAttribute("aria-hidden", "true");
-                        _ElementUtilities._addEventListener(appBarFirstDiv, "focusin", _setFocusToPreviousAppBar, false);
-                        // add to beginning
-                        if (this._element.children[0]) {
-                            this._element.insertBefore(appBarFirstDiv, this._element.children[0]);
-                        } else {
-                            this._element.appendChild(appBarFirstDiv);
-                        }
-                    }
-                    if (!appBarFinalDiv) {
-                        // Add a finalDiv that will be the last child of the appBar.
-                        // On focus set focus to the next appBar.
-                        // The div should only be focusable if there are shown non-sticky _LegacyAppBars.
-                        appBarFinalDiv = _Global.document.createElement("div");
-                        // display: inline is needed so that the div doesn't take up space and cause the page to scroll on focus
-                        appBarFinalDiv.style.display = "inline";
-                        appBarFinalDiv.className = _Constants.finalDivClass;
-                        appBarFinalDiv.tabIndex = -1;
-                        appBarFinalDiv.setAttribute("aria-hidden", "true");
-                        _ElementUtilities._addEventListener(appBarFinalDiv, "focusin", _setFocusToNextAppBar, false);
-                        this._element.appendChild(appBarFinalDiv);
-                    }
-
-
-                    // invokeButton should be the second to last element in the _LegacyAppBar's tab order. Second to the finalDiv.
-                    if (this._element.children[this._element.children.length - 2] !== this._invokeButton) {
-                        this._element.insertBefore(this._invokeButton, appBarFinalDiv);
-                    }
-                    var elms = this._element.getElementsByTagName("*");
-                    var highestTabIndex = _ElementUtilities._getHighestTabIndexInList(elms);
-                    this._invokeButton.tabIndex = highestTabIndex;
-
-                    // Update the tabIndex of the firstDiv & finalDiv
-                    if (_isThereVisibleNonStickyBar()) {
-
-                        if (appBarFirstDiv) {
-                            appBarFirstDiv.tabIndex = _ElementUtilities._getLowestTabIndexInList(elms);
-                        }
-                        if (appBarFinalDiv) {
-                            appBarFinalDiv.tabIndex = highestTabIndex;
-                        }
-                    } else {
-                        if (appBarFirstDiv) {
-                            appBarFirstDiv.tabIndex = -1;
-                        }
-                        if (appBarFinalDiv) {
-                            appBarFinalDiv.tabIndex = -1;
-                        }
-                    }
-                },
-
-                _writeProfilerMark: function _LegacyAppBar_writeProfilerMark(text) {
-                    _WriteProfilerMark("WinJS.UI._LegacyAppBar:" + this._id + ":" + text);
-                }
-            }, {
-                // Statics
-                _Events: EVENTS,
-
-                _appBarsSynchronizationPromise: Promise.as(),
-
-                // Returns true if the element or what had focus before the element (if a Flyout) is either:
-                //   1) the appBar or subtree
-                //   2) OR in a flyout spawned by the appBar
-                // Returns false otherwise.
-                _isWithinAppBarOrChild: function (element, appBar) {
-                    if (!element || !appBar) {
-                        return false;
-                    }
-                    if (appBar.contains(element)) {
-                        return true;
-                    }
-                    var flyout = _Overlay._Overlay._getParentControlUsingClassName(element, _Constants.flyoutClass);
-                    return (flyout && appBar.contains(flyout._previousFocus));
-                },
-
-                // Callback for _LegacyAppBar invokeButton and Edgy Event Command
-                _toggleAllAppBarsState: function (keyboardInvoked, sourceAppBar) {
-                    var bars = _getDynamicBarsForEdgy();
-
-                    var hiding;
-                    if (sourceAppBar) {
-                        // If the sourceAppBar is shown, hide all _LegacyAppBars, else show all _LegacyAppBars.
-                        hiding = _ElementUtilities.hasClass(sourceAppBar._element, _Constants.showingClass) || _ElementUtilities.hasClass(sourceAppBar._element, _Constants.shownClass);
-                    } else {
-                        // EDGY event behavior. No sourceAppBar specified.
-                        // If every _LegacyAppBar is shown, hide them. Otherwise show them all.
-                        hiding = bars._shown && !bars._hidden;
-                    }
-
-                    if (hiding) {
-                        _LegacyAppBar._appBarsSynchronizationPromise = _LegacyAppBar._appBarsSynchronizationPromise.then(function () {
-                            return _Overlay._Overlay._hideAppBars(bars, keyboardInvoked);
-                        });
-                        return "hiding";
-                    } else {
-                        _LegacyAppBar._appBarsSynchronizationPromise = _LegacyAppBar._appBarsSynchronizationPromise.then(function () {
-                            return _Overlay._Overlay._showAppBars(bars, keyboardInvoked);
-                        });
-                        return "showing";
-                    }
-                },
-            });
-
-            return _LegacyAppBar;
-        })
-    });
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
 // Menu
 /// <dictionary>Menu,Menus,Flyout,Flyouts,Statics</dictionary>
 define('WinJS/Controls/Menu',[
@@ -72536,7 +68237,7 @@ define('WinJS/Controls/Menu',[
     '../Utilities/_ElementUtilities',
     '../Utilities/_Hoverable',
     '../Utilities/_KeyboardBehavior',
-    './_LegacyAppBar/_Constants',
+    './AppBar/_Constants',
     './Flyout',
     './Flyout/_Overlay',
     './Menu/_Command'
@@ -72999,6 +68700,3531 @@ define('WinJS/Controls/Menu',[
             return Menu;
         })
     });
+});
+
+// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('WinJS/Controls/ToolBar/_MenuCommand',["require", "exports", "../Menu/_Command"], function(require, exports, _MenuCommandBase) {
+    var _MenuCommand = (function (_super) {
+        __extends(_MenuCommand, _super);
+        function _MenuCommand(isAttachedMode, element, options) {
+            if (options && options.beforeInvoke) {
+                this._beforeInvoke = options.beforeInvoke;
+            }
+            this._isAttachedMode = isAttachedMode;
+            _super.call(this, element, options);
+        }
+        _MenuCommand.prototype._invoke = function (event) {
+            this._beforeInvoke && this._beforeInvoke(event);
+            _super.prototype._invoke.call(this, event);
+        };
+        return _MenuCommand;
+    })(_MenuCommandBase.MenuCommand);
+    exports._MenuCommand = _MenuCommand;
+});
+
+
+define('require-style!less/styles-toolbar',[],function(){});
+
+define('require-style!less/colors-toolbar',[],function(){});
+define('WinJS/Controls/ToolBar/_ToolBar',["require", "exports", "../../Animations", "../../Core/_Base", "../../Core/_BaseUtils", "../../BindingList", "../../ControlProcessor", "../ToolBar/_Constants", "../AppBar/_Command", "../../Utilities/_Control", "../../Utilities/_Dispose", "../../Utilities/_ElementUtilities", "../../Core/_ErrorFromName", "../../Controls/Flyout", "../../Core/_Global", "../../Utilities/_Hoverable", "../../Utilities/_KeyboardBehavior", "../../Controls/Menu", "../Menu/_Command", "../../Core/_Resources", "../../Scheduler", "../ToolBar/_MenuCommand", "../../Core/_WriteProfilerMark"], function(require, exports, Animations, _Base, _BaseUtils, BindingList, ControlProcessor, _Constants, _Command, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Flyout, _Global, _Hoverable, _KeyboardBehavior, Menu, _MenuCommand, _Resources, Scheduler, _ToolBarMenuCommand, _WriteProfilerMark) {
+    require(["require-style!less/styles-toolbar"]);
+    require(["require-style!less/colors-toolbar"]);
+
+    "use strict";
+
+    var strings = {
+        get ariaLabel() {
+            return _Resources._getWinJSString("ui/toolbarAriaLabel").value;
+        },
+        get overflowButtonAriaLabel() {
+            return _Resources._getWinJSString("ui/toolbarOverflowButtonAriaLabel").value;
+        },
+        get badData() {
+            return "Invalid argument: The data property must an instance of a WinJS.Binding.List";
+        },
+        get mustContainCommands() {
+            return "The toolbar can only contain WinJS.UI.Command or WinJS.UI.AppBarCommand controls";
+        }
+    };
+
+    /// <field>
+    /// <summary locid="WinJS.UI.ToolBar">
+    /// Represents a toolbar for displaying commands.
+    /// </summary>
+    /// </field>
+    /// <icon src="ui_winjs.ui.toolbar.12x12.png" width="12" height="12" />
+    /// <icon src="ui_winjs.ui.toolbar.16x16.png" width="16" height="16" />
+    /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.ToolBar">
+    /// <button data-win-control="WinJS.UI.Command" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
+    /// </div>]]></htmlSnippet>
+    /// <part name="toolbar" class="win-toolbar" locid="WinJS.UI.ToolBar_part:toolbar">The entire ToolBar control.</part>
+    /// <part name="toolbar-overflowbutton" class="win-toolbar-overflowbutton" locid="WinJS.UI.ToolBar_part:ToolBar-overflowbutton">The toolbar overflow button.</part>
+    /// <part name="toolbar-overflowarea" class="win-toolbar-overflowarea" locid="WinJS.UI.ToolBar_part:ToolBar-overflowarea">The container for toolbar commands that overflow.</part>
+    /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
+    /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
+    var ToolBar = (function () {
+        function ToolBar(element, options) {
+            if (typeof options === "undefined") { options = {}; }
+            var _this = this;
+            this._measured = false;
+            this._initializing = true;
+            this._hoverable = _Hoverable.isHoverable;
+            this._dataChangedEvents = ["itemchanged", "iteminserted", "itemmoved", "itemremoved", "reload"];
+            /// <signature helpKeyword="WinJS.UI.ToolBar.ToolBar">
+            /// <summary locid="WinJS.UI.ToolBar.constructor">
+            /// Creates a new ToolBar control.
+            /// </summary>
+            /// <param name="element" type="HTMLElement" domElement="true" locid="WinJS.UI.ToolBar.constructor_p:element">
+            /// The DOM element that will host the control.
+            /// </param>
+            /// <param name="options" type="Object" locid="WinJS.UI.ToolBar.constructor_p:options">
+            /// The set of properties and values to apply to the new ToolBar control.
+            /// </param>
+            /// <returns type="WinJS.UI.ToolBar" locid="WinJS.UI.ToolBar.constructor_returnValue">
+            /// The new ToolBar control.
+            /// </returns>
+            /// </signature>
+            // Make sure there's an element
+            this._element = element || _Global.document.createElement("div");
+
+            // Attaching JS control to DOM element
+            this._element["winControl"] = this;
+
+            this._id = this._element.id || _ElementUtilities._uniqueID(this._element);
+            this._writeProfilerMark("constructor,StartTM");
+
+            if (!this._element.hasAttribute("tabIndex")) {
+                this._element.tabIndex = -1;
+            }
+
+            // Attach our css class.
+            _ElementUtilities.addClass(this._element, _Constants.controlCssClass);
+
+            this._disposed = false;
+            _ElementUtilities.addClass(this._element, "win-disposable");
+
+            // Make sure we have an ARIA role
+            var role = this._element.getAttribute("role");
+            if (!role) {
+                this._element.setAttribute("role", "menubar");
+            }
+
+            var label = this._element.getAttribute("aria-label");
+            if (!label) {
+                this._element.setAttribute("aria-label", strings.ariaLabel);
+            }
+
+            this._customContentCommandsWidth = {};
+            this._separatorWidth = 0;
+            this._standardCommandWidth = 0;
+
+            this._refreshBound = this._refresh.bind(this);
+
+            this._setupTree();
+
+            if (!options.data || !options.shownDisplayMode) {
+                // Shallow copy object so we can modify it.
+                options = _BaseUtils._shallowCopy(options);
+
+                // Set defaults
+                options.data = options.data || this._getDataFromDOMElements();
+                options.shownDisplayMode = options.shownDisplayMode || _Constants.shownDisplayModes.reduced;
+            }
+
+            _Control.setOptions(this, options);
+
+            this._resizeHandlerBound = this._resizeHandler.bind(this);
+            _ElementUtilities._resizeNotifier.subscribe(this._element, this._resizeHandlerBound);
+
+            var initiallyParented = _Global.document.body.contains(this._element);
+            _ElementUtilities._addInsertedNotifier(this._element);
+            if (initiallyParented) {
+                this._measureCommands();
+                this._positionCommands();
+            } else {
+                var nodeInsertedHandler = function () {
+                    _this._writeProfilerMark("_setupTree_WinJSNodeInserted:initiallyParented:" + initiallyParented + ",info");
+                    _this._element.removeEventListener("WinJSNodeInserted", nodeInsertedHandler, false);
+                    _this._measureCommands();
+                    _this._positionCommands();
+                };
+                this._element.addEventListener("WinJSNodeInserted", nodeInsertedHandler, false);
+            }
+
+            this.element.addEventListener('keydown', this._keyDownHandler.bind(this));
+            this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this.element);
+
+            this._initializing = false;
+
+            this._writeProfilerMark("constructor,StopTM");
+
+            return this;
+        }
+        Object.defineProperty(ToolBar.prototype, "element", {
+            /// <field type="HTMLElement" domElement="true" hidden="true" locid="WinJS.UI.ToolBar.element" helpKeyword="WinJS.UI.ToolBar.element">
+            /// Gets the DOM element that hosts the ToolBar.
+            /// </field>
+            get: function () {
+                return this._element;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(ToolBar.prototype, "shownDisplayMode", {
+            /// <field type="String" defaultValue="reduced" locid="WinJS.UI.ToolBar.shownDisplayMode" helpKeyword="WinJS.UI.ToolBar.shownDisplayMode" isAdvanced="true">
+            /// Gets/Sets how ToolBar will display overflow commands while shown. Values are "reduced" and "full".
+            /// </field>
+            get: function () {
+                return this._shownDisplayMode;
+            },
+            set: function (value) {
+                this._writeProfilerMark("set_shownDisplayMode,info");
+
+                if (value === this._shownDisplayMode) {
+                    return;
+                }
+
+                if (value === _Constants.shownDisplayModes.full) {
+                    this._shownDisplayMode = _Constants.shownDisplayModes.full;
+                    _ElementUtilities.addClass(this.element, _Constants.shownDisplayFullCssClass);
+                    _ElementUtilities.removeClass(this.element, _Constants.shownDisplayReducedCssClass);
+                    if (!this._inlineOverflowArea) {
+                        this._inlineOverflowArea = _Global.document.createElement("div");
+                        _ElementUtilities.addClass(this._inlineOverflowArea, _Constants.overflowAreaCssClass);
+                        _ElementUtilities.addClass(this._inlineOverflowArea, _Constants.menuCssClass);
+                        this.element.appendChild(this._inlineOverflowArea);
+                    }
+                } else {
+                    // 'reduced' is default
+                    this._shownDisplayMode = _Constants.shownDisplayModes.reduced;
+                    _ElementUtilities.addClass(this.element, _Constants.shownDisplayReducedCssClass);
+                    _ElementUtilities.removeClass(this.element, _Constants.shownDisplayFullCssClass);
+                }
+                if (!this._initializing) {
+                    this._positionCommands();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(ToolBar.prototype, "extraClass", {
+            /// <field type="String" locid="WinJS.UI.ToolBar.extraClass" helpKeyword="WinJS.UI.ToolBar.extraClass">
+            /// Gets or sets the extra CSS class that is applied to the host DOM element, and the corresponding
+            /// overflow menu created by the ToolBar when its shownDisplayMode property is 'reduced'.
+            /// </field>
+            get: function () {
+                return this._extraClass;
+            },
+            set: function (value) {
+                this._writeProfilerMark("set_extraClass,info");
+
+                if (this._extraClass) {
+                    _ElementUtilities.removeClass(this._element, this._extraClass);
+                    this._menu && _ElementUtilities.removeClass(this._menu.element, this._extraClass);
+                }
+
+                this._extraClass = value;
+                _ElementUtilities.addClass(this._element, this._extraClass);
+                this._menu && _ElementUtilities.addClass(this._menu.element, this.extraClass);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(ToolBar.prototype, "data", {
+            /// <field type="WinJS.Binding.List" locid="WinJS.UI.ToolBar.data" helpKeyword="WinJS.UI.ToolBar.data">
+            /// Gets or sets the Binding List of WinJS.UI.Command for the ToolBar.
+            /// </field>
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._writeProfilerMark("set_data,info");
+
+                if (value === this.data) {
+                    return;
+                }
+                if (!(value instanceof BindingList.List)) {
+                    throw new _ErrorFromName("WinJS.UI.ToolBar.BadData", strings.badData);
+                }
+
+                if (this._data) {
+                    this._removeDataListeners();
+                }
+                this._data = value;
+                this._addDataListeners();
+                this._dataUpdated();
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        ToolBar.prototype.dispose = function () {
+            /// <signature helpKeyword="WinJS.UI.ToolBar.dispose">
+            /// <summary locid="WinJS.UI.ToolBar.dispose">
+            /// Disposes this ToolBar.
+            /// </summary>
+            /// </signature>
+            if (this._disposed) {
+                return;
+            }
+
+            _ElementUtilities._resizeNotifier.unsubscribe(this._element, this._resizeHandlerBound);
+
+            if (this._customContentFlyout) {
+                this._customContentFlyout.dispose();
+                this._customContentFlyout.element.parentNode.removeChild(this._customContentFlyout.element);
+            }
+
+            if (this._menu) {
+                this._menu.dispose();
+                this._menu.element.parentNode.removeChild(this._menu.element);
+            }
+
+            _Dispose.disposeSubTree(this.element);
+            this._disposed = true;
+        };
+
+        ToolBar.prototype.forceLayout = function () {
+            /// <signature helpKeyword="WinJS.UI.ToolBar.forceLayout">
+            /// <summary locid="WinJS.UI.ToolBar.forceLayout">
+            /// Forces the ToolBar to update its layout. Use this function when the window did not change size, but the container of the ToolBar changed size.
+            /// </summary>
+            /// </signature>
+            this._measureCommands();
+            this._positionCommands();
+        };
+
+        ToolBar.prototype._writeProfilerMark = function (text) {
+            _WriteProfilerMark("WinJS.UI.ToolBar:" + this._id + ":" + text);
+        };
+
+        ToolBar.prototype._setupTree = function () {
+            var _this = this;
+            this._writeProfilerMark("_setupTree,info");
+
+            this._primaryCommands = [];
+            this._secondaryCommands = [];
+
+            this._mainActionArea = _Global.document.createElement("div");
+            _ElementUtilities.addClass(this._mainActionArea, _Constants.actionAreaCssClass);
+            _ElementUtilities._reparentChildren(this.element, this._mainActionArea);
+            this.element.appendChild(this._mainActionArea);
+
+            this._spacer = _Global.document.createElement("div");
+            _ElementUtilities.addClass(this._spacer, _Constants.spacerCssClass);
+            this._mainActionArea.appendChild(this._spacer);
+
+            this._overflowButton = _Global.document.createElement("button");
+            this._overflowButton.tabIndex = 0;
+            this._overflowButton.innerHTML = "<span class='" + _Constants.ellipsisCssClass + "'></span>";
+            _ElementUtilities.addClass(this._overflowButton, _Constants.overflowButtonCssClass);
+            this._mainActionArea.appendChild(this._overflowButton);
+            this._overflowButton.addEventListener("click", function () {
+                if (_this._menu) {
+                    var isRTL = _Global.getComputedStyle(_this._element).direction === 'rtl';
+                    _this._menu.show(_this._overflowButton, "autovertical", isRTL ? "left" : "right");
+                }
+            });
+            this._overflowButtonWidth = _ElementUtilities.getTotalWidth(this._overflowButton);
+            _ElementUtilities.addClass(this.element, _Constants.shownDisplayReducedCssClass);
+        };
+
+        ToolBar.prototype._getFocusableElementsInfo = function () {
+            var _this = this;
+            var focusableCommandsInfo = {
+                elements: [],
+                focusedIndex: -1
+            };
+            var elementsInReach = Array.prototype.slice.call(this._mainActionArea.children);
+            if (this.shownDisplayMode === _Constants.shownDisplayModes.full && _Global.getComputedStyle(this._inlineOverflowArea).visibility !== "hidden") {
+                elementsInReach = elementsInReach.concat(Array.prototype.slice.call(this._inlineOverflowArea.children));
+            }
+
+            elementsInReach.forEach(function (element) {
+                if (_this._isElementFocusable(element)) {
+                    focusableCommandsInfo.elements.push(element);
+                    if (element.contains(_Global.document.activeElement)) {
+                        focusableCommandsInfo.focusedIndex = focusableCommandsInfo.elements.length - 1;
+                    }
+                }
+            });
+
+            return focusableCommandsInfo;
+        };
+
+        ToolBar.prototype._dataUpdated = function () {
+            var _this = this;
+            this._writeProfilerMark("_dataUpdated,info");
+
+            var changeInfo = this._getDataChangeInfo();
+
+            // Take a snapshot of the current state
+            var updateCommandAnimation = Animations._createUpdateListAnimation(changeInfo.addedElements, changeInfo.deletedElements, changeInfo.currentElements);
+
+            // Remove deleted elements
+            changeInfo.deletedElements.forEach(function (element) {
+                if (element.parentElement) {
+                    element.parentElement.removeChild(element);
+                }
+            });
+
+            // Add elements in the right order
+            changeInfo.dataElements.forEach(function (element) {
+                _this._mainActionArea.appendChild(element);
+            });
+
+            if (this._overflowButton) {
+                // Ensure that the overflow button is the last element in the main action area
+                this._mainActionArea.appendChild(this._overflowButton);
+            }
+
+            this._primaryCommands = [];
+            this._secondaryCommands = [];
+
+            if (this.data.length > 0) {
+                _ElementUtilities.removeClass(this.element, _Constants.emptyToolBarCssClass);
+                this.data.forEach(function (command) {
+                    if (command.section === "secondary") {
+                        _this._secondaryCommands.push(command);
+                    } else {
+                        _this._primaryCommands.push(command);
+                    }
+                });
+
+                if (!this._initializing) {
+                    this._measureCommands();
+                    this._positionCommands();
+                }
+            } else {
+                this._setupOverflowArea([]);
+                _ElementUtilities.addClass(this.element, _Constants.emptyToolBarCssClass);
+            }
+
+            // Execute the animation.
+            updateCommandAnimation.execute();
+        };
+
+        ToolBar.prototype._getDataChangeInfo = function () {
+            var child;
+            var i = 0, len = 0;
+            var dataElements = [];
+            var deletedElements = [];
+            var addedElements = [];
+            var currentElements = [];
+
+            for (i = 0, len = this.data.length; i < len; i++) {
+                dataElements.push(this.data.getAt(i).element);
+            }
+
+            for (i = 0, len = this._mainActionArea.children.length; i < len; i++) {
+                child = this._mainActionArea.children[i];
+                if (child.style.display !== "none" || (child["winControl"] && child["winControl"].section === "secondary")) {
+                    currentElements.push(child);
+                    if (dataElements.indexOf(child) === -1 && child !== this._overflowButton && child !== this._spacer) {
+                        deletedElements.push(child);
+                    }
+                }
+            }
+
+            dataElements.forEach(function (element) {
+                if (deletedElements.indexOf(element) === -1 && currentElements.indexOf(element) === -1) {
+                    addedElements.push(element);
+                }
+            });
+
+            return {
+                dataElements: dataElements,
+                deletedElements: deletedElements,
+                addedElements: addedElements,
+                currentElements: currentElements
+            };
+        };
+
+        ToolBar.prototype._refresh = function () {
+            var _this = this;
+            if (!this._refreshPending) {
+                this._refreshPending = true;
+
+                // Batch calls to _dataUpdated
+                Scheduler.schedule(function () {
+                    if (_this._refreshPending && !_this._disposed) {
+                        _this._dataUpdated();
+                        _this._refreshPending = false;
+                    }
+                }, Scheduler.Priority.high, null, "WinJS.UI.ToolBar._refresh");
+            }
+        };
+
+        ToolBar.prototype._addDataListeners = function () {
+            var _this = this;
+            this._dataChangedEvents.forEach(function (eventName) {
+                _this._data.addEventListener(eventName, _this._refreshBound, false);
+            });
+        };
+
+        ToolBar.prototype._removeDataListeners = function () {
+            var _this = this;
+            this._dataChangedEvents.forEach(function (eventName) {
+                _this._data.removeEventListener(eventName, _this._refreshBound, false);
+            });
+        };
+
+        ToolBar.prototype._isElementFocusable = function (element) {
+            var focusable = false;
+            if (element) {
+                var command = element["winControl"];
+                if (command) {
+                    focusable = command.element.style.display !== "none" && command.type !== _Constants.typeSeparator && !command.hidden && !command.disabled && (!command.firstElementFocus || command.firstElementFocus.tabIndex >= 0 || command.lastElementFocus.tabIndex >= 0);
+                } else {
+                    // e.g. the overflow button
+                    focusable = element.style.display !== "none" && getComputedStyle(element).visibility !== "hidden" && element.tabIndex >= 0;
+                }
+            }
+            return focusable;
+        };
+
+        ToolBar.prototype._isMainActionCommand = function (element) {
+            // Returns true if the element is a command in the main action area, false otherwise
+            return element && element["winControl"] && element.parentElement === this._mainActionArea;
+        };
+
+        ToolBar.prototype._getLastElementFocus = function (element) {
+            if (this._isMainActionCommand(element)) {
+                // Only commands in the main action area support lastElementFocus
+                return element["winControl"].lastElementFocus;
+            } else {
+                return element;
+            }
+        };
+
+        ToolBar.prototype._getFirstElementFocus = function (element) {
+            if (this._isMainActionCommand(element)) {
+                // Only commands in the main action area support firstElementFocus
+                return element["winControl"].firstElementFocus;
+            } else {
+                return element;
+            }
+        };
+
+        ToolBar.prototype._keyDownHandler = function (ev) {
+            if (!ev.altKey) {
+                if (_ElementUtilities._matchesSelector(ev.target, ".win-interactive, .win-interactive *")) {
+                    return;
+                }
+                var Key = _ElementUtilities.Key;
+                var rtl = _Global.getComputedStyle(this._element).direction === "rtl";
+                var focusableElementsInfo = this._getFocusableElementsInfo();
+                var targetCommand;
+
+                if (focusableElementsInfo.elements.length) {
+                    switch (ev.keyCode) {
+                        case (rtl ? Key.rightArrow : Key.leftArrow):
+                        case Key.upArrow:
+                            var index = Math.max(0, focusableElementsInfo.focusedIndex - 1);
+                            targetCommand = this._getLastElementFocus(focusableElementsInfo.elements[index % focusableElementsInfo.elements.length]);
+                            break;
+
+                        case (rtl ? Key.leftArrow : Key.rightArrow):
+                        case Key.downArrow:
+                            var index = Math.min(focusableElementsInfo.focusedIndex + 1, focusableElementsInfo.elements.length - 1);
+                            targetCommand = this._getFirstElementFocus(focusableElementsInfo.elements[index]);
+                            break;
+
+                        case Key.home:
+                            var index = 0;
+                            targetCommand = this._getFirstElementFocus(focusableElementsInfo.elements[index]);
+                            break;
+
+                        case Key.end:
+                            var index = focusableElementsInfo.elements.length - 1;
+                            if (this.shownDisplayMode === _Constants.shownDisplayModes.reduced && this._isElementFocusable(this._overflowButton)) {
+                                // In detached mode, the end key goes to the last command, not the overflow button,
+                                // which is the last element when it is visible.
+                                index = Math.max(0, index - 1);
+                            }
+                            targetCommand = this._getLastElementFocus(focusableElementsInfo.elements[index]);
+                            break;
+                    }
+                }
+
+                if (targetCommand && targetCommand !== _Global.document.activeElement) {
+                    targetCommand.focus();
+                    ev.preventDefault();
+                }
+            }
+        };
+
+        ToolBar.prototype._getDataFromDOMElements = function () {
+            this._writeProfilerMark("_getDataFromDOMElements,info");
+
+            ControlProcessor.processAll(this._mainActionArea, true);
+
+            var commands = [];
+            var childrenLength = this._mainActionArea.children.length;
+            var child;
+            for (var i = 0; i < childrenLength; i++) {
+                child = this._mainActionArea.children[i];
+                if (child["winControl"] && child["winControl"] instanceof _Command.AppBarCommand) {
+                    commands.push(child["winControl"]);
+                } else if (!this._overflowButton) {
+                    throw new _ErrorFromName("WinJS.UI.ToolBar.MustContainCommands", strings.mustContainCommands);
+                }
+            }
+            return new BindingList.List(commands);
+        };
+
+        ToolBar.prototype._resizeHandler = function () {
+            if (this.element.offsetWidth > 0) {
+                this._measureCommands(true);
+                this._positionCommands();
+            }
+        };
+
+        ToolBar.prototype._commandUniqueId = function (command) {
+            return _ElementUtilities._uniqueID(command.element);
+        };
+
+        ToolBar.prototype._getCommandsInfo = function () {
+            var width = 0;
+            var commands = [];
+            var priority = 0;
+            var currentAssignedPriority = 0;
+
+            for (var i = this._primaryCommands.length - 1; i >= 0; i--) {
+                var command = this._primaryCommands[i];
+                if (command.priority === undefined) {
+                    priority = currentAssignedPriority--;
+                } else {
+                    priority = command.priority;
+                }
+                width = (command.element.style.display === "none" ? 0 : this._getCommandWidth(command));
+
+                commands.unshift({
+                    command: command,
+                    width: width,
+                    priority: priority
+                });
+            }
+
+            return commands;
+        };
+
+        ToolBar.prototype._getPrimaryCommandsLocation = function (mainActionWidth) {
+            this._writeProfilerMark("_getCommandsLocation,info");
+
+            var mainActionCommands = [];
+            var overflowCommands = [];
+            var spaceLeft = mainActionWidth;
+            var overflowButtonSpace = 0;
+            var hasSecondaryCommands = this._secondaryCommands.length > 0;
+
+            var commandsInfo = this._getCommandsInfo();
+            var sortedCommandsInfo = commandsInfo.slice(0).sort(function (commandInfo1, commandInfo2) {
+                return commandInfo1.priority - commandInfo2.priority;
+            });
+
+            var maxPriority = Number.MAX_VALUE;
+            var availableWidth = mainActionWidth;
+
+            for (var i = 0, len = sortedCommandsInfo.length; i < len; i++) {
+                availableWidth -= sortedCommandsInfo[i].width;
+
+                // The overflow button needs space if there are secondary commands, shownDisplayMode is 'full',
+                // or we are not evaluating the last command.
+                overflowButtonSpace = (this.shownDisplayMode === _Constants.shownDisplayModes.full || hasSecondaryCommands || (i < len - 1) ? this._overflowButtonWidth : 0);
+
+                if (availableWidth - overflowButtonSpace < 0) {
+                    maxPriority = sortedCommandsInfo[i].priority - 1;
+                    break;
+                }
+            }
+
+            commandsInfo.forEach(function (commandInfo) {
+                if (commandInfo.priority <= maxPriority) {
+                    mainActionCommands.push(commandInfo.command);
+                } else {
+                    overflowCommands.push(commandInfo.command);
+                }
+            });
+
+            return {
+                mainArea: mainActionCommands,
+                overflowArea: overflowCommands
+            };
+        };
+
+        ToolBar.prototype._getCommandWidth = function (command) {
+            if (command.type === _Constants.typeContent) {
+                return this._customContentCommandsWidth[this._commandUniqueId(command)];
+            } else if (command.type === _Constants.typeSeparator) {
+                return this._separatorWidth;
+            } else {
+                return this._standardCommandWidth;
+            }
+        };
+
+        ToolBar.prototype._measureCommands = function (skipIfMeasured) {
+            var _this = this;
+            if (typeof skipIfMeasured === "undefined") { skipIfMeasured = false; }
+            this._writeProfilerMark("_measureCommands,info");
+
+            if (this._disposed || !_Global.document.body.contains(this._element) || this.element.offsetWidth === 0) {
+                return;
+            }
+
+            if (!skipIfMeasured) {
+                this._customContentCommandsWidth = {};
+                this._separatorWidth = 0;
+                this._standardCommandWidth = 0;
+            }
+            this._primaryCommands.forEach(function (command) {
+                if (!command.element.parentElement) {
+                    _this._mainActionArea.appendChild(command.element);
+                }
+
+                // Ensure that the element we are measuring does not have display: none (e.g. it was just added, and it
+                // will be animated in)
+                var originalDisplayStyle = command.element.style.display;
+                command.element.style.display = "";
+
+                if (command.type === _Constants.typeContent && !_this._customContentCommandsWidth[_this._commandUniqueId(command)]) {
+                    _this._customContentCommandsWidth[_this._commandUniqueId(command)] = _ElementUtilities.getTotalWidth(command.element);
+                } else if (command.type === _Constants.typeSeparator) {
+                    if (!_this._separatorWidth) {
+                        _this._separatorWidth = _ElementUtilities.getTotalWidth(command.element);
+                    }
+                } else {
+                    // Button, toggle, flyout command types have the same width
+                    if (!_this._standardCommandWidth) {
+                        _this._standardCommandWidth = _ElementUtilities.getTotalWidth(command.element);
+                    }
+                }
+
+                // Restore the original display style
+                command.element.style.display = originalDisplayStyle;
+            });
+
+            if (this._overflowButton && !this._overflowButtonWidth) {
+                this._overflowButtonWidth = _ElementUtilities.getTotalWidth(this._overflowButton);
+            }
+
+            this._measured = true;
+        };
+
+        ToolBar.prototype._positionCommands = function () {
+            this._writeProfilerMark("_positionCommands,StartTM");
+
+            if (this._disposed || !this._measured) {
+                this._writeProfilerMark("_positionCommands,StopTM");
+                return;
+            }
+
+            if (this._overflowButton) {
+                // Ensure that the overflow button is the last element in the main action area
+                this._mainActionArea.appendChild(this._overflowButton);
+            }
+
+            this._primaryCommands.forEach(function (command) {
+                command.element.style.display = (command.hidden ? "none" : "");
+            });
+
+            var mainActionWidth = _ElementUtilities.getContentWidth(this.element);
+
+            var commandsLocation = this._getPrimaryCommandsLocation(mainActionWidth);
+
+            this._hideSeparatorsIfNeeded(commandsLocation.mainArea);
+
+            // Primary commands that will be mirrored in the overflow area should be hidden so
+            // that they are not visible in the main action area.
+            commandsLocation.overflowArea.forEach(function (command) {
+                command.element.style.display = "none";
+            });
+
+            // The secondary commands in the the main action area should be hidden since they are always
+            // mirrored as new elements in the overflow area.
+            this._secondaryCommands.forEach(function (command) {
+                command.element.style.display = "none";
+            });
+
+            this._setupOverflowArea(commandsLocation.overflowArea);
+
+            this._writeProfilerMark("_positionCommands,StopTM");
+        };
+
+        ToolBar.prototype._getMenuCommand = function (command) {
+            var _this = this;
+            var menuCommand = new _ToolBarMenuCommand._MenuCommand(this.shownDisplayMode === _Constants.shownDisplayModes.full, null, {
+                label: command.label,
+                type: (command.type === _Constants.typeContent ? _Constants.typeFlyout : command.type) || _Constants.typeButton,
+                disabled: command.disabled,
+                flyout: command.flyout,
+                beforeInvoke: function () {
+                    // Save the command that was selected
+                    _this._chosenCommand = (menuCommand["_originalToolBarCommand"]);
+
+                    // If this WinJS.UI.MenuCommand has type: toggle, we should also toggle the value of the original WinJS.UI.Command
+                    if (_this._chosenCommand.type === _Constants.typeToggle) {
+                        _this._chosenCommand.selected = !_this._chosenCommand.selected;
+                    }
+                }
+            });
+
+            if (command.selected) {
+                menuCommand.selected = true;
+            }
+
+            if (command.extraClass) {
+                menuCommand.extraClass = command.extraClass;
+            }
+
+            if (command.type === _Constants.typeContent) {
+                if (!menuCommand.label) {
+                    menuCommand.label = _Constants.contentMenuCommandDefaultLabel;
+                }
+                menuCommand.flyout = this._customContentFlyout;
+            } else {
+                menuCommand.onclick = command.onclick;
+            }
+            menuCommand["_originalToolBarCommand"] = command;
+            return menuCommand;
+        };
+
+        ToolBar.prototype._setupOverflowArea = function (additionalCommands) {
+            var _this = this;
+            // Set up custom flyout for "content" typed commands in the overflow area.
+            var isCustomContent = function (command) {
+                return command.type === _Constants.typeContent;
+            };
+            var hasCustomContent = additionalCommands.some(isCustomContent) || this._secondaryCommands.filter(isCustomContent);
+
+            if (hasCustomContent && !this._customContentFlyout) {
+                var mainFlyout = _Global.document.createElement("div");
+                this._customContentContainer = _Global.document.createElement("div");
+                _ElementUtilities.addClass(this._customContentContainer, _Constants.overflowContentFlyoutCssClass);
+                mainFlyout.appendChild(this._customContentContainer);
+                this._customContentFlyout = new _Flyout.Flyout(mainFlyout);
+                _Global.document.body.appendChild(this._customContentFlyout.element);
+                this._customContentFlyout.onbeforeshow = function () {
+                    _ElementUtilities.empty(_this._customContentContainer);
+                    _ElementUtilities._reparentChildren(_this._chosenCommand.element, _this._customContentContainer);
+                };
+                this._customContentFlyout.onafterhide = function () {
+                    _ElementUtilities._reparentChildren(_this._customContentContainer, _this._chosenCommand.element);
+                };
+            }
+
+            if (this.shownDisplayMode === _Constants.shownDisplayModes.full) {
+                // Inline menu mode always has the overflow button hidden
+                this._overflowButton.style.display = "";
+
+                this._setupOverflowAreaInline(additionalCommands);
+            } else {
+                var showOverflowButton = (additionalCommands.length > 0 || this._secondaryCommands.length > 0);
+                this._overflowButton.style.display = showOverflowButton ? "" : "none";
+
+                this._setupOverflowAreaDetached(additionalCommands);
+            }
+        };
+
+        ToolBar.prototype._setupOverflowAreaInline = function (additionalCommands) {
+            var _this = this;
+            this._writeProfilerMark("_setupOverflowAreaInline,info");
+
+            var hasToggleCommands = false, hasFlyoutCommands = false;
+
+            _ElementUtilities.empty(this._inlineOverflowArea);
+
+            this._hideSeparatorsIfNeeded(additionalCommands);
+
+            // Add primary commands that should overflow
+            additionalCommands.forEach(function (command) {
+                if (command.type === _Constants.typeToggle) {
+                    hasToggleCommands = true;
+                }
+                if (command.type === _Constants.typeFlyout) {
+                    hasFlyoutCommands = true;
+                }
+
+                _this._inlineOverflowArea.appendChild(_this._getMenuCommand(command).element);
+            });
+
+            // Add separator between primary and secondary command if applicable
+            var secondaryCommandsLength = this._secondaryCommands.length;
+            if (additionalCommands.length > 0 && secondaryCommandsLength > 0) {
+                var separator = new _ToolBarMenuCommand._MenuCommand(this.shownDisplayMode === _Constants.shownDisplayModes.full, null, {
+                    type: _Constants.typeSeparator
+                });
+                this._inlineOverflowArea.appendChild(separator.element);
+            }
+
+            this._hideSeparatorsIfNeeded(this._secondaryCommands);
+
+            // Add secondary commands
+            this._secondaryCommands.forEach(function (command) {
+                if (!command.hidden) {
+                    if (command.type === _Constants.typeToggle) {
+                        hasToggleCommands = true;
+                    }
+                    if (command.type === _Constants.typeFlyout) {
+                        hasFlyoutCommands = true;
+                    }
+                    _this._inlineOverflowArea.appendChild(_this._getMenuCommand(command).element);
+                }
+            });
+
+            _ElementUtilities[hasToggleCommands ? "addClass" : "removeClass"](this._inlineOverflowArea, _Constants.menuContainsToggleCommandClass);
+            _ElementUtilities[hasFlyoutCommands ? "addClass" : "removeClass"](this._inlineOverflowArea, _Constants.menuContainsFlyoutCommandClass);
+        };
+
+        ToolBar.prototype._setupOverflowAreaDetached = function (additionalCommands) {
+            var _this = this;
+            this._writeProfilerMark("_setupOverflowAreaDetached,info");
+
+            if (!this._menu) {
+                this._menu = new Menu.Menu();
+                _ElementUtilities.addClass(this._menu.element, _Constants.overflowAreaCssClass);
+                this.extraClass && _ElementUtilities.addClass(this._menu.element, this.extraClass);
+                _Global.document.body.appendChild(this._menu.element);
+            }
+
+            var menuCommands = [];
+
+            // Add primary commands that should overflow to the menu commands
+            additionalCommands.forEach(function (command) {
+                menuCommands.push(_this._getMenuCommand(command));
+            });
+
+            // Add separator between primary and secondary command if applicable
+            if (additionalCommands.length > 0 && this._secondaryCommands.length > 0) {
+                menuCommands.push(new _MenuCommand.MenuCommand(null, {
+                    type: _Constants.typeSeparator
+                }));
+            }
+
+            // Add secondary commands to the menu commands
+            this._secondaryCommands.forEach(function (command) {
+                if (!command.hidden) {
+                    menuCommands.push(_this._getMenuCommand(command));
+                }
+            });
+
+            this._hideSeparatorsIfNeeded(menuCommands);
+
+            // Set the menu commands
+            this._menu.commands = menuCommands;
+        };
+
+        ToolBar.prototype._hideSeparatorsIfNeeded = function (commands) {
+            var prevType = _Constants.typeSeparator;
+            var command;
+
+            // Hide all leading or consecutive separators
+            var commandsLength = commands.length;
+            commands.forEach(function (command) {
+                if (command.type === _Constants.typeSeparator && prevType === _Constants.typeSeparator) {
+                    command.element.style.display = "none";
+                }
+                prevType = command.type;
+            });
+
+            for (var i = commandsLength - 1; i >= 0; i--) {
+                command = commands[i];
+                if (command.type === _Constants.typeSeparator) {
+                    command.element.style.display = "none";
+                } else {
+                    break;
+                }
+            }
+        };
+
+        ToolBar.supportedForProcessing = true;
+        return ToolBar;
+    })();
+    exports.ToolBar = ToolBar;
+
+    // addEventListener, removeEventListener, dispatchEvent
+    _Base.Class.mix(ToolBar, _Control.DOMEventMixin);
+});
+
+// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
+/// <reference path="../../../../typings/require.d.ts" />
+define('WinJS/Controls/ToolBar',["require", "exports", '../Core/_Base'], function(require, exports, _Base) {
+    var module = null;
+
+    function getModule() {
+        if (!module) {
+            require(["./ToolBar/_ToolBar"], function (m) {
+                module = m;
+            });
+        }
+        return module.ToolBar;
+    }
+
+    _Base.Namespace.define("WinJS.UI", {
+        ToolBar: {
+            get: getModule
+        }
+    });
+
+    var publicMembers = Object.create({}, {
+        ToolBar: {
+            get: function () {
+                return getModule();
+            }
+        }
+    });
+
+    
+    return publicMembers;
+});
+
+// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
+define('WinJS/Controls/AppBar/_Layouts',[
+    'exports',
+    '../../Animations/_TransitionAnimation',
+    '../../BindingList',
+    '../../Core/_BaseUtils',
+    '../../Core/_Global',
+    '../../Core/_Base',
+    '../../Core/_ErrorFromName',
+    '../../Core/_Resources',
+    '../../Core/_WriteProfilerMark',
+    '../../Controls/ToolBar',
+    '../../Controls/ToolBar/_Constants',
+    '../../Promise',
+    '../../Scheduler',
+    '../../Utilities/_Control',
+    '../../Utilities/_Dispose',
+    '../../Utilities/_ElementUtilities',
+    './_Command',
+    './_Constants'
+], function appBarLayoutsInit(exports, _TransitionAnimation, BindingList, _BaseUtils, _Global, _Base, _ErrorFromName, _Resources, _WriteProfilerMark, ToolBar, _ToolBarConstants, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Command, _Constants) {
+    "use strict";
+
+    // AppBar will use this when AppBar.layout property is set to "custom"
+    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
+        _AppBarBaseLayout: _Base.Namespace._lazy(function () {
+            var baseType = _Constants.appBarLayoutCustom;
+
+            var strings = {
+                get nullCommand() { return "Invalid argument: command must not be null"; }
+            };
+            
+            var _AppBarBaseLayout = _Base.Class.define(function _AppBarBaseLayout_ctor(appBarEl, options) {
+                this._disposed = false;
+
+                options = options || {};
+                _Control.setOptions(this, options);
+
+                if (appBarEl) {
+                    this.connect(appBarEl);
+                }
+            }, {
+                // Members
+                className: {
+                    get: function _AppBarBaseLayout_get_className() {
+                        return this._className;
+                    },
+                },
+                type: {
+                    get: function _AppBarBaseLayout_get_className() {
+                        return this._type || baseType;
+                    },
+                },
+                commandsInOrder: {
+                    get: function _AppBarBaseLayout_get_commandsInOrder() {
+                        // Get a DOM ordered collection of the AppBarCommand elements in the AppBar.
+                        var commandElements = this.appBarEl.querySelectorAll("." + _Constants.appBarCommandClass);
+
+                        // Return an array of AppBarCommand objects.
+                        return Array.prototype.map.call(commandElements, function (commandElement) {
+                            return commandElement.winControl;
+                        });
+                    }
+                },
+                connect: function _AppBarBaseLayout_connect(appBarEl) {
+                    if (this.className) {
+                        _ElementUtilities.addClass(appBarEl, this.className);
+                    }
+                    this.appBarEl = appBarEl;
+                },
+                disconnect: function _AppBarBaseLayout_disconnect() {
+                    if (this.className) {
+                        _ElementUtilities.removeClass(this.appBarEl, this.className);
+                    }
+                    this.appBarEl = null;
+                    this.dispose();
+                },
+                layout: function _AppBarBaseLayout_layout(commands) {
+                    // Append commands to the DOM.
+                    var len = commands.length;
+                    for (var i = 0; i < len; i++) {
+                        var command = this.sanitizeCommand(commands[i]);
+                        this.appBarEl.appendChild(command._element);
+                    }
+                },
+                showCommands: function _AppBarBaseLayout_showCommands(commands) {
+                    // Use the default overlay showCommands implementation
+                    this.appBarEl.winControl._showCommands(commands);
+                },
+                showOnlyCommands: function _AppBarBaseLayout_showOnlyCommands(commands) {
+                    // Use the default overlay _showOnlyCommands implementation
+                    this.appBarEl.winControl._showOnlyCommands(commands);
+                },
+                hideCommands: function _AppBarBaseLayout_hideCommands(commands) {
+                    // Use the default overlay _hideCommands implementation
+                    this.appBarEl.winControl._hideCommands(commands);
+                },
+                sanitizeCommand: function _AppBarBaseLayout_sanitizeCommand(command) {
+                    if (!command) {
+                        throw new _ErrorFromName("WinJS.UI.AppBar.NullCommand", strings.nullCommand);
+                    }
+                    // See if it's a command already
+                    command = command.winControl || command;
+                    if (!command._element) {
+                        // Not a command, so assume it is options for the command's constructor.
+                        command = new _Command.AppBarCommand(null, command);
+                    }
+                    // If we were attached somewhere else, detach us
+                    if (command._element.parentElement) {
+                        command._element.parentElement.removeChild(command._element);
+                    }
+
+                    return command;
+                },
+                dispose: function _AppBarBaseLayout_dispose() {
+                    this._disposed = true;
+                },
+                disposeChildren: function _AppBarBaseLayout_disposeChildren() {
+                    var appBarFirstDiv = this.appBarEl.querySelectorAll("." + _Constants.firstDivClass);
+                    appBarFirstDiv = appBarFirstDiv.length >= 1 ? appBarFirstDiv[0] : null;
+                    var appBarFinalDiv = this.appBarEl.querySelectorAll("." + _Constants.finalDivClass);
+                    appBarFinalDiv = appBarFinalDiv.length >= 1 ? appBarFinalDiv[0] : null;
+
+                    var children = this.appBarEl.children;
+                    var length = children.length;
+                    for (var i = 0; i < length; i++) {
+                        var element = children[i];
+                        if (element === appBarFirstDiv || element === appBarFinalDiv) {
+                            continue;
+                        } else {
+                            _Dispose.disposeSubTree(element);
+                        }
+                    }
+                },
+                handleKeyDown: function _AppBarBaseLayout_handleKeyDown() {
+                    // NOP
+                },
+                commandsUpdated: function _AppBarBaseLayout_commandsUpdated() {
+                    // NOP
+                },
+                beginAnimateCommands: function _AppBarBaseLayout_beginAnimateCommands() {
+                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
+                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
+                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
+                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
+
+                    // NOP
+                },
+                endAnimateCommands: function _AppBarBaseLayout_endAnimateCommands() {
+                    // NOP
+                },
+                scale: function _AppBarBaseLayout_scale() {
+                    // NOP
+                },
+                resize: function _AppBarBaseLayout_resize() {
+                    // NOP
+                },
+                positionChanging: function _AppBarBaseLayout_positionChanging(fromPosition, toPosition) {
+                    // NOP
+                    return Promise.wrap();
+                },
+                setFocusOnShow: function _AppBarBaseLayout_setFocusOnShow() {
+                    this.appBarEl.winControl._setFocusToAppBar();
+                }
+            });
+            return _AppBarBaseLayout;
+        }),
+    });
+
+    // AppBar will use this when AppBar.layout property is set to "commands"
+    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
+        _AppBarCommandsLayout: _Base.Namespace._lazy(function () {
+            var layoutClassName = _Constants.commandLayoutClass;
+            var layoutType = _Constants.appBarLayoutCommands;
+
+            var _AppBarCommandsLayout = _Base.Class.derive(exports._AppBarBaseLayout, function _AppBarCommandsLayout_ctor(appBarEl) {
+                exports._AppBarBaseLayout.call(this, appBarEl, { _className: layoutClassName, _type: layoutType });
+                this._commandLayoutsInit(appBarEl);
+            }, {
+                commandsInOrder: {
+                    get: function _AppBarCommandsLayout_get_commandsInOrder() {
+                        return this._originalCommands.filter(function (command) {
+                            // Make sure the element is still in the AppBar.
+                            return this.appBarEl.contains(command.element);
+                        }, this);
+                    }
+                },
+                layout: function _AppBarCommandsLayout_layout(commands) {
+                    // Insert commands and other layout specific DOM into the AppBar element.
+
+                    // Empty our tree.
+                    _ElementUtilities.empty(this._primaryCommands);
+                    _ElementUtilities.empty(this._secondaryCommands);
+
+                    // Keep track of the order we receive the commands in.
+                    this._originalCommands = [];
+
+                    // Layout commands
+                    for (var i = 0, len = commands.length; i < len; i++) {
+                        var command = this.sanitizeCommand(commands[i]);
+
+                        this._originalCommands.push(command);
+
+                        if ("primary" === command.section || "global" === command.section) {
+                            this._primaryCommands.appendChild(command._element);
+                        } else {
+                            this._secondaryCommands.appendChild(command._element);
+                        }
+                    }
+
+                    // Append layout containers to AppBar element.
+                    // Secondary Commands should come first in Tab Order.
+                    this.appBarEl.appendChild(this._secondaryCommands);
+                    this.appBarEl.appendChild(this._primaryCommands);
+
+
+                    // Need to measure all content commands after they have been added to the AppBar to make sure we allow
+                    // user defined CSS rules based on the ancestor of the content command to take affect.
+                    this._needToMeasureNewCommands = true;
+
+                    // In case this is called from the constructor before the AppBar element has been appended to the DOM,
+                    // we schedule the initial scaling of commands, with the expectation that the element will be added
+                    // synchronously, in the same block of code that called the constructor.
+                    Scheduler.schedule(function () {
+                        if (this._needToMeasureNewCommands && !this._disposed) {
+                            this.scale();
+                        }
+                    }.bind(this), Scheduler.Priority.idle, this, "WinJS._commandLayoutsMixin._scaleNewCommands");
+
+                },
+                disposeChildren: function _AppBarCommandsLayout_disposeChildren() {
+                    _Dispose.disposeSubTree(this._primaryCommands);
+                    _Dispose.disposeSubTree(this._secondaryCommands);
+                },
+                handleKeyDown: function _AppBarCommandsLayout_handleKeyDown(event) {
+                    var Key = _ElementUtilities.Key;
+
+                    if (_ElementUtilities._matchesSelector(event.target, ".win-interactive, .win-interactive *")) {
+                        return; // Ignore left, right, home & end keys if focused element has win-interactive class.
+                    }
+                    var rtl = _Global.getComputedStyle(this.appBarEl).direction === "rtl";
+                    var leftKey = rtl ? Key.rightArrow : Key.leftArrow;
+                    var rightKey = rtl ? Key.leftArrow : Key.rightArrow;
+
+                    if (event.keyCode === leftKey || event.keyCode === rightKey || event.keyCode === Key.home || event.keyCode === Key.end) {
+
+                        var globalCommandHasFocus = this._primaryCommands.contains(_Global.document.activeElement);
+                        var focusableCommands = this._getFocusableCommandsInLogicalOrder(globalCommandHasFocus);
+                        var targetCommand;
+
+                        if (focusableCommands.length) {
+                            switch (event.keyCode) {
+                                case leftKey:
+                                    // Arrowing past the last command wraps back around to the first command.
+                                    var index = Math.max(-1, focusableCommands.focusedIndex - 1) + focusableCommands.length;
+                                    targetCommand = focusableCommands[index % focusableCommands.length].winControl.lastElementFocus;
+                                    break;
+
+                                case rightKey:
+                                    // Arrowing previous to the first command wraps back around to the last command.
+                                    var index = focusableCommands.focusedIndex + 1 + focusableCommands.length;
+                                    targetCommand = focusableCommands[index % focusableCommands.length].winControl.firstElementFocus;
+                                    break;
+
+                                case Key.home:
+                                    var index = 0;
+                                    targetCommand = focusableCommands[index].winControl.firstElementFocus;
+                                    break;
+
+                                case Key.end:
+                                    var index = focusableCommands.length - 1;
+                                    targetCommand = focusableCommands[index].winControl.lastElementFocus;
+                                    break;
+                            }
+                        }
+
+                        if (targetCommand && targetCommand !== _Global.document.activeElement) {
+                            targetCommand.focus();
+                            // Prevent default so that the browser doesn't also evaluate the keydown event on the newly focused element.
+                            event.preventDefault();
+                        }
+                    }
+                },
+                commandsUpdated: function _AppBarCommandsLayout_commandsUpdated(newSetOfVisibleCommands) {
+                    // Whenever new commands are set or existing commands are hiding/showing in the AppBar, this
+                    // function is called to update the cached width measurement of all visible AppBarCommands.
+
+                    var visibleCommands = (newSetOfVisibleCommands) ? newSetOfVisibleCommands : this.commandsInOrder.filter(function (command) {
+                        return !command.hidden;
+                    });
+                    this._fullSizeWidthOfLastKnownVisibleCommands = this._getWidthOfFullSizeCommands(visibleCommands);
+                },
+                beginAnimateCommands: function _AppBarCommandsLayout_beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands) {
+                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
+                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
+                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
+                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
+
+                    this._scaleAfterAnimations = false;
+
+                    // Determine if the overall width of visible commands in the primary row will be increasing OR decreasing.
+                    var changeInWidth = this._getWidthOfFullSizeCommands(showCommands) - this._getWidthOfFullSizeCommands(hideCommands);
+                    if (changeInWidth > 0) {
+                        // Width of contents is going to increase, update our command counts now, to what they will be after we complete the animations.
+                        var visibleCommandsAfterAnimations = otherVisibleCommands.concat(showCommands);
+                        this.commandsUpdated(visibleCommandsAfterAnimations);
+                        // Make sure we will have enough room to fit everything on a single row.
+                        this.scale();
+                    } else if (changeInWidth < 0) {
+                        // Width of contents is going to decrease. Once animations are complete, check if
+                        // there is enough available space to make the remaining commands full size.
+                        this._scaleAfterAnimations = true;
+                    }
+                },
+                endAnimateCommands: function _AppBarCommandsLayout_endAnimateCommands() {
+                    if (this._scaleAfterAnimations) {
+                        this.commandsUpdated();
+                        this.scale();
+                    }
+                },
+                resize: function _AppBarCommandsLayout_resize() {
+                    if (!this._disposed) {
+                        // Check for horizontal window resizes.
+                        this._appBarTotalKnownWidth = null;
+                        if (!this.appBarEl.winControl.hidden) {
+                            this.scale();
+                        }
+                    }
+                },
+                disconnect: function _AppBarCommandsLayout_disconnect() {
+                    exports._AppBarBaseLayout.prototype.disconnect.call(this);
+                },
+                _getWidthOfFullSizeCommands: function _AppBarCommandsLayout_getWidthOfFullSizeCommands(commands) {
+                    // Commands layout puts primary commands and secondary commands into the primary row.
+                    // Return the total width of all visible primary and secondary commands as if they were full-size.
+
+                    // Perform any pending measurements on "content" type AppBarCommands.
+                    if (this._needToMeasureNewCommands) {
+                        this._measureContentCommands();
+                    }
+                    var accumulatedWidth = 0;
+                    var separatorsCount = 0;
+                    var buttonsCount = 0;
+
+                    if (!commands) {
+                        // Return the cached full size width of the last known visible commands in the AppBar.
+                        return this._fullSizeWidthOfLastKnownVisibleCommands;
+                    } else {
+                        // Return the width of the specified commands.
+                        var command;
+                        for (var i = 0, len = commands.length; i < len; i++) {
+                            command = commands[i].winControl || commands[i];
+                            if (command._type === _Constants.typeSeparator) {
+                                separatorsCount++;
+                            } else if (command._type !== _Constants.typeContent) {
+                                // button, toggle, and flyout types all have the same width.
+                                buttonsCount++;
+                            } else {
+                                accumulatedWidth += command._fullSizeWidth;
+                            }
+                        }
+                    }
+                    return accumulatedWidth += (separatorsCount * _Constants.separatorWidth) + (buttonsCount * _Constants.buttonWidth);
+                },
+                _getFocusableCommandsInLogicalOrder: function _AppBarCommandsLayout_getCommandsInLogicalOrder() {
+                    // Function returns an array of all the contained AppBarCommands which are reachable by left/right arrows.
+
+                    var secondaryCommands = this._secondaryCommands.children,
+                        primaryCommands = this._primaryCommands.children,
+                        focusedIndex = -1;
+
+                    var getFocusableCommandsHelper = function (commandsInReach) {
+                        var focusableCommands = [];
+                        for (var i = 0, len = commandsInReach.length; i < len; i++) {
+                            var element = commandsInReach[i];
+                            if (_ElementUtilities.hasClass(element, _Constants.appBarCommandClass) && element.winControl) {
+                                var containsFocus = element.contains(_Global.document.activeElement);
+                                // With the inclusion of content type commands, it may be possible to tab to elements in AppBarCommands that are not reachable by arrow keys.
+                                // Regardless, when an AppBarCommand contains the element with focus, we just include the whole command so that we can determine which
+                                // commands are adjacent to it when looking for the next focus destination.
+                                if (element.winControl._isFocusable() || containsFocus) {
+                                    focusableCommands.push(element);
+                                    if (containsFocus) {
+                                        focusedIndex = focusableCommands.length - 1;
+                                    }
+                                }
+                            }
+                        }
+                        return focusableCommands;
+                    };
+
+                    // Determines which set of commands the user could potentially reach through Home, End, and arrow keys.
+                    // All commands in the commands layout AppBar, from left to right are in reach. Secondary (previously known as Selection)
+                    // then Primary (previously known as Global).
+                    var commandsInReach = Array.prototype.slice.call(secondaryCommands).concat(Array.prototype.slice.call(primaryCommands));
+
+                    var focusableCommands = getFocusableCommandsHelper(commandsInReach);
+                    focusableCommands.focusedIndex = focusedIndex;
+                    return focusableCommands;
+                },
+                _commandLayoutsInit: function _AppBarCommandsLayout_commandLayoutsInit() {
+                    // Create layout infrastructure
+                    this._primaryCommands = _Global.document.createElement("DIV");
+                    this._secondaryCommands = _Global.document.createElement("DIV");
+                    _ElementUtilities.addClass(this._primaryCommands, _Constants.primaryCommandsClass);
+                    _ElementUtilities.addClass(this._secondaryCommands, _Constants.secondaryCommandsClass);
+                },
+                _scaleHelper: function _AppBarCommandsLayout_scaleHelper() {
+                    // This exists as a single line function so that unit tests can
+                    // overwrite it since they can't resize the WWA window.
+
+                    // It is expected that AppBar is an immediate child of the <body> and will have 100% width.
+                    // We measure the clientWidth of the documentElement so that we can scale the AppBar lazily
+                    // even while its element is display: 'none'
+                    var extraPadding = this.appBarEl.winControl.closedDisplayMode === "minimal" ? _Constants.appBarInvokeButtonWidth : 0;
+                    return _Global.document.documentElement.clientWidth - extraPadding;
+                },
+                _measureContentCommands: function _AppBarCommandsLayout_measureContentCommands() {
+                    // AppBar measures the width of content commands when they are first added
+                    // and then caches that value to avoid additional layouts in the future.
+
+                    // Can't measure unless We're in the document body
+                    if (_Global.document.body.contains(this.appBarEl)) {
+                        this._needToMeasureNewCommands = false;
+
+                        var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, _Constants.hiddenClass);
+                        _ElementUtilities.removeClass(this.appBarEl, _Constants.hiddenClass);
+
+                        // Make sure AppBar and children have width dimensions.
+                        var prevAppBarDisplay = this.appBarEl.style.display;
+                        this.appBarEl.style.display = "";
+                        var prevCommandDisplay;
+
+                        var contentElements = this.appBarEl.querySelectorAll("div." + _Constants.appBarCommandClass);
+                        var element;
+                        for (var i = 0, len = contentElements.length; i < len; i++) {
+                            element = contentElements[i];
+                            if (element.winControl && element.winControl._type === _Constants.typeContent) {
+                                // Make sure command has width dimensions before we measure.
+                                prevCommandDisplay = element.style.display;
+                                element.style.display = "";
+                                element.winControl._fullSizeWidth = _ElementUtilities.getTotalWidth(element) || 0;
+                                element.style.display = prevCommandDisplay;
+                            }
+                        }
+
+                        // Restore state to AppBar.
+                        this.appBarEl.style.display = prevAppBarDisplay;
+                        if (hadHiddenClass) {
+                            _ElementUtilities.addClass(this.appBarEl, _Constants.hiddenClass);
+                        }
+
+                        this.commandsUpdated();
+                    }
+                },
+            });
+            return _AppBarCommandsLayout;
+        }),
+    });
+
+    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
+        _AppBarMenuLayout: _Base.Namespace._lazy(function () {
+            var layoutClassName = _Constants.menuLayoutClass;
+            var layoutType = _Constants.appBarLayoutMenu;
+            
+            //
+            // Resize animation
+            //  The resize animation requires 2 animations to run simultaneously in sync with each other. It's implemented
+            //  without PVL because PVL doesn't provide a way to guarantee that 2 animations will start at the same time.
+            //
+            var transformNames = _BaseUtils._browserStyleEquivalents["transform"];
+            function transformWithTransition(element, transition) {
+                // transition's properties:
+                // - duration: Number representing the duration of the animation in milliseconds.
+                // - timing: String representing the CSS timing function that controls the progress of the animation.
+                // - to: The value of *element*'s transform property after the animation.
+                var duration = transition.duration * _TransitionAnimation._animationFactor;
+                var transitionProperty = _BaseUtils._browserStyleEquivalents["transition"].scriptName;
+                element.style[transitionProperty] = duration + "ms " + transformNames.cssName + " " + transition.timing;
+                element.style[transformNames.scriptName] = transition.to;
+            
+                var finish;
+                return new Promise(function (c) {
+                    var onTransitionEnd = function (eventObject) {
+                        if (eventObject.target === element && eventObject.propertyName === transformNames.cssName) {
+                            finish();
+                        }
+                    };
+                    
+                    var didFinish = false;
+                    finish = function () {
+                        if (!didFinish) {
+                            _Global.clearTimeout(timeoutId);
+                            element.removeEventListener(_BaseUtils._browserEventEquivalents["transitionEnd"], onTransitionEnd);
+                            element.style[transitionProperty] = "";
+                            didFinish = true;
+                        }
+                        c();
+                    };
+            
+                    // Watch dog timeout
+                    var timeoutId = _Global.setTimeout(function () {
+                        timeoutId = _Global.setTimeout(finish, duration);
+                    }, 50);
+            
+                    element.addEventListener(_BaseUtils._browserEventEquivalents["transitionEnd"], onTransitionEnd);
+                }, function () {
+                    finish(); // On cancelation, complete the promise successfully to match PVL
+                });
+            }
+            // See resizeTransition's comment for documentation on *args*.
+            function growTransition(elementClipper, element, args) {
+                var diff = args.anchorTrailingEdge ? args.to.total - args.from.total : args.from.total - args.to.total;
+                var translate = args.dimension === "width" ? "translateX" : "translateY";
+                var size = args.dimension;
+                var duration = args.duration || 367;
+                var timing = args.timing || "cubic-bezier(0.1, 0.9, 0.2, 1)";
+            
+                // Set up
+                elementClipper.style[size] = args.to.total + "px";
+                elementClipper.style[transformNames.scriptName] = translate + "(" + diff + "px)";
+                element.style[size] = args.to.content + "px";
+                element.style[transformNames.scriptName] = translate + "(" + -diff + "px)";
+            
+                // Resolve styles
+                _Global.getComputedStyle(elementClipper).opacity;
+                _Global.getComputedStyle(element).opacity;
+                
+                // Animate
+                var transition = {
+                    duration: duration,
+                    timing: timing,
+                    to: ""
+                };
+                return Promise.join([
+                    transformWithTransition(elementClipper,  transition),
+                    transformWithTransition(element, transition)
+                ]);
+            }
+            // See resizeTransition's comment for documentation on *args*.
+            function shrinkTransition(elementClipper, element, args) {
+                var diff = args.anchorTrailingEdge ? args.from.total - args.to.total : args.to.total - args.from.total;
+                var translate = args.dimension === "width" ? "translateX" : "translateY";
+                var duration = args.duration || 367;
+                var timing = args.timing || "cubic-bezier(0.1, 0.9, 0.2, 1)";
+            
+                // Set up
+                elementClipper.style[transformNames.scriptName] = "";
+                element.style[transformNames.scriptName] = "";
+            
+                // Resolve styles
+                _Global.getComputedStyle(elementClipper).opacity;
+                _Global.getComputedStyle(element).opacity;
+            
+                // Animate
+                var transition = {
+                    duration: duration,
+                    timing: timing
+                };
+                var clipperTransition = _BaseUtils._merge(transition, { to: translate + "(" + diff + "px)" });
+                var elementTransition = _BaseUtils._merge(transition, { to: translate + "(" + -diff + "px)" });
+                return Promise.join([
+                    transformWithTransition(elementClipper, clipperTransition),
+                    transformWithTransition(element, elementTransition)
+                ]);
+            }
+            // Plays an animation which makes an element look like it is resizing in 1 dimension. Arguments:
+            // - elementClipper: The parent of *element*. It shouldn't have any margin, border, or padding and its
+            //   size should match element's size. Its purpose is to clip *element* during the animation to give
+            //   it the illusion that it is resizing.
+            // - element: The element that should look like it's resizing.
+            // - args: An object with the following required properties: 
+            //   - from: An object representing the old width/height of the element.
+            //   - to: An object representing the new width/height of the element.
+            //     from/to are objects of the form { content: number; total: number; }. "content" is the
+            //     width/height of *element*'s content box (e.g. getContentWidth). "total" is the width/height
+            //     of *element*'s margin box (e.g. getTotalWidth).
+            //   - duration: The CSS transition duration property.
+            //   - timing: The CSS transition timing property.
+            //   - dimension: The dimension on which *element* is resizing. Either "width" or "height".
+            //   - anchorTrailingEdge: During the resize animation, one edge will move and the other edge will
+            //     remain where it is. This flag specifies which edge is anchored (i.e. won't move).
+            //
+            function resizeTransition(elementClipper, element, args) {
+                if (args.to.total > args.from.total) {
+                    return growTransition(elementClipper, element, args);
+                } else if (args.to.total < args.from.total) {
+                    return shrinkTransition(elementClipper, element, args);
+                } else {
+                    return Promise.as();
+                }
+            }
+            
+            var _AppBarMenuLayout = _Base.Class.derive(exports._AppBarBaseLayout, function _AppBarMenuLayout_ctor(appBarEl) {
+                exports._AppBarBaseLayout.call(this, appBarEl, { _className: layoutClassName, _type: layoutType });
+                this._tranformNames = _BaseUtils._browserStyleEquivalents["transform"];
+                this._animationCompleteBound = this._animationComplete.bind(this);
+                this._positionToolBarBound = this._positionToolBar.bind(this);
+            }, {
+                commandsInOrder: {
+                    get: function _AppBarMenuLayout_get_commandsInOrder() {
+                        return this._originalCommands;
+                    }
+                },
+                layout: function _AppBarMenuLayout_layout(commands) {
+                    this._writeProfilerMark("layout,info");
+
+                    commands = commands || [];
+                    this._originalCommands = [];
+
+                    var that = this;
+                    commands.forEach(function (command) {
+                        that._originalCommands.push(that.sanitizeCommand(command));
+                    });
+                    this._displayedCommands = this._originalCommands.slice(0);
+
+                    if (this._menu) {
+                        _ElementUtilities.empty(this._menu);
+                    } else {
+                        this._menu = _Global.document.createElement("div");
+                        _ElementUtilities.addClass(this._menu, _Constants.menuContainerClass);
+                    }
+                    this.appBarEl.appendChild(this._menu);
+
+                    this._toolbarEl = _Global.document.createElement("div");
+                    this._menu.appendChild(this._toolbarEl);
+
+                    this._createToolBar(commands);
+                },
+
+                showCommands: function _AppBarMenuLayout_showCommands(commands) {
+                    var elements = this._getCommandsElements(commands);
+                    var data = [];
+                    var newDisplayedCommands = [];
+                    var that = this;
+                    this._originalCommands.forEach(function (command) {
+                        if (elements.indexOf(command.element) >= 0 || that._displayedCommands.indexOf(command) >= 0) {
+                            newDisplayedCommands.push(command);
+                            data.push(command);
+                        }
+                    });
+                    this._displayedCommands = newDisplayedCommands;
+                    this._updateData(data);
+                },
+
+                showOnlyCommands: function _AppBarMenuLayout_showOnlyCommands(commands) {
+                    this._displayedCommands = [];
+                    this.showCommands(commands);
+                },
+
+                hideCommands: function _AppBarMenuLayout_hideCommands(commands) {
+                    var elements = this._getCommandsElements(commands);
+                    var data = [];
+                    var newDisplayedCommands = [];
+                    var that = this;
+                    this._originalCommands.forEach(function (command) {
+                        if (elements.indexOf(command.element) === -1 && that._displayedCommands.indexOf(command) >= 0) {
+                            newDisplayedCommands.push(command);
+                            data.push(command);
+                        }
+                    });
+                    this._displayedCommands = newDisplayedCommands;
+                    this._updateData(data);
+                },
+
+                connect: function _AppBarMenuLayout_connect(appBarEl) {
+                    this._writeProfilerMark("connect,info");
+
+                    exports._AppBarBaseLayout.prototype.connect.call(this, appBarEl);
+                    this._id = _ElementUtilities._uniqueID(appBarEl);
+                },
+
+                resize: function _AppBarMenuLayout_resize() {
+                    this._writeProfilerMark("resize,info");
+
+                    if (this._initialized) {
+                        this._forceLayoutPending = true;
+                    }
+                },
+
+                positionChanging: function _AppBarMenuLayout_positionChanging(fromPosition, toPosition) {
+                    this._writeProfilerMark("positionChanging from:" + fromPosition + " to: " + toPosition + ",info");
+
+                    this._animationPromise = this._animationPromise || Promise.wrap();
+
+                    if (this._animating) {
+                        this._animationPromise.cancel();
+                    }
+
+                    this._animating = true;
+                    if (toPosition === "shown" || (fromPosition !== "shown" && toPosition === "compact")) {
+                        this._positionToolBar();
+                        this._animationPromise = this._animateToolBarEntrance();
+                    } else {
+                        if (fromPosition === "minimal" || fromPosition === "compact" || fromPosition === "hidden") {
+                            this._animationPromise = Promise.wrap();
+                        } else {
+                            this._animationPromise = this._animateToolBarExit();
+                        }
+                    }
+                    this._animationPromise.then(this._animationCompleteBound, this._animationCompleteBound);
+                    return this._animationPromise;
+                },
+
+                disposeChildren: function _AppBarMenuLayout_disposeChildren() {
+                    this._writeProfilerMark("disposeChildren,info");
+
+                    if (this._toolbar) {
+                        _Dispose.disposeSubTree(this._toolbarEl);
+                    }
+                    this._originalCommands = [];
+                    this._displayedCommands = [];
+                },
+
+                setFocusOnShow: function _AppBarMenuLayout_setFocusOnShow() {
+                    // Make sure the menu (used for clipping during the resize animation)
+                    // doesn't scroll when we give focus to the AppBar.
+                    this.appBarEl.winControl._setFocusToAppBar(true, this._menu);
+                },
+
+                _updateData: function _AppBarMenuLayout_updateData(data) {
+                    var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, _Constants.hiddenClass);
+                    var hadShownClass = _ElementUtilities.hasClass(this.appBarEl, _Constants.shownClass);
+                    _ElementUtilities.removeClass(this.appBarEl, _Constants.hiddenClass);
+
+                    // Make sure AppBar and children have width dimensions.
+                    var prevAppBarDisplay = this.appBarEl.style.display;
+                    this.appBarEl.style.display = "";
+
+
+                    this._toolbar.data = new BindingList.List(data);
+                    if (hadHiddenClass) {
+                        this._positionToolBar();
+                    }
+
+                    // Restore state to AppBar.
+                    this.appBarEl.style.display = prevAppBarDisplay;
+                    if (hadHiddenClass) {
+                        _ElementUtilities.addClass(this.appBarEl, _Constants.hiddenClass);
+                    }
+
+                    if (hadShownClass) {
+                        this._positionToolBar();
+                        this._animateToolBarEntrance();
+                    }
+                },
+
+                _getCommandsElements: function _AppBarMenuLayout_getCommandsElements(commands) {
+                    if (!commands) {
+                        return [];
+                    }
+
+                    if (typeof commands === "string" || !commands || !commands.length) {
+                        commands = [commands];
+                    }
+
+                    var elements = [];
+                    for (var i = 0, len = commands.length; i < len; i++) {
+                        if (commands[i]) {
+                            if (typeof commands[i] === "string") {
+                                var element = _Global.document.getElementById(commands[i]);
+                                if (element) {
+                                    elements.push(element);
+                                } else {
+                                    // Check in the list we are tracking, since it might not be in the DOM yet
+                                    for (var j = 0, len2 = this._originalCommands.length; j < len2; j++) {
+                                        var element = this._originalCommands[j].element;
+                                        if (element.id === commands[i]) {
+                                            elements.push(element);
+                                        }
+                                    }
+                                }
+                            } else if (commands[i].element) {
+                                elements.push(commands[i].element);
+                            } else {
+                                elements.push(commands[i]);
+                            }
+                        }
+                    }
+
+                    return elements;
+                },
+
+                _animationComplete: function _AppBarMenuLayout_animationComplete() {
+                    if (!this._disposed) {
+                        this._animating = false;
+                    }
+                },
+
+                _createToolBar: function _AppBarMenuLayout_createToolBar(commands) {
+                    this._writeProfilerMark("_createToolBar,info");
+
+                    var hadHiddenClass = _ElementUtilities.hasClass(this.appBarEl, _Constants.hiddenClass);
+                    _ElementUtilities.removeClass(this.appBarEl, _Constants.hiddenClass);
+
+                    // Make sure AppBar and children have width dimensions.
+                    var prevAppBarDisplay = this.appBarEl.style.display;
+                    this.appBarEl.style.display = "";
+
+                    this._toolbar = new ToolBar.ToolBar(this._toolbarEl, {
+                        data: new BindingList.List(this._originalCommands),
+                        shownDisplayMode: 'full',
+                    });
+
+                    var that = this;
+                    this._appbarInvokeButton = this.appBarEl.querySelector("." + _Constants.invokeButtonClass);
+                    this._overflowButton = this._toolbarEl.querySelector("." + _ToolBarConstants.overflowButtonCssClass);
+                    this._overflowButton.addEventListener("click", function () {
+                        that._appbarInvokeButton.click();
+                    });
+
+                    this._positionToolBar();
+
+                    // Restore state to AppBar.
+                    this.appBarEl.style.display = prevAppBarDisplay;
+                    if (hadHiddenClass) {
+                        _ElementUtilities.addClass(this.appBarEl, _Constants.hiddenClass);
+                    }
+                },
+
+                _positionToolBar: function _AppBarMenuLayout_positionToolBar() {
+                    if (!this._disposed) {
+                        this._writeProfilerMark("_positionToolBar,info");
+                        this._initialized = true;
+                    }
+                },
+
+                _animateToolBarEntrance: function _AppBarMenuLayout_animateToolBarEntrance() {
+                    this._writeProfilerMark("_animateToolBarEntrance,info");
+
+                    if (this._forceLayoutPending) {
+                        this._forceLayoutPending = false;
+                        this._toolbar.forceLayout();
+                        this._positionToolBar();
+                    }
+                    var heightVisible = this._isMinimal() ? 0 : this.appBarEl.offsetHeight;
+                    if (this._isBottom()) {
+                        // Bottom AppBar Animation
+                        var offsetTop = this._menu.offsetHeight - heightVisible;
+                        return this._executeTranslate(this._menu, "translateY(" + -offsetTop + "px)");
+                    } else {
+                        // Top AppBar Animation
+                        return resizeTransition(this._menu, this._toolbarEl, {
+                            from: { content: heightVisible, total: heightVisible },
+                            to: { content: this._menu.offsetHeight, total: this._menu.offsetHeight },
+                            dimension: "height",
+                            duration: 400,
+                            timing: "ease-in",
+                        });
+                    }
+                },
+
+                _animateToolBarExit: function _AppBarMenuLayout_animateToolBarExit() {
+                    this._writeProfilerMark("_animateToolBarExit,info");
+
+                    var heightVisible = this._isMinimal() ? 0 : this.appBarEl.offsetHeight;
+                    if (this._isBottom()) {
+                        return this._executeTranslate(this._menu, "none");
+                    } else {
+                        // Top AppBar Animation
+                        return resizeTransition(this._menu, this._toolbarEl, {
+                            from: { content: this._menu.offsetHeight, total: this._menu.offsetHeight },
+                            to: { content: heightVisible, total: heightVisible },
+                            dimension: "height",
+                            duration: 400,
+                            timing: "ease-in",
+                        });
+                    }
+                },
+
+                _executeTranslate: function _AppBarMenuLayout_executeTranslate(element, value) {
+                    return _TransitionAnimation.executeTransition(element,
+                        {
+                            property: this._tranformNames.cssName,
+                            delay: 0,
+                            duration: 400,
+                            timing: "ease-in",
+                            to: value
+                        });
+                },
+
+                _isMinimal: function _AppBarMenuLayout_isMinimal() {
+                    return this.appBarEl.winControl.closedDisplayMode === "minimal";
+                },
+
+                _isBottom: function _AppBarMenuLayout_isBottom() {
+                    return this.appBarEl.winControl.placement === "bottom";
+                },
+
+                _writeProfilerMark: function _AppBarMenuLayout_writeProfilerMark(text) {
+                    _WriteProfilerMark("WinJS.UI._AppBarMenuLayout:" + this._id + ":" + text);
+                }
+            });
+
+            return _AppBarMenuLayout;
+        }),
+    });
+});
+
+// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
+// AppBar
+/// <dictionary>appbar,appBars,Flyout,Flyouts,iframe,Statics,unfocus,WinJS</dictionary>
+define('WinJS/Controls/AppBar',[
+    'exports',
+    '../Core/_Global',
+    '../Core/_WinRT',
+    '../Core/_Base',
+    '../Core/_BaseUtils',
+    '../Core/_ErrorFromName',
+    '../Core/_Resources',
+    '../Core/_WriteProfilerMark',
+    '../Animations',
+    '../Promise',
+    '../Scheduler',
+    '../Utilities/_Control',
+    '../Utilities/_Dispose',
+    '../Utilities/_ElementUtilities',
+    '../Utilities/_Hoverable',
+    '../Utilities/_KeyboardBehavior',
+    './AppBar/_Constants',
+    './AppBar/_Layouts',
+    './AppBar/_Command',
+    './AppBar/_Icon',
+    './Flyout/_Overlay',
+    '../Application'
+], function appBarInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, Animations, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Hoverable, _KeyboardBehavior, _Constants, _Layouts, _Command, _Icon, _Overlay, Application) {
+    "use strict";
+
+    _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
+        /// <field>
+        /// <summary locid="WinJS.UI.AppBar">
+        /// Represents an application toolbar for display commands.
+        /// </summary>
+        /// </field>
+        /// <icon src="ui_winjs.ui.appbar.12x12.png" width="12" height="12" />
+        /// <icon src="ui_winjs.ui.appbar.16x16.png" width="16" height="16" />
+        /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.AppBar">
+        /// <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
+        /// </div>]]></htmlSnippet>
+        /// <event name="beforeshow" locid="WinJS.UI.AppBar_e:beforeshow">Raised just before showing the AppBar.</event>
+        /// <event name="aftershow" locid="WinJS.UI.AppBar_e:aftershow">Raised immediately after the AppBar is fully shown.</event>
+        /// <event name="beforehide" locid="WinJS.UI.AppBar_e:beforehide">Raised just before hiding the AppBar.</event>
+        /// <event name="afterhide" locid="WinJS.UI.AppBar_e:afterhide">Raised immediately after the AppBar is fully hidden.</event>
+        /// <part name="appbar" class="win-commandlayout" locid="WinJS.UI.AppBar_part:appbar">The AppBar control itself.</part>
+        /// <part name="appBarCustom" class="win-appbar" locid="WinJS.UI.AppBar_part:appBarCustom">Style for a custom layout AppBar.</part>
+        /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
+        /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
+        AppBar: _Base.Namespace._lazy(function () {
+            var Key = _ElementUtilities.Key;
+
+            // Enum of known constant pixel values for display modes.
+            var knownVisibleHeights = {
+                disabled: 0,
+                none: 0,
+                hidden: 0,
+                minimal: 25,
+                compact: 48
+            };
+
+            // Maps each notion of a display modes to the corresponding visible position
+            var displayModeVisiblePositions = {
+                disabled: "hidden",
+                none: "hidden",
+                hidden: "hidden",
+                minimal: "minimal",
+                shown: "shown",
+                compact: "compact"
+            };
+
+            // Enum of closedDisplayMode constants
+            var closedDisplayModes = {
+                none: "none",
+                minimal: "minimal",
+                compact: "compact"
+            };
+
+            // Constants shown/hidden states
+            var appbarShownState = "shown",
+                appbarHiddenState = "hidden";
+
+            // Hook into event
+            var globalEventsInitialized = false;
+            var edgyHappening = null;
+
+            // Handler for the edgy starting/completed/cancelled events
+            function _completedEdgy(e) {
+                // If we had a right click on a flyout, ignore it.
+                if (_Overlay._Overlay._containsRightMouseClick &&
+                    e.kind === _WinRT.Windows.UI.Input.EdgeGestureKind.mouse) {
+                    return;
+                }
+                if (edgyHappening) {
+                    // Edgy was happening, just skip it
+                    edgyHappening = null;
+                } else {
+                    // Edgy wasn't happening, so toggle
+                    var keyboardInvoked = e.kind === _WinRT.Windows.UI.Input.EdgeGestureKind.keyboard;
+                    AppBar._toggleAllAppBarsState(keyboardInvoked);
+                }
+            }
+
+            function _startingEdgy() {
+                if (!edgyHappening) {
+                    // Edgy wasn't happening, so toggle & start it
+                    edgyHappening = AppBar._toggleAllAppBarsState(false);
+                }
+            }
+
+            function _canceledEdgy() {
+                // Shouldn't get here unless edgy was happening.
+                // Undo whatever we were doing.
+                var bars = _getDynamicBarsForEdgy();
+                if (edgyHappening === "showing") {
+                    _Overlay._Overlay._hideAppBars(bars, false);
+                } else if (edgyHappening === "hiding") {
+                    _Overlay._Overlay._showAppBars(bars, false);
+                }
+                edgyHappening = null;
+            }
+
+            function _allManipulationChanged(event) {
+                var elements = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                if (elements) {
+                    var len = elements.length;
+                    for (var i = 0; i < len; i++) {
+                        var element = elements[i];
+                        var appbar = element.winControl;
+                        if (appbar && !element.disabled) {
+                            appbar._manipulationChanged(event);
+                        }
+                    }
+                }
+            }
+
+            // Get all the non-sticky bars and return them.
+            // Returns array of AppBar objects.
+            // The array also has _hidden and/or _shown set if ANY are hidden or shown.
+            function _getDynamicBarsForEdgy() {
+                var elements = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                var len = elements.length;
+                var AppBars = [];
+                AppBars._shown = false;
+                AppBars._hidden = false;
+                for (var i = 0; i < len; i++) {
+                    var element = elements[i];
+                    if (element.disabled) {
+                        // Skip disabled AppBars
+                        continue;
+                    }
+                    var AppBar = element.winControl;
+                    if (AppBar) {
+                        AppBars.push(AppBar);
+                        if (_ElementUtilities.hasClass(AppBar._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(AppBar._element, _Constants.hidingClass)) {
+                            AppBars._hidden = true;
+                        } else {
+                            AppBars._shown = true;
+                        }
+                    }
+                }
+
+                return AppBars;
+            }
+
+            // Sets focus to the last AppBar in the provided appBars array with given placement.
+            // Returns true if focus was set.  False otherwise.
+            function _setFocusToPreviousAppBarHelper(startIndex, appBarPlacement, appBars) {
+                var appBar;
+                for (var i = startIndex; i >= 0; i--) {
+                    appBar = appBars[i].winControl;
+                    if (appBar
+                     && appBar.placement === appBarPlacement
+                     && !appBar.hidden
+                     && appBar._focusOnLastFocusableElement
+                     && appBar._focusOnLastFocusableElement()) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Sets focus to the last tab stop of the previous AppBar
+            // AppBar tabbing order:
+            //    1) Bottom AppBars
+            //    2) Top AppBars
+            // DOM order is respected, because an AppBar should not have a defined tabIndex
+            function _setFocusToPreviousAppBar() {
+                /*jshint validthis: true */
+                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                if (!appBars.length) {
+                    return;
+                }
+
+                var thisAppBarIndex = 0;
+                for (var i = 0; i < appBars.length; i++) {
+                    if (appBars[i] === this.parentElement) {
+                        thisAppBarIndex = i;
+                        break;
+                    }
+                }
+
+                var appBarControl = this.parentElement.winControl;
+                if (appBarControl.placement === _Constants.appBarPlacementBottom) {
+                    // Bottom appBar: Focus order: (1)previous bottom appBars (2)top appBars (3)bottom appBars
+                    if (thisAppBarIndex && _setFocusToPreviousAppBarHelper(thisAppBarIndex - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
+                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementTop, appBars)) { return; }
+                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
+                } else if (appBarControl.placement === _Constants.appBarPlacementTop) {
+                    // Top appBar: Focus order: (1)previous top appBars (2)bottom appBars (3)top appBars
+                    if (thisAppBarIndex && _setFocusToPreviousAppBarHelper(thisAppBarIndex - 1, _Constants.appBarPlacementTop, appBars)) { return; }
+                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementBottom, appBars)) { return; }
+                    if (_setFocusToPreviousAppBarHelper(appBars.length - 1, _Constants.appBarPlacementTop, appBars)) { return; }
+                }
+            }
+
+            // Sets focus to the first AppBar in the provided appBars array with given placement.
+            // Returns true if focus was set.  False otherwise.
+            function _setFocusToNextAppBarHelper(startIndex, appBarPlacement, appBars) {
+                var appBar;
+                for (var i = startIndex; i < appBars.length; i++) {
+                    appBar = appBars[i].winControl;
+                    if (appBar
+                     && appBar.placement === appBarPlacement
+                     && !appBar.hidden
+                     && appBar._focusOnFirstFocusableElement
+                     && appBar._focusOnFirstFocusableElement()) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Sets focus to the first tab stop of the next AppBar
+            // AppBar tabbing order:
+            //    1) Bottom AppBars
+            //    2) Top AppBars
+            // DOM order is respected, because an AppBar should not have a defined tabIndex
+            function _setFocusToNextAppBar() {
+                /*jshint validthis: true */
+                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+
+                var thisAppBarIndex = 0;
+                for (var i = 0; i < appBars.length; i++) {
+                    if (appBars[i] === this.parentElement) {
+                        thisAppBarIndex = i;
+                        break;
+                    }
+                }
+
+                if (this.parentElement.winControl.placement === _Constants.appBarPlacementBottom) {
+                    // Bottom appBar: Focus order: (1)next bottom appBars (2)top appBars (3)bottom appBars
+                    if (_setFocusToNextAppBarHelper(thisAppBarIndex + 1, _Constants.appBarPlacementBottom, appBars)) { return; }
+                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementTop, appBars)) { return; }
+                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementBottom, appBars)) { return; }
+                } else if (this.parentElement.winControl.placement === _Constants.appBarPlacementTop) {
+                    // Top appBar: Focus order: (1)next top appBars (2)bottom appBars (3)top appBars
+                    if (_setFocusToNextAppBarHelper(thisAppBarIndex + 1, _Constants.appBarPlacementTop, appBars)) { return; }
+                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementBottom, appBars)) { return; }
+                    if (_setFocusToNextAppBarHelper(0, _Constants.appBarPlacementTop, appBars)) { return; }
+                }
+            }
+
+            // Updates the firstDiv & finalDiv of all shown AppBars
+            function _updateAllAppBarsFirstAndFinalDiv() {
+                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                var appBar;
+                for (var i = 0; i < appBars.length; i++) {
+                    appBar = appBars[i].winControl;
+                    if (appBar
+                     && !appBar.hidden
+                     && appBar._updateFirstAndFinalDiv) {
+                        appBar._updateFirstAndFinalDiv();
+                    }
+                }
+            }
+
+            // Returns true if a visible non-sticky (light dismiss) AppBar is found in the document
+            function _isThereVisibleNonStickyBar() {
+                var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                for (var i = 0; i < appBars.length; i++) {
+                    var appBarControl = appBars[i].winControl;
+                    if (appBarControl && !appBarControl.sticky &&
+                        (!appBarControl.hidden || appBarControl._element.winAnimating === displayModeVisiblePositions.shown)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // If the previous focus was not a AppBar or CED, store it in the cache
+            // (_isAppBarOrChild tests CED for us).
+            function _checkStorePreviousFocus(focusEvent) {
+                if (focusEvent.relatedTarget
+                 && focusEvent.relatedTarget.focus
+             && !_Overlay._Overlay._isAppBarOrChild(focusEvent.relatedTarget)) {
+                    _storePreviousFocus(focusEvent.relatedTarget);
+                }
+            }
+
+            // Cache the previous focus information
+            function _storePreviousFocus(element) {
+                if (element) {
+                    _Overlay._Overlay._ElementWithFocusPreviousToAppBar = element;
+                }
+            }
+
+            // Try to return focus to what had focus before.
+            // If successfully return focus to a textbox, restore the selection too.
+            function _restorePreviousFocus() {
+                _Overlay._Overlay._trySetActive(_Overlay._Overlay._ElementWithFocusPreviousToAppBar);
+            }
+
+            var strings = {
+                get ariaLabel() { return _Resources._getWinJSString("ui/appBarAriaLabel").value; },
+                get requiresCommands() { return "Invalid argument: commands must not be empty"; },
+                get cannotChangePlacementWhenVisible() { return "Invalid argument: The placement property cannot be set when the AppBar is visible, call hide() first"; },
+                get badLayout() { return "Invalid argument: The layout property must be 'custom', 'menu' or 'commands'"; },
+                get cannotChangeLayoutWhenVisible() { return "Invalid argument: The layout property cannot be set when the AppBar is visible, call hide() first"; }
+            };
+
+            var AppBar = _Base.Class.derive(_Overlay._Overlay, function AppBar_ctor(element, options) {
+                /// <signature helpKeyword="WinJS.UI.AppBar.AppBar">
+                /// <summary locid="WinJS.UI.AppBar.constructor">
+                /// Creates a new AppBar control.
+                /// </summary>
+                /// <param name="element" type="HTMLElement" domElement="true" locid="WinJS.UI.AppBar.constructor_p:element">
+                /// The DOM element that will host the control.
+                /// </param>
+                /// <param name="options" type="Object" locid="WinJS.UI.AppBar.constructor_p:options">
+                /// The set of properties and values to apply to the new AppBar control.
+                /// </param>
+                /// <returns type="WinJS.UI.AppBar" locid="WinJS.UI.AppBar.constructor_returnValue">
+                /// The new AppBar control.
+                /// </returns>
+                /// </signature>
+
+                this._initializing = true;
+
+                // Simplify checking later
+                options = options || {};
+
+                // Make sure there's an element
+                this._element = element || _Global.document.createElement("div");
+                this._id = this._element.id || _ElementUtilities._uniqueID(this._element);
+                this._writeProfilerMark("constructor,StartTM");
+
+                // Attach our css class.
+                _ElementUtilities.addClass(this._element, _Constants.appBarClass);
+
+                // Make sure we have an ARIA role
+                var role = this._element.getAttribute("role");
+                if (!role) {
+                    this._element.setAttribute("role", "menubar");
+                }
+                var label = this._element.getAttribute("aria-label");
+                if (!label) {
+                    this._element.setAttribute("aria-label", strings.ariaLabel);
+                }
+
+                // Call the _Overlay constructor helper to finish setting up our element.
+                // Don't pass constructor options, AppBar needs to set those itself specific order.
+                this._baseOverlayConstructor(this._element);
+
+                // Start off hidden
+                this._lastPositionVisited = displayModeVisiblePositions.none;
+                _ElementUtilities.addClass(this._element, _Constants.hiddenClass);
+
+                // validate that if they didn't set commands, but want command
+                // layout that the HTML only contains commands.  Do this first
+                // so that we don't leave partial AppBars in the DOM.
+                if (options.layout !== _Constants.appBarLayoutCustom && !options.commands && this._element) {
+                    // Shallow copy object so we can modify it.
+                    options = _BaseUtils._shallowCopy(options);
+                    options.commands = this._verifyCommandsOnly(this._element, "WinJS.UI.AppBarCommand");
+                }
+
+                // Add Invoke button.
+                this._invokeButton = _Global.document.createElement("button");
+                this._invokeButton.tabIndex = 0;
+                this._invokeButton.innerHTML = "<span class='" + _Constants.ellipsisClass + "'></span>";
+                _ElementUtilities.addClass(this._invokeButton, _Constants.invokeButtonClass);
+                this._element.appendChild(this._invokeButton);
+                var that = this;
+                this._invokeButton.addEventListener("click", function () { AppBar._toggleAllAppBarsState(_KeyboardBehavior._keyboardSeenLast, that); }, false);
+
+                // Run layout setter immediately. We need to know our layout in order to correctly
+                // position any commands that may be getting set through the constructor.
+                this.layout = options.layout || _Constants.appBarLayoutMenu;
+                delete options.layout;
+
+                // Need to set placement before closedDisplayMode, closedDisplayMode sets our starting position, which is dependant on placement.
+                this.placement = options.placement || _Constants.appBarPlacementBottom;
+                this.closedDisplayMode = options.closedDisplayMode || closedDisplayModes.compact;
+
+                _Control.setOptions(this, options);
+
+                var commandsUpdatedBound = this._commandsUpdated.bind(this);
+                this._element.addEventListener(_Constants.commandVisibilityChanged, function (ev) {
+                    if (that._disposed) {
+                        return;
+                    }
+                    if (!that.hidden) {
+                        ev.preventDefault();
+                    }
+                    commandsUpdatedBound();
+                });
+
+                this._initializing = false;
+
+                this._setFocusToAppBarBound = this._setFocusToAppBar.bind(this);
+
+                // Make a click eating div
+                _Overlay._Overlay._createClickEatingDivAppBar();
+
+                // Handle key down (esc) and (left & right)
+                this._element.addEventListener("keydown", this._handleKeyDown.bind(this), false);
+
+                // Attach global event handlers
+                if (!globalEventsInitialized) {
+                    // We'll trigger on invoking.  Could also have invoked or canceled
+                    // Eventually we may want click up on invoking and drop back on invoked.
+                    Application.addEventListener("edgystarting", _startingEdgy);
+                    Application.addEventListener("edgycompleted", _completedEdgy);
+                    Application.addEventListener("edgycanceled", _canceledEdgy);
+
+                    // Need to know if the IHM is done scrolling
+                    _Global.document.addEventListener("MSManipulationStateChanged", _allManipulationChanged, false);
+
+                    globalEventsInitialized = true;
+                }
+
+                // Need to store what had focus before
+                _ElementUtilities._addEventListener(this._element, "focusin", function (event) { _checkStorePreviousFocus(event); }, false);
+
+                // Need to hide ourselves if we lose focus
+                _ElementUtilities._addEventListener(this._element, "focusout", function () { _Overlay._Overlay._hideIfAllAppBarsLostFocus(); }, false);
+
+
+                if (this.closedDisplayMode === closedDisplayModes.none && this.layout === _Constants.appBarLayoutCommands) {
+                    // Remove the commands layout AppBar from the layout tree at this point so we don't cause unnecessary layout costs whenever
+                    // the window resizes or when CSS changes are applied to the commands layout AppBar's parent element.
+                    this._element.style.display = "none";
+                }
+
+                this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this._element);
+
+                this._writeProfilerMark("constructor,StopTM");
+
+                return this;
+            }, {
+                // Public Properties
+
+                /// <field type="String" defaultValue="bottom" oamOptionsDatatype="WinJS.UI.AppBar.placement" locid="WinJS.UI.AppBar.placement" helpKeyword="WinJS.UI.AppBar.placement">The placement of the AppBar on the display.  Values are "top" or "bottom".</field>
+                placement: {
+                    get: function AppBar_get_placement() {
+                        return this._placement;
+                    },
+                    set: function AppBar_set_placement(value) {
+                        // In designer we may have to move it
+                        var wasShown = false;
+                        if (_WinRT.Windows.ApplicationModel.DesignMode.designModeEnabled) {
+                            this._hide();
+                            wasShown = true;
+                        }
+
+                        if (!this.hidden) {
+                            throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangePlacementWhenVisible", strings.cannotChangePlacementWhenVisible);
+                        }
+
+                        // Set placement, coerce invalid values to 'bottom'
+                        this._placement = (value === _Constants.appBarPlacementTop) ? _Constants.appBarPlacementTop : _Constants.appBarPlacementBottom;
+
+                        // Clean up win-top, win-bottom styles
+                        if (this._placement === _Constants.appBarPlacementTop) {
+                            _ElementUtilities.addClass(this._element, _Constants.topClass);
+                            _ElementUtilities.removeClass(this._element, _Constants.bottomClass);
+                        } else if (this._placement === _Constants.appBarPlacementBottom) {
+                            _ElementUtilities.removeClass(this._element, _Constants.topClass);
+                            _ElementUtilities.addClass(this._element, _Constants.bottomClass);
+                        }
+
+                        // Update our position on screen.
+                        this._ensurePosition();
+                        if (wasShown) {
+                            // Show again if we hid ourselves for the designer
+                            this._show();
+                        }
+                    }
+                },
+
+                /// <field type="String" defaultValue="commands" oamOptionsDatatype="WinJS.UI.AppBar.layout" locid="WinJS.UI.AppBar.layout" helpKeyword="WinJS.UI.AppBar.layout">
+                /// Gets or sets the layout of the AppBar contents to either "commands" or "custom".
+                /// </field>
+                layout: {
+                    get: function AppBar_get_layout() {
+                        return this._layout.type;
+                    },
+                    set: function (layout) {
+                        if (layout !== _Constants.appBarLayoutCommands &&
+                            layout !== _Constants.appBarLayoutCustom &&
+                            layout !== _Constants.appBarLayoutMenu) {
+                            throw new _ErrorFromName("WinJS.UI.AppBar.BadLayout", strings.badLayout);
+                        }
+
+                        // In designer we may have to redraw it
+                        var wasShown = false;
+                        if (_WinRT.Windows.ApplicationModel.DesignMode.designModeEnabled) {
+                            this._hide();
+                            wasShown = true;
+                        }
+
+                        if (!this.hidden) {
+                            throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangeLayoutWhenVisible", strings.cannotChangeLayoutWhenVisible);
+                        }
+
+                        var commands;
+                        if (!this._initializing) {
+                            // Gather commands in preparation for hand off to new layout.
+                            // We expect prev layout to return commands in the order they were set in,
+                            // not necessarily the current DOM order the layout is using.
+                            commands = this._layout.commandsInOrder;
+                            this._layout.disconnect();
+                        }
+
+                        // Set layout
+                        if (layout === _Constants.appBarLayoutCommands) {
+                            this._layout = new _Layouts._AppBarCommandsLayout();
+                        } else if (layout === _Constants.appBarLayoutMenu) {
+                            this._layout = new _Layouts._AppBarMenuLayout();
+                        } else {
+                            // Custom layout uses Base AppBar Layout class.
+                            this._layout = new _Layouts._AppBarBaseLayout();
+                        }
+                        this._layout.connect(this._element);
+
+                        if (commands && commands.length) {
+                            // Reset AppBar since layout changed.
+                            this._layoutCommands(commands);
+                        }
+
+                        // Show again if we hid ourselves for the designer
+                        if (wasShown) {
+                            this._show();
+                        }
+                    },
+                    configurable: true
+                },
+
+                /// <field type="Boolean" locid="WinJS.UI.AppBar.sticky" isAdvanced="true" helpKeyword="WinJS.UI.AppBar.sticky">
+                /// Gets or sets value that indicates whether the AppBar is sticky.
+                /// This value is true if the AppBar is sticky; otherwise, it's false.
+                /// </field>
+                sticky: {
+                    get: function AppBar_get_sticky() {
+                        return this._sticky;
+                    },
+                    set: function AppBar_set_sticky(value) {
+                        // If it doesn't change, do nothing
+                        if (this._sticky === !!value) {
+                            return;
+                        }
+
+                        this._sticky = !!value;
+
+                        // Note: caller still has to call .show() if also want it shown.
+
+                        // Show or hide the click eating div based on sticky value
+                        if (!this.hidden && this._element.style.visibility === "visible") {
+                            // May have changed sticky state for keyboard navigation
+                            _updateAllAppBarsFirstAndFinalDiv();
+
+                            // Ensure that the click eating div is in the correct state
+                            if (this._sticky) {
+                                if (!_isThereVisibleNonStickyBar()) {
+                                    _Overlay._Overlay._hideClickEatingDivAppBar();
+                                }
+                            } else {
+                                _Overlay._Overlay._showClickEatingDivAppBar();
+
+                                if (this._shouldStealFocus()) {
+                                    _storePreviousFocus(_Global.document.activeElement);
+                                    this._setFocusToAppBar();
+                                }
+                            }
+                        }
+                    }
+                },
+
+                /// <field type="Array" locid="WinJS.UI.AppBar.commands" helpKeyword="WinJS.UI.AppBar.commands" isAdvanced="true">
+                /// Sets the AppBarCommands in the AppBar. This property accepts an array of AppBarCommand objects.
+                /// </field>
+                commands: {
+                    set: function AppBar_set_commands(commands) {
+                        // Fail if trying to set when shown
+                        if (!this.hidden) {
+                            throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangeCommandsWhenVisible", _Resources._formatString(_Overlay._Overlay.commonstrings.cannotChangeCommandsWhenVisible, "AppBar"));
+                        }
+
+                        // Dispose old commands before tossing them out.
+                        if (!this._initializing) {
+                            // AppBarCommands defined in markup don't want to be disposed during initialization.
+                            this._disposeChildren();
+                        }
+                        this._layoutCommands(commands);
+                    }
+                },
+
+                _layoutCommands: function AppBar_layoutCommands(commands) {
+                    // Function precondition: AppBar must not be shown.
+
+                    // Empties AppBar HTML and repopulates with passed in commands.
+                    _ElementUtilities.empty(this._element);
+                    this._element.appendChild(this._invokeButton); // Keep our Show/Hide button.
+
+                    // In case they had only one command to set...
+                    if (!Array.isArray(commands)) {
+                        commands = [commands];
+                    }
+
+                    this._layout.layout(commands);
+                },
+
+                /// <field type="String" defaultValue="compact" locid="WinJS.UI.AppBar.closedDisplayMode" helpKeyword="WinJS.UI.AppBar.closedDisplayMode" isAdvanced="true">
+                /// Gets/Sets how AppBar will display itself while hidden. Values are "none", "minimal" and '"compact".
+                /// </field>
+                closedDisplayMode: {
+                    get: function AppBar_get_closedDisplayMode() {
+                        return this._closedDisplayMode;
+                    },
+                    set: function AppBar_set_closedDisplayMode(value) {
+                        var oldValue = this._closedDisplayMode;
+
+                        if (oldValue !== value) {
+
+                            // Determine if the visible position is changing. This can be used to determine if we need to delay updating closedDisplayMode related CSS classes
+                            // to avoid affecting the animation.
+                            var changeVisiblePosition = _ElementUtilities.hasClass(this._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(this._element, _Constants.hidingClass);
+
+                            if (value === closedDisplayModes.none) {
+                                this._closedDisplayMode = closedDisplayModes.none;
+                                if (!changeVisiblePosition || !oldValue) {
+                                    _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
+                                    _ElementUtilities.removeClass(this._element, _Constants.compactClass);
+                                }
+                            } else if (value === closedDisplayModes.minimal) {
+                                this._closedDisplayMode = closedDisplayModes.minimal;
+                                if (!changeVisiblePosition || !oldValue || oldValue === closedDisplayModes.none) {
+                                    _ElementUtilities.addClass(this._element, _Constants.minimalClass);
+                                    _ElementUtilities.removeClass(this._element, _Constants.compactClass);
+                                }
+                            } else {
+                                // Compact is default fallback.
+                                this._closedDisplayMode = closedDisplayModes.compact;
+                                _ElementUtilities.addClass(this._element, _Constants.compactClass);
+                                _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
+                            }
+
+                            // The invoke button has changed the amount of available space in the AppBar. Layout might need to scale.
+                            this._layout.resize();
+
+                            if (changeVisiblePosition) {
+                                // If the value is being set while we are not showing, change to our new position.
+                                this._changeVisiblePosition(displayModeVisiblePositions[this._closedDisplayMode]);
+                            }
+                        }
+                    },
+                },
+
+                /// <field type="Boolean" locid="WinJS.UI.AppBar.disabled" helpKeyword="WinJS.UI.AppBar.disabled">
+                /// Disable an AppBar, setting or getting the HTML disabled attribute. While disabled, the AppBar is hidden completely, and will not respond to attempts to show it.
+                /// </field>
+                disabled: {
+                    get: function () {
+                        // Ensure it's a boolean because we're using the DOM element to keep in-sync
+                        return !!this._element.disabled;
+                    },
+                    set: function (disable) {
+                        var disable = !!disable;
+                        if (this.disabled !== disable) {
+                            this._element.disabled = disable;
+                            var toPosition;
+                            if (disable) {
+                                // Disabling. Move to the position mapped to the disabled state.
+                                toPosition = displayModeVisiblePositions.disabled;
+                            } else {
+                                // Enabling. Move to the position mapped to our closedDisplayMode.
+                                toPosition = displayModeVisiblePositions[this.closedDisplayMode];
+                            }
+                            this._hide(toPosition);
+                        }
+                    },
+                },
+
+                /// <field type="Boolean" hidden="true" locid="WinJS.UI._AppBar.hidden" helpKeyword="WinJS.UI._AppBar.hidden">Read only, true if an AppBar is 'hidden'.</field>
+                hidden: {
+                    get: function () {
+                        // Returns true if AppBar is 'hidden'.
+                        return _ElementUtilities.hasClass(this._element, _Constants.hiddenClass) ||
+                            _ElementUtilities.hasClass(this._element, _Constants.hidingClass) ||
+                            this._doNext === displayModeVisiblePositions.minimal ||
+                            this._doNext === displayModeVisiblePositions.compact ||
+                            this._doNext === displayModeVisiblePositions.none;
+                    },
+                },
+
+                getCommandById: function (id) {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.getCommandById">
+                    /// <summary locid="WinJS.UI.AppBar.getCommandById">
+                    /// Retrieves the command with the specified ID from this AppBar.
+                    /// If more than one command is found, this method returns them all.
+                    /// </summary>
+                    /// <param name="id" type="String" locid="WinJS.UI.AppBar.getCommandById_p:id">Id of the command to return.</param>
+                    /// <returns type="object" locid="WinJS.UI.AppBar.getCommandById_returnValue">
+                    /// The command found, an array of commands if more than one have the same ID, or null if no command is found.
+                    /// </returns>
+                    /// </signature>
+                    var commands = this._layout.commandsInOrder.filter(function (command) {
+                        return command.id === id || command.element.id === id;
+                    });
+                    
+                    if (commands.length === 1) {
+                        return commands[0];
+                    } else if (commands.length === 0) {
+                        return null;
+                    }
+
+                    return commands;
+                },
+
+                showCommands: function (commands) {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.showCommands">
+                    /// <summary locid="WinJS.UI.AppBar.showCommands">
+                    /// Show the specified commands of the AppBar.
+                    /// </summary>
+                    /// <param name="commands" type="Array" locid="WinJS.UI.AppBar.showCommands_p:commands">
+                    /// An array of the commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
+                    /// </param>
+                    /// </signature>
+                    if (!commands) {
+                        throw new _ErrorFromName("WinJS.UI.AppBar.RequiresCommands", strings.requiresCommands);
+                    }
+
+                    this._layout.showCommands(commands);
+                },
+
+                hideCommands: function (commands) {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.hideCommands">
+                    /// <summary locid="WinJS.UI.AppBar.hideCommands">
+                    /// Hides the specified commands of the AppBar.
+                    /// </summary>
+                    /// <param name="commands" type="Array" locid="WinJS.UI.AppBar.hideCommands_p:commands">Required. Command or Commands to hide, either String, DOM elements, or WinJS objects.</param>
+                    /// </signature>
+                    if (!commands) {
+                        throw new _ErrorFromName("WinJS.UI.AppBar.RequiresCommands", strings.requiresCommands);
+                    }
+
+                    this._layout.hideCommands(commands);
+                },
+
+                showOnlyCommands: function (commands) {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.showOnlyCommands">
+                    /// <summary locid="WinJS.UI.AppBar.showOnlyCommands">
+                    /// Show the specified commands, hiding all of the others in the AppBar.
+                    /// </summary>
+                    /// <param name="commands" type="Array" locid="WinJS.UI.AppBar.showOnlyCommands_p:commands">
+                    /// An array of the commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
+                    /// </param>
+                    /// </signature>
+                    if (!commands) {
+                        throw new _ErrorFromName("WinJS.UI.AppBar.RequiresCommands", strings.requiresCommands);
+                    }
+
+                    this._layout.showOnlyCommands(commands);
+                },
+
+                show: function () {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.show">
+                    /// <summary locid="WinJS.UI.AppBar.show">
+                    /// Shows the AppBar, if hidden and not disabled, regardless of other state.
+                    /// </summary>
+                    /// </signature>
+                    // Just wrap the private one, turning off keyboard invoked flag
+                    this._writeProfilerMark("show,StartTM");
+                    this._keyboardInvoked = false;
+                    this._doNotFocus = !!this.sticky;
+                    this._show();
+                },
+
+                _show: function AppBar_show() {
+
+                    var toPosition = displayModeVisiblePositions.shown;
+                    var showing = null;
+
+                    // If we're already shown, we are just going to animate our position, not fire events or manage focus.
+                    if (!this.disabled && (_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) || _ElementUtilities.hasClass(this._element, _Constants.hidingClass))) {
+                        showing = appbarShownState;
+                    }
+
+                    this._changeVisiblePosition(toPosition, showing);
+
+                    if (showing) {
+                        // Configure shown state for lightdismiss & sticky appbars.
+                        if (!this.sticky) {
+                            // Need click-eating div to be visible ASAP.
+                            _Overlay._Overlay._showClickEatingDivAppBar();
+                        }
+
+                        // Clean up tabbing behavior by making sure first and final divs are correct after showing.
+                        if (!this.sticky && _isThereVisibleNonStickyBar()) {
+                            _updateAllAppBarsFirstAndFinalDiv();
+                        } else {
+                            this._updateFirstAndFinalDiv();
+                        }
+
+                        // Check if we should steal focus
+                        if (!this._doNotFocus && this._shouldStealFocus()) {
+                            // Store what had focus if nothing currently is stored
+                            if (!_Overlay._Overlay._ElementWithFocusPreviousToAppBar) {
+                                _storePreviousFocus(_Global.document.activeElement);
+                            }
+
+                            this._layout.setFocusOnShow();
+                        }
+                    }
+                },
+
+                hide: function () {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.hide">
+                    /// <summary locid="WinJS.UI.AppBar.hide">
+                    /// Hides the AppBar.
+                    /// </summary>
+                    /// </signature>
+                    // Just wrap the private one
+                    this._writeProfilerMark("hide,StartTM");
+                    this._hide();
+                },
+
+                _hide: function AppBar_hide(toPosition) {
+
+                    var toPosition = toPosition || displayModeVisiblePositions[this.closedDisplayMode];
+                    var hiding = null;
+
+                    // If were already hidden, we are just going to animate our position, not fire events or manage focus again.
+                    if (!_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) && !_ElementUtilities.hasClass(this._element, _Constants.hidingClass)) {
+                        hiding = appbarHiddenState;
+                    }
+
+                    this._changeVisiblePosition(toPosition, hiding);
+                    if (hiding) {
+                        // Determine if there are any AppBars that are shown.
+                        // Set the focus to the next shown AppBar.
+                        // If there are none, set the focus to the control stored in the cache, which
+                        //   is what had focus before the AppBars were given focus.
+                        var appBars = _Global.document.querySelectorAll("." + _Constants.appBarClass);
+                        var areOtherAppBars = false;
+                        var areOtherNonStickyAppBars = false;
+                        var i;
+                        for (i = 0; i < appBars.length; i++) {
+                            var appBarControl = appBars[i].winControl;
+                            if (appBarControl && !appBarControl.hidden && (appBarControl !== this)) {
+                                areOtherAppBars = true;
+
+                                if (!appBarControl.sticky) {
+                                    areOtherNonStickyAppBars = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        var settingsFlyouts = _Global.document.querySelectorAll("." + _Constants.settingsFlyoutClass);
+                        var areVisibleSettingsFlyouts = false;
+                        for (i = 0; i < settingsFlyouts.length; i++) {
+                            var settingsFlyoutControl = settingsFlyouts[i].winControl;
+                            if (settingsFlyoutControl && !settingsFlyoutControl.hidden) {
+                                areVisibleSettingsFlyouts = true;
+                                break;
+                            }
+                        }
+
+                        if (!areOtherNonStickyAppBars && !areVisibleSettingsFlyouts) {
+                            // Hide the click eating div because there are no other AppBars showing
+                            _Overlay._Overlay._hideClickEatingDivAppBar();
+                        }
+
+                        var that = this;
+                        if (!areOtherAppBars) {
+                            // Set focus to what had focus before showing the AppBar
+                            if (_Overlay._Overlay._ElementWithFocusPreviousToAppBar &&
+                                (!_Global.document.activeElement || _Overlay._Overlay._isAppBarOrChild(_Global.document.activeElement))) {
+                                _restorePreviousFocus();
+                            }
+                            // Always clear the previous focus (to prevent temporary leaking of element)
+                            _Overlay._Overlay._ElementWithFocusPreviousToAppBar = null;
+                        } else if (AppBar._isWithinAppBarOrChild(_Global.document.activeElement, that.element)) {
+                            // Set focus to next visible AppBar in DOM
+
+                            var foundCurrentAppBar = false;
+                            for (i = 0; i <= appBars.length; i++) {
+                                if (i === appBars.length) {
+                                    i = 0;
+                                }
+
+                                var appBar = appBars[i];
+                                if (appBar === this.element) {
+                                    foundCurrentAppBar = true;
+                                } else if (foundCurrentAppBar && !appBar.winControl.hidden) {
+                                    appBar.winControl._keyboardInvoked = !!this._keyboardInvoked;
+                                    appBar.winControl._setFocusToAppBar();
+                                    break;
+                                }
+                            }
+                        }
+
+                        // If we are hiding the last lightDismiss AppBar,
+                        //   then we need to update the tabStops of the other AppBars
+                        if (!this.sticky && !_isThereVisibleNonStickyBar()) {
+                            _updateAllAppBarsFirstAndFinalDiv();
+                        }
+
+                        // Reset these values
+                        this._keyboardInvoked = false;
+                        this._doNotFocus = false;
+                    }
+                },
+
+                _dispose: function AppBar_dispose() {
+                    _Dispose.disposeSubTree(this.element);
+                    this._layout.dispose();
+                    this.disabled = true;
+                },
+
+                _disposeChildren: function AppBar_disposeChildren() {
+                    // Be purposeful about what we dispose.
+                    this._layout.disposeChildren();
+                },
+
+                _isLightDismissible: function AppBar_isLightDismissible() {
+                    // An AppBar is considered light dismissible if there is at least one visible non sticky AppBar.
+                    return _Overlay._Overlay.prototype._isLightDismissible.call(this) || _isThereVisibleNonStickyBar();
+                },
+
+                _handleKeyDown: function AppBar_handleKeyDown(event) {
+                    // On Left/Right arrow keys, moves focus to previous/next AppbarCommand element.
+                    // On "Esc" key press hide flyouts and hide light dismiss AppBars.
+
+                    // Esc hides light-dismiss AppBars in all layouts but if the user has a text box with an IME
+                    // candidate window open, we want to skip the ESC key event since it is handled by the IME.
+                    // When the IME handles a key it sets event.keyCode === Key.IME for an easy check.
+                    if (event.keyCode === Key.escape && event.keyCode !== Key.IME) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this._lightDismiss(true);
+                    }
+
+                    // If the current active element isn't an intrinsic part of the AppBar,
+                    // Layout might want to handle additional keys.
+                    if (!this._invokeButton.contains(_Global.document.activeElement)) {
+                        this._layout.handleKeyDown(event);
+                    }
+                },
+
+                _visiblePixels: {
+                    get: function () {
+                        // Returns object containing pixel height of each visible position
+                        return {
+                            hidden: knownVisibleHeights.hidden,
+                            minimal: knownVisibleHeights.minimal,
+                            compact: Math.max(this._heightWithoutLabels || 0, knownVisibleHeights.compact),
+                            // Element can change size as content gets added or removed or if it
+                            // experinces style changes. We have to look this up at run time.
+                            shown: this._element.offsetHeight,
+                        };
+                    }
+                },
+
+                _visiblePosition: {
+                    // Returns string value of our nearest, stationary, visible position.
+                    get: function () {
+                        // If we're animating into a new posistion, return the position we're animating into.
+                        if (this._animating && displayModeVisiblePositions[this._element.winAnimating]) {
+                            return this._element.winAnimating;
+                        } else {
+                            return this._lastPositionVisited;
+                        }
+                    }
+                },
+
+                _visible: {
+                    // Returns true if our visible position is not completely hidden, else false.
+                    get: function () {
+                        return (this._visiblePosition !== displayModeVisiblePositions.none);
+                    }
+                },
+
+                _changeVisiblePosition: function (toPosition, newState) {
+                    /// <signature helpKeyword="WinJS.UI.AppBar._changeVisiblePosition">
+                    /// <summary locid="WinJS.UI.AppBar._changeVisiblePosition">
+                    /// Changes the visible position of the AppBar.
+                    /// </summary>
+                    /// <param name="toPosition" type="String" locid="WinJS.UI.AppBar._changeVisiblePosition_p:toPosition">
+                    /// Name of the visible position we want to move to.
+                    /// </param>
+                    /// <param name="newState" type="String" locid="WinJS.UI.AppBar._changeVisiblePosition_p:newState">
+                    /// Name of the state we are entering. Values can be "showing", "hiding" or null.
+                    /// If the value is null, then we are not changing states, only changing visible position.
+                    /// </param>
+                    /// </signature>
+
+                    if ((this._visiblePosition === toPosition && !this._keyboardObscured) ||
+                        (this.disabled && toPosition !== displayModeVisiblePositions.disabled)) {
+                        // If we want to go where we already are, or we're disabled, return false.
+                        this._afterPositionChange(null);
+                    } else if (this._animating || this._needToHandleShowingKeyboard || this._needToHandleHidingKeyboard) {
+                        // Only do one thing at a time. If we are already animating,
+                        // or the IHM is animating, schedule this for later.
+                        this._doNext = toPosition;
+                        this._afterPositionChange(null);
+                    } else {
+                        // Begin position changing sequence.
+
+                        // Set the animating flag to block any queued position changes until we're done.
+                        this._element.winAnimating = toPosition;
+                        var performAnimation = this._initializing ? false : true;
+
+                        // Assume we are animating from the last position visited.
+                        var fromPosition = this._lastPositionVisited;
+
+                        // We'll need to measure our element to determine how far we need to animate.
+                        // Make sure we have accurate dimensions.
+                        this._element.style.display = "";
+
+                        // Are we hiding completely, or about to become visible?
+                        var hidingCompletely = (toPosition === displayModeVisiblePositions.hidden);
+
+                        if (this._keyboardObscured) {
+                            // We're changing position while covered by the IHM.
+                            if (hidingCompletely) {
+                                // If we're covered by the IHM we already look hidden.
+                                // We can skip our animation and just hide.
+                                performAnimation = false;
+                            } else {
+                                // Some portion of the AppBar should be visible to users after its position changes.
+
+                                // Un-obscure ourselves and become visible to the user again.
+                                // Need to animate to our desired position as if we were coming up from behind the keyboard.
+                                fromPosition = displayModeVisiblePositions.hidden;
+                            }
+                            this._keyboardObscured = false;
+                        }
+
+                        // Fire "before" event if we are changing state.
+                        if (newState === appbarShownState) {
+                            this._beforeShow();
+                        } else if (newState === appbarHiddenState) {
+                            this._beforeHide();
+                        }
+
+                        // Position our element into the correct "end of animation" position,
+                        // also accounting for any viewport scrolling or soft keyboard positioning.
+                        this._ensurePosition();
+
+                        this._element.style.opacity = 1;
+                        this._element.style.visibility = "visible";
+
+                        this._animationPromise = (performAnimation) ? this._animatePositionChange(fromPosition, toPosition) : Promise.wrap();
+                        this._animationPromise.then(
+                            function () { this._afterPositionChange(toPosition, newState); }.bind(this),
+                            function () { this._afterPositionChange(toPosition, newState); }.bind(this)
+                        );
+                    }
+                },
+
+                _afterPositionChange: function AppBar_afterPositionChange(newPosition, newState) {
+                    // Defines body of work to perform after changing positions.
+                    if (this._disposed) {
+                        return;
+                    }
+
+                    if (newPosition) {
+
+                        // Update closedDisplayMode related CSS classes, which were delayed from the closedDisplayMode setter to avoid affecting the animation
+                        if (newPosition === displayModeVisiblePositions.minimal) {
+                            _ElementUtilities.addClass(this._element, _Constants.minimalClass);
+                            _ElementUtilities.removeClass(this._element, _Constants.compactClass);
+                        }
+
+                        if (newPosition === displayModeVisiblePositions.hidden && this.closedDisplayMode === closedDisplayModes.none) {
+                            _ElementUtilities.removeClass(this._element, _Constants.minimalClass);
+                            _ElementUtilities.removeClass(this._element, _Constants.compactClass);
+                        }
+
+                        // Clear animation flag and record having visited this position.
+                        this._element.winAnimating = "";
+                        this._lastPositionVisited = newPosition;
+
+                        if (this._doNext === this._lastPositionVisited) {
+                            this._doNext = "";
+                        }
+
+                        if (newPosition === displayModeVisiblePositions.hidden) {
+                            // Make sure animation is finished.
+                            this._element.style.visibility = "hidden";
+                            this._element.style.display = "none";
+                        }
+
+                        // Clean up animation transforms.
+                        var transformProperty = _BaseUtils._browserStyleEquivalents["transform"].scriptName;
+                        this._element.style[transformProperty] = "";
+
+                        // Fire "after" event if we changed state.
+                        if (newState === appbarShownState) {
+                            this._afterShow();
+                        } else if (newState === appbarHiddenState) {
+                            this._afterHide();
+                        }
+
+                        // If we had something queued, do that
+                        Scheduler.schedule(this._checkDoNext, Scheduler.Priority.normal, this, "WinJS.UI.AppBar._checkDoNext");
+                    }
+
+                    this._afterPositionChangeCallBack();
+                },
+
+                _afterPositionChangeCallBack: function () {
+                    // Leave this blank for unit tests to overwrite.
+                },
+
+                _beforeShow: function AppBar_beforeShow() {
+                    // Each overlay tracks the size of the <HTML> element for triggering light-dismiss in the window resize handler.
+                    this._cachedDocumentSize = this._cachedDocumentSize || _Overlay._Overlay._sizeOfDocument();
+
+                    // In case their event 'beforeshow' event listener is going to manipulate commands,
+                    // first see if there are any queued command animations we can handle while we're still hidden.
+                    if (this._queuedCommandAnimation) {
+                        this._showAndHideFast(this._queuedToShow, this._queuedToHide);
+                        this._queuedToShow = [];
+                        this._queuedToHide = [];
+                    }
+
+                    // Make sure everything fits before showing
+                    this._layout.scale();
+
+                    if (this.closedDisplayMode === closedDisplayModes.compact) {
+                        this._heightWithoutLabels = this._element.offsetHeight;
+                    }
+
+                    _ElementUtilities.removeClass(this._element, _Constants.hiddenClass);
+                    _ElementUtilities.addClass(this._element, _Constants.showingClass);
+
+                    // Send our "beforeShow" event
+                    this._sendEvent(_Overlay._Overlay.beforeShow);
+                },
+
+                _afterShow: function AppBar_afterShow() {
+                    _ElementUtilities.removeClass(this._element, _Constants.showingClass);
+                    _ElementUtilities.addClass(this._element, _Constants.shownClass);
+
+                    // Send our "afterShow" event
+                    this._sendEvent(_Overlay._Overlay.afterShow);
+                    this._writeProfilerMark("show,StopTM");
+                },
+
+                _beforeHide: function AppBar_beforeHide() {
+
+                    _ElementUtilities.removeClass(this._element, _Constants.shownClass);
+                    _ElementUtilities.addClass(this._element, _Constants.hidingClass);
+
+                    // Send our "beforeHide" event
+                    this._sendEvent(_Overlay._Overlay.beforeHide);
+                },
+
+                _afterHide: function AppBar_afterHide() {
+
+                    // In case their 'afterhide' event handler is going to manipulate commands,
+                    // first see if there are any queued command animations we can handle now we're hidden.
+                    if (this._queuedCommandAnimation) {
+                        this._showAndHideFast(this._queuedToShow, this._queuedToHide);
+                        this._queuedToShow = [];
+                        this._queuedToHide = [];
+                    }
+
+                    _ElementUtilities.removeClass(this._element, _Constants.hidingClass);
+                    _ElementUtilities.addClass(this._element, _Constants.hiddenClass);
+
+                    // Send our "afterHide" event
+                    this._sendEvent(_Overlay._Overlay.afterHide);
+                    this._writeProfilerMark("hide,StopTM");
+                },
+
+                _animatePositionChange: function AppBar_animatePositionChange(fromPosition, toPosition) {
+                    // Determines and executes the proper transition between visible positions
+
+                    var layoutElementsAnimationPromise = this._layout.positionChanging(fromPosition, toPosition),
+                        appBarElementAnimationPromise;
+
+                    // Get values in terms of pixels to perform animation.
+                    var beginningVisiblePixelHeight = this._visiblePixels[fromPosition],
+                        endingVisiblePixelHeight = this._visiblePixels[toPosition],
+                        distance = Math.abs(endingVisiblePixelHeight - beginningVisiblePixelHeight),
+                        offsetTop = (this._placement === _Constants.appBarPlacementTop) ? -distance : distance;
+
+                    if ((this._placement === _Constants.appBarPlacementTop) &&
+                        ((fromPosition === displayModeVisiblePositions.shown &&
+                        toPosition === displayModeVisiblePositions.compact) ||
+                        (fromPosition === displayModeVisiblePositions.compact &&
+                        toPosition === displayModeVisiblePositions.shown))) {
+                        // Command icons remain in the same location on a top appbar
+                        // when going from compact > shown or shown > compact.
+                        offsetTop = 0;
+                    }
+
+                    // Animate
+                    if (endingVisiblePixelHeight > beginningVisiblePixelHeight) {
+                        var fromOffset = { top: offsetTop + "px", left: "0px" };
+                        appBarElementAnimationPromise = Animations.showEdgeUI(this._element, fromOffset, { mechanism: "transition" });
+                    } else {
+                        var toOffset = { top: offsetTop + "px", left: "0px" };
+                        appBarElementAnimationPromise = Animations.hideEdgeUI(this._element, toOffset, { mechanism: "transition" });
+                    }
+
+                    return Promise.join([layoutElementsAnimationPromise, appBarElementAnimationPromise]);
+                },
+
+                _checkDoNext: function AppBar_checkDoNext() {
+                    // Do nothing if we're still animating
+                    if (this._animating || this._needToHandleShowingKeyboard || this._needToHandleHidingKeyboard || this._disposed) {
+                        return;
+                    }
+
+                    if (this._doNext === displayModeVisiblePositions.disabled ||
+                        this._doNext === displayModeVisiblePositions.hidden ||
+                        this._doNext === displayModeVisiblePositions.minimal ||
+                        this._doNext === displayModeVisiblePositions.compact) {
+                        // Do hide first because animating commands would be easier
+                        this._hide(this._doNext);
+                        this._doNext = "";
+                    } else if (this._queuedCommandAnimation) {
+                        // Do queued commands before showing if possible
+                        this._showAndHideQueue();
+                    } else if (this._doNext === displayModeVisiblePositions.shown) {
+                        // Show last so that we don't unnecessarily animate commands
+                        this._show();
+                        this._doNext = "";
+                    }
+                },
+
+                _isABottomAppBarInTheProcessOfShowing: function AppBar_isABottomAppBarInTheProcessOfShowing() {
+                    var appbars = _Global.document.querySelectorAll("." + _Constants.appBarClass + "." + _Constants.bottomClass);
+                    for (var i = 0; i < appbars.length; i++) {
+                        if (appbars[i].winAnimating === displayModeVisiblePositions.shown) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                },
+
+                // Returns true if
+                //   1) This is a bottom appbar
+                //   2) No appbar has focus and a bottom appbar is not in the process of showing
+                //   3) What currently has focus is neither a bottom appbar nor a top appbar
+                //      AND a bottom appbar is not in the process of showing.
+                // Otherwise Returns false
+                _shouldStealFocus: function AppBar_shouldStealFocus() {
+                    var activeElementAppBar = _Overlay._Overlay._isAppBarOrChild(_Global.document.activeElement);
+                    if (this._element === activeElementAppBar) {
+                        // This appbar already has focus and we don't want to move focus
+                        // from where it currently is in this appbar.
+                        return false;
+                    }
+                    if (this._placement === _Constants.appBarPlacementBottom) {
+                        // This is a bottom appbar
+                        return true;
+                    }
+
+                    var isBottomAppBarShowing = this._isABottomAppBarInTheProcessOfShowing();
+                    if (!activeElementAppBar) {
+                        // Currently no appbar has focus.
+                        // Return true if a bottom appbar is not in the process of showing.
+                        return !isBottomAppBarShowing;
+                    }
+                    if (!activeElementAppBar.winControl) {
+                        // This should not happen, but if it does we want to make sure
+                        // that an AppBar ends up with focus.
+                        return true;
+                    }
+                    if ((activeElementAppBar.winControl._placement !== _Constants.appBarPlacementBottom)
+                     && (activeElementAppBar.winControl._placement !== _Constants.appBarPlacementTop)
+                     && !isBottomAppBarShowing) {
+                        // What currently has focus is neither a bottom appbar nor a top appbar
+                        // -and-
+                        // a bottom appbar is not in the process of showing.
+                        return true;
+                    }
+                    return false;
+                },
+
+                // Set focus to the passed in AppBar
+                _setFocusToAppBar: function AppBar_setFocusToAppBar(useSetActive, scroller) {
+                    if (!this._focusOnFirstFocusableElement(useSetActive, scroller)) {
+                        // No first element, set it to appbar itself
+                        _Overlay._Overlay._trySetActive(this._element, scroller);
+                    }
+                },
+
+                _commandsUpdated: function AppBar_commandsUpdated() {
+                    // If we are still initializing then we don't have a layout yet so it doesn't need updating.
+                    if (!this._initializing) {
+                        this._layout.commandsUpdated();
+                        this._layout.scale();
+                    }
+                },
+
+                _beginAnimateCommands: function AppBar_beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands) {
+                    // The parameters are 3 mutually exclusive arrays of win-command elements contained in this Overlay.
+                    // 1) showCommands[]: All of the HIDDEN win-command elements that ARE scheduled to show.
+                    // 2) hideCommands[]: All of the VISIBLE win-command elements that ARE scheduled to hide.
+                    // 3) otherVisibleCommands[]: All VISIBLE win-command elements that ARE NOT scheduled to hide.
+                    this._layout.beginAnimateCommands(showCommands, hideCommands, otherVisibleCommands);
+                },
+
+                _endAnimateCommands: function AppBar_endAnimateCommands() {
+                    this._layout.endAnimateCommands();
+                    this._endAnimateCommandsCallBack();
+                },
+
+                _endAnimateCommandsCallBack: function AppBar_endAnimateCommandsCallBack() {
+                    // Leave this blank for unit tests to overwrite.
+                },
+
+                // Get the top offset for top appbars.
+                _getTopOfVisualViewport: function AppBar_getTopOfVisualViewPort() {
+                    return _Overlay._Overlay._keyboardInfo._visibleDocTop;
+                },
+
+                // Get the bottom offset for bottom appbars.
+                _getAdjustedBottom: function AppBar_getAdjustedBottom() {
+                    // Need the distance the IHM moved as well.
+                    return _Overlay._Overlay._keyboardInfo._visibleDocBottomOffset;
+                },
+
+                _showingKeyboard: function AppBar_showingKeyboard(event) {
+                    // Remember keyboard showing state.
+                    this._keyboardObscured = false;
+                    this._needToHandleHidingKeyboard = false;
+
+                    // If we're already moved, then ignore the whole thing
+                    if (_Overlay._Overlay._keyboardInfo._visible && this._alreadyInPlace()) {
+                        return;
+                    }
+
+                    this._needToHandleShowingKeyboard = true;
+                    // If focus is in the appbar, don't cause scrolling.
+                    if (!this.hidden && this._element.contains(_Global.document.activeElement)) {
+                        event.ensuredFocusedElementInView = true;
+                    }
+
+                    // Check if appbar moves or if we're ok leaving it obscured instead.
+                    if (this._visible && this._placement !== _Constants.appBarPlacementTop && _Overlay._Overlay._isFlyoutVisible()) {
+                        // Remember that we're obscured
+                        this._keyboardObscured = true;
+                    } else {
+                        // Don't be obscured, clear _scrollHappened flag to give us inference later on when to re-show ourselves.
+                        this._scrollHappened = false;
+                    }
+
+                    // Also set timeout regardless, so we can clean up our _keyboardShowing flag.
+                    var that = this;
+                    _Global.setTimeout(function (e) { that._checkKeyboardTimer(e); }, _Overlay._Overlay._keyboardInfo._animationShowLength + _Overlay._Overlay._scrollTimeout);
+                },
+
+                _hidingKeyboard: function AppBar_hidingKeyboard() {
+                    // We'll either just reveal the current space under the IHM or restore the window height.
+
+                    // We won't be obscured
+                    this._keyboardObscured = false;
+                    this._needToHandleShowingKeyboard = false;
+                    this._needToHandleHidingKeyboard = true;
+
+                    // We'll either just reveal the current space or resize the window
+                    if (!_Overlay._Overlay._keyboardInfo._isResized) {
+                        // If we're not completely hidden, only fake hiding under keyboard, or already animating,
+                        // then snap us to our final position.
+                        if (this._visible || this._animating) {
+                            // Not resized, update our final position immediately
+                            this._checkScrollPosition();
+                            this._element.style.display = "";
+                        }
+                        this._needToHandleHidingKeyboard = false;
+                    }
+                    // Else resize should clear keyboardHiding.
+                },
+
+                _resize: function AppBar_resize(event) {
+                    // If we're hidden by the keyboard, then hide bottom appbar so it doesn't pop up twice when it scrolls
+                    if (this._needToHandleShowingKeyboard) {
+                        // Top is allowed to scroll off the top, but we don't want bottom to peek up when
+                        // scrolled into view since we'll show it ourselves and don't want a stutter effect.
+                        if (this._visible) {
+                            if (this._placement !== _Constants.appBarPlacementTop && !this._keyboardObscured) {
+                                // If viewport doesn't match window, need to vanish momentarily so it doesn't scroll into view,
+                                // however we don't want to toggle the visibility="hidden" hidden flag.
+                                this._element.style.display = "none";
+                            }
+                        }
+                        // else if we're top we stay, and if there's a flyout, stay obscured by the keyboard.
+                    } else if (this._needToHandleHidingKeyboard) {
+                        this._needToHandleHidingKeyboard = false;
+                        if (this._visible || this._animating) {
+                            // Snap to final position
+                            this._checkScrollPosition();
+                            this._element.style.display = "";
+                        }
+                    }
+
+                    // Make sure everything still fits.
+                    if (!this._initializing) {
+                        this._layout.resize(event);
+                    }
+                },
+
+                _checkKeyboardTimer: function AppBar_checkKeyboardTimer() {
+                    if (!this._scrollHappened) {
+                        this._mayEdgeBackIn();
+                    }
+                },
+
+                _manipulationChanged: function AppBar_manipulationChanged(event) {
+                    // See if we're at the not manipulating state, and we had a scroll happen,
+                    // which is implicitly after the keyboard animated.
+                    if (event.currentState === 0 && this._scrollHappened) {
+                        this._mayEdgeBackIn();
+                    }
+                },
+
+                _mayEdgeBackIn: function AppBar_mayEdgeBackIn() {
+                    // May need to react to IHM being resized event
+                    if (this._needToHandleShowingKeyboard) {
+                        // If not top appbar or viewport isn't still at top, then need to show again
+                        this._needToHandleShowingKeyboard = false;
+                        // If obscured (IHM + flyout showing), it's ok to stay obscured.
+                        // If bottom we have to move, or if top scrolled off screen.
+                        if (!this._keyboardObscured &&
+                            (this._placement !== _Constants.appBarPlacementTop || _Overlay._Overlay._keyboardInfo._visibleDocTop !== 0)) {
+                            var toPosition = this._visiblePosition;
+                            this._lastPositionVisited = displayModeVisiblePositions.hidden;
+                            this._changeVisiblePosition(toPosition, false);
+                        } else {
+                            // Ensure any animations dropped during the showing keyboard are caught up.
+                            this._checkDoNext();
+                        }
+                    }
+                    this._scrollHappened = false;
+                },
+
+                _ensurePosition: function AppBar_ensurePosition() {
+                    // Position the AppBar element relative to the top or bottom edge of the visible
+                    // document, based on the the visible position we think we need to be in.
+                    var offSet = this._computePositionOffset();
+                    this._element.style.bottom = offSet.bottom;
+                    this._element.style.top = offSet.top;
+
+                },
+
+                _computePositionOffset: function AppBar_computePositionOffset() {
+                    // Calculates and returns top and bottom offsets for the AppBar element, relative to the top or bottom edge of the visible
+                    // document.
+                    var positionOffSet = {};
+
+                    if (this._placement === _Constants.appBarPlacementBottom) {
+                        // If the IHM is open, the bottom of the visual viewport may or may not be obscured
+                        // Use _getAdjustedBottom to account for the IHM if it is covering the bottom edge.
+                        positionOffSet.bottom = this._getAdjustedBottom() + "px";
+                        positionOffSet.top = "";
+                    } else if (this._placement === _Constants.appBarPlacementTop) {
+                        positionOffSet.bottom = "";
+                        positionOffSet.top = this._getTopOfVisualViewport() + "px";
+                    }
+
+                    return positionOffSet;
+                },
+
+                _checkScrollPosition: function AppBar_checkScrollPosition() {
+                    // If IHM has appeared, then remember we may come in
+                    if (this._needToHandleShowingKeyboard) {
+                        // Tag that it's OK to edge back in.
+                        this._scrollHappened = true;
+                        return;
+                    }
+
+                    // We only need to update if we're not completely hidden.
+                    if (this._visible || this._animating) {
+                        this._ensurePosition();
+                        // Ensure any animations dropped during the showing keyboard are caught up.
+                        this._checkDoNext();
+                    }
+                },
+
+                _alreadyInPlace: function AppBar_alreadyInPlace() {
+                    // See if we're already where we're supposed to be.
+                    var offSet = this._computePositionOffset();
+                    return (offSet.top === this._element.style.top && offSet.bottom === this._element.style.bottom);
+                },
+
+                // If there is a shown non-sticky AppBar then it sets the firstDiv tabIndex to
+                //   the minimum tabIndex found in the AppBars and finalDiv to the max found.
+                // Otherwise sets their tabIndex to -1 so they are not tab stops.
+                _updateFirstAndFinalDiv: function AppBar_updateFirstAndFinalDiv() {
+                    var appBarFirstDiv = this._element.querySelectorAll("." + _Constants.firstDivClass);
+                    appBarFirstDiv = appBarFirstDiv.length >= 1 ? appBarFirstDiv[0] : null;
+
+                    var appBarFinalDiv = this._element.querySelectorAll("." + _Constants.finalDivClass);
+                    appBarFinalDiv = appBarFinalDiv.length >= 1 ? appBarFinalDiv[0] : null;
+
+                    // Remove the firstDiv & finalDiv if they are not at the appropriate locations
+                    if (appBarFirstDiv && (this._element.children[0] !== appBarFirstDiv)) {
+                        appBarFirstDiv.parentNode.removeChild(appBarFirstDiv);
+                        appBarFirstDiv = null;
+                    }
+                    if (appBarFinalDiv && (this._element.children[this._element.children.length - 1] !== appBarFinalDiv)) {
+                        appBarFinalDiv.parentNode.removeChild(appBarFinalDiv);
+                        appBarFinalDiv = null;
+                    }
+
+                    // Create and add the firstDiv & finalDiv if they don't already exist
+                    if (!appBarFirstDiv) {
+                        // Add a firstDiv that will be the first child of the appBar.
+                        // On focus set focus to the previous appBar.
+                        // The div should only be focusable if there are shown non-sticky AppBars.
+                        appBarFirstDiv = _Global.document.createElement("div");
+                        // display: inline is needed so that the div doesn't take up space and cause the page to scroll on focus
+                        appBarFirstDiv.style.display = "inline";
+                        appBarFirstDiv.className = _Constants.firstDivClass;
+                        appBarFirstDiv.tabIndex = -1;
+                        appBarFirstDiv.setAttribute("aria-hidden", "true");
+                        _ElementUtilities._addEventListener(appBarFirstDiv, "focusin", _setFocusToPreviousAppBar, false);
+                        // add to beginning
+                        if (this._element.children[0]) {
+                            this._element.insertBefore(appBarFirstDiv, this._element.children[0]);
+                        } else {
+                            this._element.appendChild(appBarFirstDiv);
+                        }
+                    }
+                    if (!appBarFinalDiv) {
+                        // Add a finalDiv that will be the last child of the appBar.
+                        // On focus set focus to the next appBar.
+                        // The div should only be focusable if there are shown non-sticky AppBars.
+                        appBarFinalDiv = _Global.document.createElement("div");
+                        // display: inline is needed so that the div doesn't take up space and cause the page to scroll on focus
+                        appBarFinalDiv.style.display = "inline";
+                        appBarFinalDiv.className = _Constants.finalDivClass;
+                        appBarFinalDiv.tabIndex = -1;
+                        appBarFinalDiv.setAttribute("aria-hidden", "true");
+                        _ElementUtilities._addEventListener(appBarFinalDiv, "focusin", _setFocusToNextAppBar, false);
+                        this._element.appendChild(appBarFinalDiv);
+                    }
+
+
+                    // invokeButton should be the second to last element in the AppBar's tab order. Second to the finalDiv.
+                    if (this._element.children[this._element.children.length - 2] !== this._invokeButton) {
+                        this._element.insertBefore(this._invokeButton, appBarFinalDiv);
+                    }
+                    var elms = this._element.getElementsByTagName("*");
+                    var highestTabIndex = _ElementUtilities._getHighestTabIndexInList(elms);
+                    this._invokeButton.tabIndex = highestTabIndex;
+
+                    // Update the tabIndex of the firstDiv & finalDiv
+                    if (_isThereVisibleNonStickyBar()) {
+
+                        if (appBarFirstDiv) {
+                            appBarFirstDiv.tabIndex = _ElementUtilities._getLowestTabIndexInList(elms);
+                        }
+                        if (appBarFinalDiv) {
+                            appBarFinalDiv.tabIndex = highestTabIndex;
+                        }
+                    } else {
+                        if (appBarFirstDiv) {
+                            appBarFirstDiv.tabIndex = -1;
+                        }
+                        if (appBarFinalDiv) {
+                            appBarFinalDiv.tabIndex = -1;
+                        }
+                    }
+                },
+
+                _writeProfilerMark: function AppBar_writeProfilerMark(text) {
+                    _WriteProfilerMark("WinJS.UI.AppBar:" + this._id + ":" + text);
+                }
+            }, {
+                // Statics
+                _appBarsSynchronizationPromise: Promise.as(),
+
+                // Returns true if the element or what had focus before the element (if a Flyout) is either:
+                //   1) the appBar or subtree
+                //   2) OR in a flyout spawned by the appBar
+                // Returns false otherwise.
+                _isWithinAppBarOrChild: function (element, appBar) {
+                    if (!element || !appBar) {
+                        return false;
+                    }
+                    if (appBar.contains(element)) {
+                        return true;
+                    }
+                    var flyout = _Overlay._Overlay._getParentControlUsingClassName(element, _Constants.flyoutClass);
+                    return (flyout && appBar.contains(flyout._previousFocus));
+                },
+
+                // Callback for AppBar invokeButton and Edgy Event Command
+                _toggleAllAppBarsState: function (keyboardInvoked, sourceAppBar) {
+                    var bars = _getDynamicBarsForEdgy();
+
+                    var hiding;
+                    if (sourceAppBar) {
+                        // If the sourceAppBar is shown, hide all AppBars, else show all AppBars.
+                        hiding = _ElementUtilities.hasClass(sourceAppBar._element, _Constants.showingClass) || _ElementUtilities.hasClass(sourceAppBar._element, _Constants.shownClass);
+                    } else {
+                        // EDGY event behavior. No sourceAppBar specified.
+                        // If every AppBar is shown, hide them. Otherwise show them all.
+                        hiding = bars._shown && !bars._hidden;
+                    }
+
+                    if (hiding) {
+                        AppBar._appBarsSynchronizationPromise = AppBar._appBarsSynchronizationPromise.then(function () {
+                            return _Overlay._Overlay._hideAppBars(bars, keyboardInvoked);
+                        });
+                        return "hiding";
+                    } else {
+                        AppBar._appBarsSynchronizationPromise = AppBar._appBarsSynchronizationPromise.then(function () {
+                            return _Overlay._Overlay._showAppBars(bars, keyboardInvoked);
+                        });
+                        return "showing";
+                    }
+                },
+            });
+
+            return AppBar;
+        })
+    });
+
 });
 
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
@@ -74886,7 +74112,6 @@ define('WinJS/Controls/SettingsFlyout',[
     '../Core/_Base',
     '../Core/_BaseUtils',
     '../Core/_ErrorFromName',
-    '../Core/_Events',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
     '../Animations',
@@ -74896,9 +74121,9 @@ define('WinJS/Controls/SettingsFlyout',[
     '../Utilities/_ElementUtilities',
     '../Utilities/_ElementListUtilities',
     '../Utilities/_Hoverable',
-    './_LegacyAppBar/_Constants',
+    './AppBar/_Constants',
     './Flyout/_Overlay'
-    ], function settingsFlyoutInit(_Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Events, _Resources, _WriteProfilerMark, Animations, Pages, Promise, _Dispose, _ElementUtilities, _ElementListUtilities, _Hoverable, _Constants, _Overlay) {
+    ], function settingsFlyoutInit(_Global,_WinRT, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, Animations, Pages, Promise, _Dispose, _ElementUtilities, _ElementListUtilities, _Hoverable, _Constants, _Overlay) {
     "use strict";
 
     _Base.Namespace.define("WinJS.UI", {
@@ -74927,8 +74152,6 @@ define('WinJS/Controls/SettingsFlyout',[
         /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
         SettingsFlyout: _Base.Namespace._lazy(function () {
             var Key = _ElementUtilities.Key;
-
-            var createEvent = _Events._createEventProperty;
 
             var settingsPageIsFocusedOnce;
 
@@ -75084,45 +74307,6 @@ define('WinJS/Controls/SettingsFlyout',[
                         this._settingsCommandId = value;
                     }
                 },
-
-                /// <field type="Boolean" locid="WinJS.UI.SettingsFlyout.disabled" helpKeyword="WinJS.UI.SettingsFlyout.disabled">Disable SettingsFlyout, setting or getting the HTML disabled attribute.  When disabled the SettingsFlyout will no longer display with show(), and will hide if currently visible.</field>
-                disabled: {
-                    get: function () {
-                        // Ensure it's a boolean because we're using the DOM element to keep in-sync
-                        return !!this._element.disabled;
-                    },
-                    set: function (value) {
-                        // Force this check into a boolean because our current state could be a bit confused since we tie to the DOM element
-                        value = !!value;
-                        var oldValue = !!this._element.disabled;
-                        if (oldValue !== value) {
-                            this._element.disabled = value;
-                            if (!this.hidden && this._element.disabled) {
-                                this._dismiss();
-                            }
-                        }
-                    }
-                },
-
-                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onbeforeshow" helpKeyword="WinJS.UI.SettingsFlyout.onbeforeshow">
-                /// Occurs immediately before the control is shown.
-                /// </field>
-                onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
-
-                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onaftershow" helpKeyword="WinJS.UI.SettingsFlyout.onaftershow">
-                /// Occurs immediately after the control is shown.
-                /// </field>
-                onaftershow: createEvent(_Overlay._Overlay.afterShow),
-
-                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onbeforehide" helpKeyword="WinJS.UI.SettingsFlyout.onbeforehide">
-                /// Occurs immediately before the control is hidden.
-                /// </field>
-                onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
-
-                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onafterhide" helpKeyword="WinJS.UI.SettingsFlyout.onafterhide">
-                /// Occurs immediately after the control is hidden.
-                /// </field>
-                onafterhide: createEvent(_Overlay._Overlay.afterHide),
 
                 show: function () {
                     /// <signature helpKeyword="WinJS.UI.SettingsFlyout.show">
@@ -76028,7 +75212,7 @@ define('WinJS/Controls/NavBar/_Container',[
     '../../Utilities/_ElementUtilities',
     '../../Utilities/_KeyboardBehavior',
     '../../Utilities/_UI',
-    '../_LegacyAppBar/_Constants',
+    '../AppBar/_Constants',
     '../Repeater',
     './_Command'
 ], function NavBarContainerInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Events, _Log, _Resources, _WriteProfilerMark, Animations, _TransitionAnimation, BindingList, ControlProcessor, Navigation, Promise, Scheduler, _Control, _ElementUtilities, _KeyboardBehavior, _UI, _Constants, Repeater, _Command) {
@@ -76411,9 +75595,9 @@ define('WinJS/Controls/NavBar/_Container',[
                 _updateAppBarReference: function NavBarContainer_updateAppBarReference() {
                     if (!this._appBarEl || !this._appBarEl.contains(this.element)) {
                         if (this._appBarEl) {
-                            this._appBarEl.removeEventListener('beforeopen', this._closeSplitAndResetBound);
-                            this._appBarEl.removeEventListener('beforeopen', this._resizeImplBound);
-                            this._appBarEl.removeEventListener('afteropen', this._focusCurrentItemPassivelyBound);
+                            this._appBarEl.removeEventListener('beforeshow', this._closeSplitAndResetBound);
+                            this._appBarEl.removeEventListener('beforeshow', this._resizeImplBound);
+                            this._appBarEl.removeEventListener('aftershow', this._focusCurrentItemPassivelyBound);
                         }
 
                         var appBarEl = this.element.parentNode;
@@ -76423,8 +75607,8 @@ define('WinJS/Controls/NavBar/_Container',[
                         this._appBarEl = appBarEl;
 
                         if (this._appBarEl) {
-                            this._appBarEl.addEventListener('beforeopen', this._closeSplitAndResetBound);
-                            this._appBarEl.addEventListener('afteropen', this._focusCurrentItemPassivelyBound);
+                            this._appBarEl.addEventListener('beforeshow', this._closeSplitAndResetBound);
+                            this._appBarEl.addEventListener('aftershow', this._focusCurrentItemPassivelyBound);
                         }
                     }
                 },
@@ -76713,10 +75897,10 @@ define('WinJS/Controls/NavBar/_Container',[
 
                         this._updateAppBarReference();
 
-                        if (this._appBarEl && this._appBarEl.winControl && !this._appBarEl.winControl.opened) {
+                        if (this._appBarEl && this._appBarEl.winControl && this._appBarEl.winControl.hidden) {
                             // Do resize lazily.
                             Scheduler.schedule(this._resizeImplBound, Scheduler.Priority.idle, null, "WinJS.UI.NavBarContainer._resizeImpl");
-                            this._appBarEl.addEventListener('beforeopen', this._resizeImplBound);
+                            this._appBarEl.addEventListener('beforeshow', this._resizeImplBound);
                         } else {
                             // Do resize now
                             this._resizeImpl();
@@ -76728,7 +75912,7 @@ define('WinJS/Controls/NavBar/_Container',[
                     if (!this._disposed && this._pendingResize) {
                         this._pendingResize = false;
                         if (this._appBarEl) {
-                            this._appBarEl.removeEventListener('beforeopen', this._resizeImplBound);
+                            this._appBarEl.removeEventListener('beforeshow', this._resizeImplBound);
                         }
 
                         this._keyboardBehavior.currentIndex = 0;
@@ -77366,8 +76550,8 @@ define('WinJS/Controls/NavBar/_Container',[
                     this._disposed = true;
 
                     if (this._appBarEl) {
-                        this._appBarEl.removeEventListener('beforeopen', this._closeSplitAndResetBound);
-                        this._appBarEl.removeEventListener('beforeopen', this._resizeImplBound);
+                        this._appBarEl.removeEventListener('beforeshow', this._closeSplitAndResetBound);
+                        this._appBarEl.removeEventListener('beforeshow', this._resizeImplBound);
                     }
 
                     Navigation.removeEventListener('navigated', this._closeSplitAndResetBound);
@@ -77427,12 +76611,12 @@ define('WinJS/Controls/NavBar',[
     '../Scheduler',
     '../Utilities/_ElementUtilities',
     '../Utilities/_Hoverable',
-    './_LegacyAppBar',
+    './AppBar',
     './NavBar/_Command',
     './NavBar/_Container',
     'require-style!less/styles-navbar',
     'require-style!less/colors-navbar'
-], function NavBarInit(_Global,_WinRT, _Base, _BaseUtils, _Events, _WriteProfilerMark, Promise, Scheduler, _ElementUtilities, _Hoverable, _LegacyAppBar, _Command, _Container) {
+], function NavBarInit(_Global,_WinRT, _Base, _BaseUtils, _Events, _WriteProfilerMark, Promise, Scheduler, _ElementUtilities, _Hoverable, AppBar, _Command, _Container) {
     "use strict";
 
     var customLayout = "custom";
@@ -77440,7 +76624,7 @@ define('WinJS/Controls/NavBar',[
     _Base.Namespace.define("WinJS.UI", {
         /// <field>
         /// <summary locid="WinJS.UI.NavBar">
-        /// Displays navigation commands in a toolbar that the user can open or close.
+        /// Displays navigation commands in a toolbar that the user can show or hide.
         /// </summary>
         /// <compatibleWith platform="Windows" minVersion="8.1"/>
         /// </field>
@@ -77451,10 +76635,10 @@ define('WinJS/Controls/NavBar',[
         /// <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{location:'/pages/home/home.html',label:'Home',icon:WinJS.UI.AppBarIcon.home}"></div>
         /// </div>
         /// </div>]]></htmlSnippet>
-        /// <event name="beforeopen" locid="WinJS.UI.NavBar_e:beforeopen">Raised just before opening the NavBar.</event>
-        /// <event name="afteropen" locid="WinJS.UI.NavBar_e:afteropen">Raised immediately after an NavBar is fully opened.</event>
-        /// <event name="beforeclose" locid="WinJS.UI.NavBar_e:beforeclose">Raised just before closing the  NavBar.</event>
-        /// <event name="afterclose" locid="WinJS.UI.NavBar_e:afterclose">Raised immediately after the NavBar is fully closed.</event>
+        /// <event name="beforeshow" locid="WinJS.UI.NavBar_e:beforeshow">Raised just before showing the NavBar.</event>
+        /// <event name="aftershow" locid="WinJS.UI.NavBar_e:aftershow">Raised immediately after an NavBar is fully shown.</event>
+        /// <event name="beforehide" locid="WinJS.UI.NavBar_e:beforehide">Raised just before hiding the  NavBar.</event>
+        /// <event name="afterhide" locid="WinJS.UI.NavBar_e:afterhide">Raised immediately after the NavBar is fully hidden.</event>
         /// <event name="childrenprocessed" locid="WinJS.UI.NavBar_e:childrenprocessed">Fired when children of NavBar control have been processed from a WinJS.UI.processAll call.</event>
         /// <part name="navbar" class="win-navbar" locid="WinJS.UI.NavBar_part:navbar">Styles the entire NavBar.</part>
         /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
@@ -77463,7 +76647,7 @@ define('WinJS/Controls/NavBar',[
             var childrenProcessedEventName = "childrenprocessed";
             var createEvent = _Events._createEventProperty;
 
-            var NavBar = _Base.Class.derive(_LegacyAppBar._LegacyAppBar, function NavBar_ctor(element, options) {
+            var NavBar = _Base.Class.derive(AppBar.AppBar, function NavBar_ctor(element, options) {
                 /// <signature helpKeyword="WinJS.UI.NavBar.NavBar">
                 /// <summary locid="WinJS.UI.NavBar.constructor">
                 /// Creates a new NavBar.
@@ -77491,9 +76675,9 @@ define('WinJS/Controls/NavBar',[
                 options.layout = customLayout;
                 options.closedDisplayMode = options.closedDisplayMode || "minimal";
 
-                _LegacyAppBar._LegacyAppBar.call(this, element, options);
+                AppBar.AppBar.call(this, element, options);
 
-                this._element.addEventListener("beforeopen", this._handleBeforeShow.bind(this));
+                this._element.addEventListener("beforeshow", this._handleBeforeShow.bind(this));
 
                 _ElementUtilities.addClass(this.element, NavBar._ClassName.navbar);
 
@@ -77503,6 +76687,20 @@ define('WinJS/Controls/NavBar',[
                     Scheduler.schedule(this._processChildren.bind(this), Scheduler.Priority.idle, null, "WinJS.UI.NavBar.processChildren");
                 }
             }, {
+                // Block others from setting the layout property.
+
+                /// <field type="String" defaultValue="commands" oamOptionsDatatype="WinJS.UI.NavBar.layout" locid="WinJS.UI.NavBar.layout" helpKeyword="WinJS.UI.NavBar.layout">
+                /// The layout of the NavBar contents.
+                /// <compatibleWith platform="Windows" minVersion="8.1"/>
+                /// </field>
+                layout: {
+                    get: function () {
+                        return customLayout;
+                    },
+                    set: function () {
+                        Object.getOwnPropertyDescriptor(AppBar.AppBar.prototype, "layout").set.call(this, customLayout);
+                    },
+                },
 
                 // Restrict values of closedDisplayMode to 'none' or 'minimal'
 
@@ -77515,7 +76713,7 @@ define('WinJS/Controls/NavBar',[
                     },
                     set: function (value) {
                         var newValue = (value  === "none" ? "none" : "minimal");
-                        Object.getOwnPropertyDescriptor(_LegacyAppBar._LegacyAppBar.prototype, "closedDisplayMode").set.call(this, newValue);
+                        Object.getOwnPropertyDescriptor(AppBar.AppBar.prototype, "closedDisplayMode").set.call(this, newValue);
                         this._closedDisplayMode = newValue;
                     },
                 },
@@ -77570,13 +76768,13 @@ define('WinJS/Controls/NavBar',[
                     }
                     var that = this;
                     this._processChildren().then(function () {
-                        _LegacyAppBar._LegacyAppBar.prototype._show.call(that);
+                        AppBar.AppBar.prototype._show.call(that);
                     });
                 },
 
                 _handleBeforeShow: function NavBar_handleBeforeShow() {
-                    // Navbar needs to ensure its elements to have their correct height and width after _LegacyAppBar changes display="none"
-                    // to  display="" and _LegacyAppBar needs the elements to have their final height before it measures its own element height
+                    // Navbar needs to ensure its elements to have their correct height and width after AppBar changes display="none"
+                    // to  display="" and AppBar needs the elements to have their final height before it measures its own element height
                     // to do the slide in animation over the correct amount of pixels.
                     if (this._disposed) {
                         return;
@@ -78529,9 +77727,9 @@ define('WinJS/Controls/ContentDialog',[
                             '<div class="' + ClassNames.title + '"></div>' +
                             '<div class="' + ClassNames._scroller + '"></div>' +
                             '<div class="' + ClassNames.commands + '">' +
-                                '<button type="button" class="' + ClassNames._commandSpacer + '"></button>' +
-                                '<button type="button" class="' + ClassNames.primaryCommand + '"></button>' +
-                                '<button type="button" class="' + ClassNames.secondaryCommand + '"></button>' +
+                                '<button class="' + ClassNames._commandSpacer + '"></button>' +
+                                '<button class="' + ClassNames.primaryCommand + '"></button>' +
+                                '<button class="' + ClassNames.secondaryCommand + '"></button>' +
                             '</div>' +
                         '</div>' +
                         '<div class="' + ClassNames._tabStop + '"></div>' +
@@ -78895,11 +78093,14 @@ define('WinJS/Controls/ContentDialog',[
 
 define('require-style!less/styles-lightdismissservice',[],function(){});
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-define('WinJS/_LightDismissService',["require", "exports", './Application', './Core/_Base', './Core/_BaseUtils', './Utilities/_ElementUtilities', './Core/_Global', './Utilities/_KeyboardBehavior', './Core/_Log', './Core/_Resources'], function (require, exports, Application, _Base, _BaseUtils, _ElementUtilities, _Global, _KeyboardBehavior, _Log, _Resources) {
+define('WinJS/_LightDismissService',["require", "exports", './Application', './Core/_Base', './Core/_BaseUtils', './Utilities/_ElementUtilities', './Core/_Global', './Utilities/_KeyboardBehavior', './Core/_Log', './Core/_Resources'], function(require, exports, Application, _Base, _BaseUtils, _ElementUtilities, _Global, _KeyboardBehavior, _Log, _Resources) {
     require(["require-style!less/styles-lightdismissservice"]);
+
     "use strict";
-    var baseZIndex = 900; // Below Ovelays for now
+
+    var baseZIndex = 900;
     var rightButton = 2;
+
     var Strings = {
         get closeOverlay() {
             return _Resources._getWinJSString("ui/closeOverlay").value;
@@ -78923,6 +78124,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
         windowBlur: "windowBlur",
         edgy: "edgy"
     };
+
     // Built-in implementations of ILightDismissable's onShouldLightDismiss.
     exports.DismissalPolicies = {
         light: function LightDismissalPolicies_light_onShouldLightDismiss(info) {
@@ -78931,8 +78133,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 case LightDismissalReasons.escape:
                     if (info.active) {
                         return true;
-                    }
-                    else {
+                    } else {
                         info.stopPropagation();
                         return false;
                     }
@@ -78941,8 +78142,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                     if (info.active) {
                         info.preventDefault(); // prevent backwards navigation in the app
                         return true;
-                    }
-                    else {
+                    } else {
                         info.stopPropagation();
                         return false;
                     }
@@ -78959,11 +78159,17 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
             return false;
         }
     };
+
+    
+
+    
+
     var LightDismissableElement = (function () {
         function LightDismissableElement(args) {
             this.element = args.element;
             this.element.tabIndex = args.tabIndex;
             this.onLightDismiss = args.onLightDismiss;
+
             // Allow the caller to override the default implementations of our ILightDismissable methods.
             if (args.setZIndex) {
                 this.setZIndex = args.setZIndex;
@@ -78996,11 +78202,11 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
             var activeElement = _Global.document.activeElement;
             if (activeElement && this.containsElement(activeElement)) {
                 this._ldeCurrentFocus = activeElement;
-            }
-            else {
+            } else {
                 // If the last input type was keyboard, use focus() so a keyboard focus visual is drawn.
                 // Otherwise, use setActive() so no focus visual is drawn.
                 var useSetActive = !_KeyboardBehavior._keyboardSeenLast;
+
                 (this._ldeCurrentFocus && this.containsElement(this._ldeCurrentFocus) && _ElementUtilities._tryFocus(this._ldeCurrentFocus, useSetActive)) || _ElementUtilities._focusFirstFocusableElement(this.element, useSetActive) || _ElementUtilities._tryFocus(this.element, useSetActive);
             }
         };
@@ -79020,6 +78226,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
         return LightDismissableElement;
     })();
     exports.LightDismissableElement = LightDismissableElement;
+
     // An implementation of ILightDismissable that represents the HTML body element. It can never be dismissed. The
     // service should instantiate one of these to act as the bottommost light dismissable at all times (it isn't expected
     // for anybody else to instantiate one). It takes care of restoring focus when the last dismissable is dismissed.
@@ -79038,6 +78245,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
             // If the last input type was keyboard, use focus() so a keyboard focus visual is drawn.
             // Otherwise, use setActive() so no focus visual is drawn.
             var useSetActive = !_KeyboardBehavior._keyboardSeenLast;
+
             (this.currentFocus && this.containsElement(this.currentFocus) && _ElementUtilities._tryFocus(this.currentFocus, useSetActive)) || _Global.document.body && _ElementUtilities._focusFirstFocusableElement(_Global.document.body, useSetActive) || _Global.document.body && _ElementUtilities._tryFocus(_Global.document.body, useSetActive);
         };
         LightDismissableBody.prototype.onFocus = function (element) {
@@ -79053,6 +78261,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
         };
         return LightDismissableBody;
     })();
+
     //
     // Light dismiss service
     //
@@ -79068,12 +78277,14 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._orderedCache.unshift(item);
             }
         };
+
         OrderedCache.prototype.remove = function (item) {
             var index = this._orderedCache.indexOf(item);
             if (index !== -1) {
                 this._orderedCache.splice(index, 1);
             }
         };
+
         // Returns the item in *candidates* that was most recently touched.
         OrderedCache.prototype.mostRecentlyTouched = function (candidates) {
             for (var i = 0, len = this._orderedCache.length; i < len; i++) {
@@ -79085,6 +78296,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
         };
         return OrderedCache;
     })();
+
     var LightDismissService = (function () {
         function LightDismissService() {
             this._clients = [];
@@ -79097,17 +78309,21 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 serviceActive: false
             };
             this._clickEaterEl = this._createClickEater();
+
             this._onFocusInBound = this._onFocusIn.bind(this);
             this._onKeyDownBound = this._onKeyDown.bind(this);
             this._onWindowResizeBound = this._onWindowResize.bind(this);
             this._onClickEaterPointerUpBound = this._onClickEaterPointerUp.bind(this);
             this._onClickEaterPointerCancelBound = this._onClickEaterPointerCancel.bind(this);
+
             // Register for infrequent events.
             Application.addEventListener("backclick", this._onBackClick.bind(this));
+
             // Focus handlers generally use _ElementUtilities._addEventListener with focusout/focusin. This
             // uses the browser's blur event directly beacuse _addEventListener doesn't support focusout/focusin
             // on window.
             _Global.window.addEventListener("blur", this._onWindowBlur.bind(this));
+
             this.shown(this._bodyClient);
         }
         // Dismissables should call this as soon as they are ready to be shown. More specifically, they should call this:
@@ -79120,6 +78336,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._updateDom();
             }
         };
+
         // Dismissables should call this when they are done being dismissed (i.e. after their exit animation has finished)
         LightDismissService.prototype.hidden = function (client) {
             var index = this._clients.indexOf(client);
@@ -79131,11 +78348,14 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._updateDom();
             }
         };
+
         LightDismissService.prototype._updateDom = function () {
             var rendered = this._updateDom_rendered;
+
             if (this._notifying) {
                 return;
             }
+
             var serviceActive = this._clients.length > 1;
             if (serviceActive !== rendered.serviceActive) {
                 // Unregister/register for events that occur frequently.
@@ -79144,14 +78364,14 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                     _Global.document.documentElement.addEventListener("keydown", this._onKeyDownBound);
                     _Global.window.addEventListener("resize", this._onWindowResizeBound);
                     this._bodyClient.currentFocus = _Global.document.activeElement;
-                }
-                else {
+                } else {
                     _ElementUtilities._removeEventListener(_Global.document.documentElement, "focusin", this._onFocusInBound);
                     _Global.document.documentElement.removeEventListener("keydown", this._onKeyDownBound);
                     _Global.window.removeEventListener("resize", this._onWindowResizeBound);
                 }
                 rendered.serviceActive = serviceActive;
             }
+
             var clickEaterIndex = -1;
             this._clients.forEach(function (c, i) {
                 if (c.requiresClickEater()) {
@@ -79162,17 +78382,18 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
             if (clickEaterIndex !== -1) {
                 this._clickEaterEl.style.zIndex = "" + (baseZIndex + clickEaterIndex * 2);
             }
+
             var clickEaterInDom = clickEaterIndex !== -1;
             if (clickEaterInDom !== rendered.clickEaterInDom) {
                 if (clickEaterInDom) {
                     _Global.document.body.appendChild(this._clickEaterEl);
-                }
-                else {
+                } else {
                     var parent = this._clickEaterEl.parentNode;
                     parent && parent.removeChild(this._clickEaterEl);
                 }
                 rendered.clickEaterInDom = clickEaterInDom;
             }
+
             // Which dismissable should receive focus? In the easy case, there is only one dismissable above the click eater
             // so this dismissable should receive focus. However, which one should receive focus if multiple dismissables
             // are above the click eater? Our answer is the dismissable which is above the click eater which had focus most
@@ -79188,20 +78409,24 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 var candidates = this._clients.slice(startIndex);
                 activeDismissable = this._focusCache.mostRecentlyTouched(candidates) || candidates[candidates.length - 1];
             }
+
             if (this._activeDismissable !== activeDismissable) {
                 this._activeDismissable = activeDismissable;
                 this._activeDismissable && this._activeDismissable.onActivate();
             }
         };
+
         LightDismissService.prototype._dispatchLightDismiss = function (reason, clients) {
             if (this._notifying) {
                 _Log.log && _Log.log('_LightDismissService ignored dismiss trigger to avoid re-entrancy: "' + reason + '"', "winjs _LightDismissService", "warning");
                 return;
             }
+
             clients = clients || this._clients.slice(0);
             if (clients.length === 0) {
                 return;
             }
+
             this._notifying = true;
             var lightDismissInfo = {
                 // Which of the LightDismissalReasons caused this event to fire?
@@ -79223,16 +78448,20 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                     clients[i].onLightDismiss(lightDismissInfo);
                 }
             }
+
             this._notifying = false;
             this._updateDom();
+
             return lightDismissInfo._doDefault;
         };
+
         //
         // Light dismiss triggers
         //
         LightDismissService.prototype._clickEaterTapped = function () {
             this._dispatchLightDismiss(LightDismissalReasons.tap);
         };
+
         LightDismissService.prototype._onFocusIn = function (eventObject) {
             var target = eventObject.target;
             for (var i = this._clients.length - 1; i >= 0; i--) {
@@ -79244,8 +78473,10 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._focusCache.touch(this._clients[i]);
                 this._clients[i].onFocus(target);
             }
+
             this._dispatchLightDismiss(LightDismissalReasons.lostFocus, this._clients.slice(i + 1, this._clients.length));
         };
+
         LightDismissService.prototype._onKeyDown = function (eventObject) {
             if (eventObject.keyCode === _ElementUtilities.Key.escape) {
                 eventObject.preventDefault();
@@ -79253,13 +78484,16 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._dispatchLightDismiss(LightDismissalReasons.escape);
             }
         };
+
         LightDismissService.prototype._onBackClick = function (eventObject) {
             var doDefault = this._dispatchLightDismiss(LightDismissalReasons.hardwareBackButton);
-            return !doDefault; // Returns whether or not the event was handled.
+            return !doDefault;
         };
+
         LightDismissService.prototype._onWindowResize = function (eventObject) {
             this._dispatchLightDismiss(LightDismissalReasons.windowResize);
         };
+
         LightDismissService.prototype._onWindowBlur = function (eventObject) {
             // Want to trigger a light dismiss on window blur.
             // We get blur if we click off the window, including into an iframe within our window.
@@ -79268,8 +78502,7 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
             if (!_Global.document.hasFocus()) {
                 // The document doesn't have focus, so they clicked off the app, so light dismiss.
                 this._dispatchLightDismiss(LightDismissalReasons.windowBlur);
-            }
-            else {
+            } else {
                 // We were trying to unfocus the window, but document still has focus,
                 // so make sure the iframe that took the focus will check for blur next time.
                 var active = _Global.document.activeElement;
@@ -79283,21 +78516,26 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 }
             }
         };
+
         LightDismissService.prototype._createClickEater = function () {
             var clickEater = _Global.document.createElement("section");
             clickEater.className = ClassNames._clickEater;
             _ElementUtilities._addEventListener(clickEater, "pointerdown", this._onClickEaterPointerDown.bind(this), true);
             clickEater.addEventListener("click", this._onClickEaterClick.bind(this), true);
+
             // Tell Aria that it's clickable
             clickEater.setAttribute("role", "menuitem");
             clickEater.setAttribute("aria-label", Strings.closeOverlay);
+
             // Prevent CED from removing any current selection
             clickEater.setAttribute("unselectable", "on");
             return clickEater;
         };
+
         LightDismissService.prototype._onClickEaterPointerDown = function (eventObject) {
             eventObject.stopPropagation();
             eventObject.preventDefault();
+
             if (eventObject.button !== rightButton) {
                 this._clickEaterPointerId = eventObject.pointerId;
                 if (!this._registeredClickEaterCleanUp) {
@@ -79307,13 +78545,16 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 }
             }
         };
+
         LightDismissService.prototype._onClickEaterPointerUp = function (eventObject) {
             var _this = this;
             eventObject.stopPropagation();
             eventObject.preventDefault();
+
             if (eventObject.pointerId === this._clickEaterPointerId) {
                 this._resetClickEaterPointerState();
                 var element = _Global.document.elementFromPoint(eventObject.clientX, eventObject.clientY);
+
                 if (element === this._clickEaterEl) {
                     this._skipClickEaterClick = true;
                     _BaseUtils._yieldForEvents(function () {
@@ -79323,9 +78564,11 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 }
             }
         };
+
         LightDismissService.prototype._onClickEaterClick = function (eventObject) {
             eventObject.stopPropagation();
             eventObject.preventDefault();
+
             if (!this._skipClickEaterClick) {
                 // Handle the UIA invoke action on the click eater. this._skipClickEaterClick is false which tells
                 // us that we received a click event without an associated PointerUp event. This means that the click
@@ -79333,11 +78576,13 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
                 this._clickEaterTapped();
             }
         };
+
         LightDismissService.prototype._onClickEaterPointerCancel = function (eventObject) {
             if (eventObject.pointerId === this._clickEaterPointerId) {
                 this._resetClickEaterPointerState();
             }
         };
+
         LightDismissService.prototype._resetClickEaterPointerState = function () {
             if (this._registeredClickEaterCleanUp) {
                 _ElementUtilities._removeEventListener(_Global.window, "pointerup", this._onClickEaterPointerUpBound);
@@ -79348,9 +78593,11 @@ define('WinJS/_LightDismissService',["require", "exports", './Application', './C
         };
         return LightDismissService;
     })();
+
     var service = new LightDismissService();
     exports.shown = service.shown.bind(service);
     exports.hidden = service.hidden.bind(service);
+
     _Base.Namespace.define("WinJS.UI._LightDismissService", {
         shown: exports.shown,
         hidden: exports.hidden,
@@ -79366,10 +78613,12 @@ define('require-style!less/styles-splitview',[],function(){});
 define('require-style!less/colors-splitview',[],function(){});
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
 /// <reference path="../../../../../typings/require.d.ts" />
-define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Animations', '../../Core/_Base', '../../Core/_BaseUtils', '../../Utilities/_Control', '../../Utilities/_Dispose', '../../Utilities/_ElementUtilities', '../../Core/_ErrorFromName', '../../Core/_Events', '../../Core/_Global', '../../_LightDismissService', '../../Utilities/_OpenCloseMachine'], function (require, exports, Animations, _Base, _BaseUtils, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Events, _Global, _LightDismissService, _OpenCloseMachine) {
+define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Animations', '../../Core/_Base', '../../Core/_BaseUtils', '../../Utilities/_Control', '../../Utilities/_Dispose', '../../Utilities/_ElementUtilities', '../../Core/_ErrorFromName', '../../Core/_Events', '../../Core/_Global', '../../_LightDismissService', '../../Promise', '../../_Signal'], function(require, exports, Animations, _Base, _BaseUtils, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Events, _Global, _LightDismissService, Promise, _Signal) {
     require(["require-style!less/styles-splitview"]);
     require(["require-style!less/colors-splitview"]);
+
     "use strict";
+
     var transformNames = _BaseUtils._browserStyleEquivalents["transform"];
     var Strings = {
         get duplicateConstruction() {
@@ -79380,9 +78629,9 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
         splitView: "win-splitview",
         pane: "win-splitview-pane",
         content: "win-splitview-content",
-        // closed/opened
-        paneClosed: "win-splitview-pane-closed",
-        paneOpened: "win-splitview-pane-opened",
+        // hidden/shown
+        paneHidden: "win-splitview-pane-hidden",
+        paneShown: "win-splitview-pane-shown",
         _panePlaceholder: "win-splitview-paneplaceholder",
         _paneWrapper: "win-splitview-panewrapper",
         _contentWrapper: "win-splitview-contentwrapper",
@@ -79391,40 +78640,41 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
         _placementRight: "win-splitview-placementright",
         _placementTop: "win-splitview-placementtop",
         _placementBottom: "win-splitview-placementbottom",
-        // closed display mode
-        _closedDisplayNone: "win-splitview-closeddisplaynone",
-        _closedDisplayInline: "win-splitview-closeddisplayinline",
-        // opened display mode
-        _openedDisplayInline: "win-splitview-openeddisplayinline",
-        _openedDisplayOverlay: "win-splitview-openeddisplayoverlay"
+        // hidden display mode
+        _hiddenDisplayNone: "win-splitview-hiddendisplaynone",
+        _hiddenDisplayInline: "win-splitview-hiddendisplayinline",
+        // shown display mode
+        _shownDisplayInline: "win-splitview-showndisplayinline",
+        _shownDisplayOverlay: "win-splitview-showndisplayoverlay"
     };
     var EventNames = {
-        beforeOpen: "beforeopen",
-        afterOpen: "afteropen",
-        beforeClose: "beforeclose",
-        afterClose: "afterclose"
+        beforeShow: "beforeshow",
+        afterShow: "aftershow",
+        beforeHide: "beforehide",
+        afterHide: "afterhide"
     };
     var Dimension = {
         width: "width",
         height: "height"
     };
-    var ClosedDisplayMode = {
-        /// <field locid="WinJS.UI.SplitView.ClosedDisplayMode.none" helpKeyword="WinJS.UI.SplitView.ClosedDisplayMode.none">
-        /// When the pane is closed, it is not visible and doesn't take up any space.
+
+    var HiddenDisplayMode = {
+        /// <field locid="WinJS.UI.SplitView.HiddenDisplayMode.none" helpKeyword="WinJS.UI.SplitView.HiddenDisplayMode.none">
+        /// When the pane is hidden, it is not visible and doesn't take up any space.
         /// </field>
         none: "none",
-        /// <field locid="WinJS.UI.SplitView.ClosedDisplayMode.inline" helpKeyword="WinJS.UI.SplitView.ClosedDisplayMode.inline">
-        /// When the pane is closed, it occupies space leaving less room for the SplitView's content.
+        /// <field locid="WinJS.UI.SplitView.HiddenDisplayMode.inline" helpKeyword="WinJS.UI.SplitView.HiddenDisplayMode.inline">
+        /// When the pane is hidden, it occupies space leaving less room for the SplitView's content.
         /// </field>
         inline: "inline"
     };
-    var OpenedDisplayMode = {
-        /// <field locid="WinJS.UI.SplitView.OpenedDisplayMode.inline" helpKeyword="WinJS.UI.SplitView.OpenedDisplayMode.inline">
-        /// When the pane is open, it occupies space leaving less room for the SplitView's content.
+    var ShownDisplayMode = {
+        /// <field locid="WinJS.UI.SplitView.ShownDisplayMode.inline" helpKeyword="WinJS.UI.SplitView.ShownDisplayMode.inline">
+        /// When the pane is shown, it occupies space leaving less room for the SplitView's content.
         /// </field>
         inline: "inline",
-        /// <field locid="WinJS.UI.SplitView.OpenedDisplayMode.overlay" helpKeyword="WinJS.UI.SplitView.OpenedDisplayMode.overlay">
-        /// When the pane is open, it doesn't take up any space and it is light dismissable.
+        /// <field locid="WinJS.UI.SplitView.ShownDisplayMode.overlay" helpKeyword="WinJS.UI.SplitView.ShownDisplayMode.overlay">
+        /// When the pane is shown, it doesn't take up any space and it is light dismissable.
         /// </field>
         overlay: "overlay"
     };
@@ -79446,17 +78696,18 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
         /// </field>
         bottom: "bottom"
     };
-    var closedDisplayModeClassMap = {};
-    closedDisplayModeClassMap[ClosedDisplayMode.none] = ClassNames._closedDisplayNone;
-    closedDisplayModeClassMap[ClosedDisplayMode.inline] = ClassNames._closedDisplayInline;
-    var openedDisplayModeClassMap = {};
-    openedDisplayModeClassMap[OpenedDisplayMode.overlay] = ClassNames._openedDisplayOverlay;
-    openedDisplayModeClassMap[OpenedDisplayMode.inline] = ClassNames._openedDisplayInline;
+    var hiddenDisplayModeClassMap = {};
+    hiddenDisplayModeClassMap[HiddenDisplayMode.none] = ClassNames._hiddenDisplayNone;
+    hiddenDisplayModeClassMap[HiddenDisplayMode.inline] = ClassNames._hiddenDisplayInline;
+    var shownDisplayModeClassMap = {};
+    shownDisplayModeClassMap[ShownDisplayMode.overlay] = ClassNames._shownDisplayOverlay;
+    shownDisplayModeClassMap[ShownDisplayMode.inline] = ClassNames._shownDisplayInline;
     var panePlacementClassMap = {};
     panePlacementClassMap[PanePlacement.left] = ClassNames._placementLeft;
     panePlacementClassMap[PanePlacement.right] = ClassNames._placementRight;
     panePlacementClassMap[PanePlacement.top] = ClassNames._placementTop;
     panePlacementClassMap[PanePlacement.bottom] = ClassNames._placementBottom;
+
     // Versions of add/removeClass that are no ops when called with falsy class names.
     function addClass(element, className) {
         className && _ElementUtilities.addClass(element, className);
@@ -79464,6 +78715,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
     function removeClass(element, className) {
         className && _ElementUtilities.removeClass(element, className);
     }
+
     function rectToThickness(rect, dimension) {
         return (dimension === Dimension.width) ? {
             content: rect.contentWidth,
@@ -79473,6 +78725,341 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             total: rect.totalHeight
         };
     }
+
+    // WinJS animation promises always complete successfully. This
+    // helper allows an animation promise to complete in the canceled state
+    // so that the success handler can be skipped when the animation is
+    // interrupted.
+    function cancelablePromise(animationPromise) {
+        return Promise._cancelBlocker(animationPromise, function () {
+            animationPromise.cancel();
+        });
+    }
+
+    function resizeTransition(elementClipper, element, options) {
+        return cancelablePromise(Animations._resizeTransition(elementClipper, element, options));
+    }
+
+    //
+    // State machine
+    //
+    // Noop function, used in the various states to indicate that they don't support a given
+    // message. Named with the somewhat cute name '_' because it reads really well in the states.
+    function _() {
+    }
+
+    // Implementing the control as a state machine helps us correctly handle:
+    //   - re-entrancy while firing events
+    //   - calls into the control during asynchronous operations (e.g. animations)
+    //
+    // Many of the states do their "enter" work within a promise chain. The idea is that if
+    // the state is interrupted and exits, the rest of its work can be skipped by canceling
+    // the promise chain.
+    // An interesting detail is that anytime the state may call into app code (e.g. due to
+    // firing an event), the current promise must end and a new promise must be chained off of it.
+    // This is necessary because the app code may interact with the control and cause it to
+    // change states. If we didn't create a new promise, then the very next line of code that runs
+    // after calling into app code may not be valid because the state may have exited. Starting a
+    // new promise after each call into app code prevents us from having to worry about this
+    // problem. In this configuration, when a promise's success handler runs, it guarantees that
+    // the state hasn't exited.
+    // For similar reasons, each of the promise chains created in "enter" starts off with a _Signal
+    // which is completed at the end of the "enter" function (this boilerplate is abstracted away by
+    // the "interruptible" function). The reason is that we don't want any of the code in "enter"
+    // to run until the promise chain has been stored in a variable. If we didn't do this (e.g. instead,
+    // started the promise chain with Promise.wrap()), then the "enter" code could trigger the "exit"
+    // function (via app code) before the promise chain had been stored in a variable. Under these
+    // circumstances, the promise chain would be uncancelable and so the "enter" work would be
+    // unskippable. This wouldn't be good when we needed the state to exit early.
+    // These two functions manage interruptible work promises (one creates them the other cancels
+    // them). They communicate with each other thru the _interruptibleWorkPromises property which
+    //  "interruptible" creates on your object.
+    function interruptible(object, workFn) {
+        object["_interruptibleWorkPromises"] = object["_interruptibleWorkPromises"] || [];
+        var workStoredSignal = new _Signal();
+        object["_interruptibleWorkPromises"].push(workFn(workStoredSignal.promise));
+        workStoredSignal.complete();
+    }
+
+    function cancelInterruptibles() {
+        (this["_interruptibleWorkPromises"] || []).forEach(function (workPromise) {
+            workPromise.cancel();
+        });
+    }
+
+    // Transitions:
+    //   When created, the control will take one of the following initialization transitions depending on
+    //   how the control's APIs have been used by the time it is inserted into the DOM:
+    //     Init -> Hidden
+    //     Init -> Shown
+    //   Following that, the life of the SplitView will be dominated by the following
+    //   sequences of transitions. In geneneral, these sequences are uninterruptible.
+    //     Hidden -> BeforeShow -> Hidden (when preventDefault is called on beforeshow event)
+    //     Hidden -> BeforeShow -> Showing -> Shown
+    //     Shown -> BeforeHide -> Shown (when preventDefault is called on beforehide event)
+    //     Shown -> BeforeHide -> Hiding -> Hidden
+    //   However, any state can be interrupted to go to the Disposed state:
+    //     * -> Disposed
+    var States;
+    (function (States) {
+        function updateDomImpl() {
+            this.splitView._updateDomImpl();
+        }
+
+        // Initial state. Initializes state on the SplitView shared by the various states.
+        var Init = (function () {
+            function Init() {
+                this.name = "Init";
+                this.exit = cancelInterruptibles;
+                this.updateDom = _;
+            }
+            Init.prototype.enter = function (options) {
+                var _this = this;
+                interruptible(this, function (ready) {
+                    return ready.then(function () {
+                        options = options || {};
+
+                        _this.splitView._dismissable = new _LightDismissService.LightDismissableElement({
+                            element: _this.splitView._dom.paneWrapper,
+                            tabIndex: -1,
+                            onLightDismiss: function () {
+                                _this.splitView.hidePane();
+                            }
+                        });
+                        _this.splitView._cachedHiddenPaneThickness = null;
+
+                        _this.splitView.paneHidden = true;
+                        _this.splitView.hiddenDisplayMode = HiddenDisplayMode.inline;
+                        _this.splitView.shownDisplayMode = ShownDisplayMode.overlay;
+                        _this.splitView.panePlacement = PanePlacement.left;
+                        _Control.setOptions(_this.splitView, options);
+
+                        return _ElementUtilities._inDom(_this.splitView._dom.root).then(function () {
+                            _this.splitView._rtl = _Global.getComputedStyle(_this.splitView._dom.root).direction === 'rtl';
+                            _this.splitView._isShownMode = !_this._paneHidden;
+                            _this.splitView._updateDomImpl();
+                            _this.splitView._setState(_this._paneHidden ? Hidden : Shown);
+                        });
+                    });
+                });
+            };
+
+            Object.defineProperty(Init.prototype, "paneHidden", {
+                get: function () {
+                    return this._paneHidden;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Init.prototype.showPane = function () {
+                this._paneHidden = false;
+            };
+            Init.prototype.hidePane = function () {
+                this._paneHidden = true;
+            };
+            return Init;
+        })();
+        States.Init = Init;
+
+        // A rest state. The SplitView pane is hidden and is waiting for the app to call showPane.
+        var Hidden = (function () {
+            function Hidden() {
+                this.name = "Hidden";
+                this.exit = _;
+                this.paneHidden = true;
+                this.hidePane = _;
+                this.updateDom = updateDomImpl;
+            }
+            Hidden.prototype.enter = function (args) {
+                args = args || {};
+                if (args.showIsPending) {
+                    this.showPane();
+                }
+            };
+
+            Hidden.prototype.showPane = function () {
+                this.splitView._setState(BeforeShow);
+            };
+            return Hidden;
+        })();
+
+        // An event state. The SplitView fires the beforeshow event.
+        var BeforeShow = (function () {
+            function BeforeShow() {
+                this.name = "BeforeShow";
+                this.exit = cancelInterruptibles;
+                this.paneHidden = true;
+                this.showPane = _;
+                this.hidePane = _;
+                this.updateDom = updateDomImpl;
+            }
+            BeforeShow.prototype.enter = function () {
+                var _this = this;
+                interruptible(this, function (ready) {
+                    return ready.then(function () {
+                        return _this.splitView._fireBeforeShow();
+                    }).then(function (shouldShow) {
+                        if (shouldShow) {
+                            _this.splitView._setState(Showing);
+                        } else {
+                            _this.splitView._setState(Hidden);
+                        }
+                    });
+                });
+            };
+            return BeforeShow;
+        })();
+
+        // An animation/event state. The SplitView plays its show animation and fires aftershow.
+        var Showing = (function () {
+            function Showing() {
+                this.name = "Showing";
+                this.exit = cancelInterruptibles;
+                this.updateDom = _;
+            }
+            Showing.prototype.enter = function () {
+                var _this = this;
+                interruptible(this, function (ready) {
+                    return ready.then(function () {
+                        _this._hideIsPending = false;
+
+                        _this.splitView._cachedHiddenPaneThickness = null;
+                        var hiddenPaneThickness = _this.splitView._getHiddenPaneThickness();
+
+                        _this.splitView._isShownMode = true;
+                        _this.splitView._updateDomImpl();
+                        return _this.splitView._playShowAnimation(hiddenPaneThickness);
+                    }).then(function () {
+                        _this.splitView._fireEvent(EventNames.afterShow); // Give opportunity for chain to be canceled when calling into app code
+                    }).then(function () {
+                        _this.splitView._updateDomImpl();
+                        _this.splitView._setState(Shown, { hideIsPending: _this._hideIsPending });
+                    });
+                });
+            };
+
+            Object.defineProperty(Showing.prototype, "paneHidden", {
+                get: function () {
+                    return this._hideIsPending;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Showing.prototype.showPane = function () {
+                this._hideIsPending = false;
+            };
+            Showing.prototype.hidePane = function () {
+                this._hideIsPending = true;
+            };
+            return Showing;
+        })();
+
+        // A rest state. The SplitView pane is shown and is waiting for the app to trigger hidePane.
+        var Shown = (function () {
+            function Shown() {
+                this.name = "Shown";
+                this.exit = _;
+                this.paneHidden = false;
+                this.showPane = _;
+                this.updateDom = updateDomImpl;
+            }
+            Shown.prototype.enter = function (args) {
+                args = args || {};
+                if (args.hideIsPending) {
+                    this.hidePane();
+                }
+            };
+
+            Shown.prototype.hidePane = function () {
+                this.splitView._setState(BeforeHide);
+            };
+            return Shown;
+        })();
+
+        // An event state. The SplitView fires the beforehide event.
+        var BeforeHide = (function () {
+            function BeforeHide() {
+                this.name = "BeforeHide";
+                this.exit = cancelInterruptibles;
+                this.paneHidden = false;
+                this.showPane = _;
+                this.hidePane = _;
+                this.updateDom = updateDomImpl;
+            }
+            BeforeHide.prototype.enter = function () {
+                var _this = this;
+                interruptible(this, function (ready) {
+                    return ready.then(function () {
+                        return _this.splitView._fireBeforeHide();
+                    }).then(function (shouldHide) {
+                        if (shouldHide) {
+                            _this.splitView._setState(Hiding);
+                        } else {
+                            _this.splitView._setState(Shown);
+                        }
+                    });
+                });
+            };
+            return BeforeHide;
+        })();
+
+        // An animation/event state. The SpitView plays the hide animation and fires the afterhide event.
+        var Hiding = (function () {
+            function Hiding() {
+                this.name = "Hiding";
+                this.exit = cancelInterruptibles;
+                this.updateDom = _;
+            }
+            Hiding.prototype.enter = function () {
+                var _this = this;
+                interruptible(this, function (ready) {
+                    return ready.then(function () {
+                        _this._showIsPending = false;
+                        return _this.splitView._playHideAnimation(_this.splitView._getHiddenPaneThickness());
+                    }).then(function () {
+                        _this.splitView._isShownMode = false;
+                        _this.splitView._updateDomImpl();
+                        _this.splitView._fireEvent(EventNames.afterHide); // Give opportunity for chain to be canceled when calling into app code
+                    }).then(function () {
+                        _this.splitView._updateDomImpl();
+                        _this.splitView._setState(Hidden, { showIsPending: _this._showIsPending });
+                    });
+                });
+            };
+
+            Object.defineProperty(Hiding.prototype, "paneHidden", {
+                get: function () {
+                    return !this._showIsPending;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Hiding.prototype.showPane = function () {
+                this._showIsPending = true;
+            };
+            Hiding.prototype.hidePane = function () {
+                this._showIsPending = false;
+            };
+            return Hiding;
+        })();
+
+        var Disposed = (function () {
+            function Disposed() {
+                this.name = "Disposed";
+                this.exit = _;
+                this.paneHidden = true;
+                this.showPane = _;
+                this.hidePane = _;
+                this.updateDom = _;
+            }
+            Disposed.prototype.enter = function () {
+                _LightDismissService.hidden(this.splitView._dismissable);
+            };
+            return Disposed;
+        })();
+        States.Disposed = Disposed;
+    })(States || (States = {}));
+
     /// <field>
     /// <summary locid="WinJS.UI.SplitView">
     /// Displays a SplitView which renders a collapsable pane next to arbitrary HTML content.
@@ -79481,10 +79068,10 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
     /// <icon src="ui_winjs.ui.splitview.12x12.png" width="12" height="12" />
     /// <icon src="ui_winjs.ui.splitview.16x16.png" width="16" height="16" />
     /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.SplitView"></div>]]></htmlSnippet>
-    /// <event name="beforeopen" locid="WinJS.UI.SplitView_e:beforeopen">Raised just before opening the pane. Call preventDefault on this event to stop the pane from opening.</event>
-    /// <event name="afteropen" locid="WinJS.UI.SplitView_e:afteropen">Raised immediately after the pane is fully opened.</event>
-    /// <event name="beforeclose" locid="WinJS.UI.SplitView_e:beforeclose">Raised just before closing the pane. Call preventDefault on this event to stop the pane from closing.</event>
-    /// <event name="afterclose" locid="WinJS.UI.SplitView_e:afterclose">Raised immediately after the pane is fully closed.</event>
+    /// <event name="beforeshow" locid="WinJS.UI.SplitView_e:beforeshow">Raised just before showing the pane. Call preventDefault on this event to stop the pane from being shown.</event>
+    /// <event name="aftershow" locid="WinJS.UI.SplitView_e:aftershow">Raised immediately after the pane is fully shown.</event>
+    /// <event name="beforehide" locid="WinJS.UI.SplitView_e:beforehide">Raised just before hiding the pane. Call preventDefault on this event to stop the pane from being hidden.</event>
+    /// <event name="afterhide" locid="WinJS.UI.SplitView_e:afterhide">Raised immediately after the pane is fully hidden.</event>
     /// <part name="splitview" class="win-splitview" locid="WinJS.UI.SplitView_part:splitview">The entire SplitView control.</part>
     /// <part name="splitview-pane" class="win-splitview-pane" locid="WinJS.UI.SplitView_part:splitview-pane">The element which hosts the SplitView's pane.</part>
     /// <part name="splitview-content" class="win-splitview-content" locid="WinJS.UI.SplitView_part:splitview-content">The element which hosts the SplitView's content.</part>
@@ -79492,6 +79079,22 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
     /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
     var SplitView = (function () {
         function SplitView(element, options) {
+            if (typeof options === "undefined") { options = {}; }
+            // State private to _updateDomImpl. No other method should make use of it.
+            //
+            // Nothing has been rendered yet so these are all initialized to undefined. Because
+            // they are undefined, the first time _updateDomImpl is called, they will all be
+            // rendered.
+            this._updateDomImpl_rendered = {
+                paneIsFirst: undefined,
+                isShownMode: undefined,
+                hiddenDisplayMode: undefined,
+                shownDisplayMode: undefined,
+                panePlacement: undefined,
+                panePlaceholderWidth: undefined,
+                panePlaceholderHeight: undefined,
+                isOverlayShown: undefined
+            };
             /// <signature helpKeyword="WinJS.UI.SplitView.SplitView">
             /// <summary locid="WinJS.UI.SplitView.constructor">
             /// Creates a new SplitView control.
@@ -79502,79 +79105,22 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             /// <param name="options" type="Object" isOptional="true" locid="WinJS.UI.SplitView.constructor_p:options">
             /// An object that contains one or more property/value pairs to apply to the new control.
             /// Each property of the options object corresponds to one of the control's properties or events.
-            /// Event names must begin with "on". For example, to provide a handler for the beforeclose event,
-            /// add a property named "onbeforeclose" to the options object and set its value to the event handler.
+            /// Event names must begin with "on". For example, to provide a handler for the beforehide event,
+            /// add a property named "onbeforehide" to the options object and set its value to the event handler.
             /// </param>
             /// <returns type="WinJS.UI.SplitView" locid="WinJS.UI.SplitView.constructor_returnValue">
             /// The new SplitView.
             /// </returns>
             /// </signature>
-            var _this = this;
-            if (options === void 0) { options = {}; }
-            // State private to _updateDomImpl. No other method should make use of it.
-            //
-            // Nothing has been rendered yet so these are all initialized to undefined. Because
-            // they are undefined, the first time _updateDomImpl is called, they will all be
-            // rendered.
-            this._updateDomImpl_rendered = {
-                paneIsFirst: undefined,
-                isOpenedMode: undefined,
-                closedDisplayMode: undefined,
-                openedDisplayMode: undefined,
-                panePlacement: undefined,
-                panePlaceholderWidth: undefined,
-                panePlaceholderHeight: undefined,
-                isOverlayShown: undefined
-            };
             // Check to make sure we weren't duplicated
             if (element && element["winControl"]) {
                 throw new _ErrorFromName("WinJS.UI.SplitView.DuplicateConstruction", Strings.duplicateConstruction);
             }
-            this._initializeDom(element || _Global.document.createElement("div"));
-            this._machine = new _OpenCloseMachine.OpenCloseMachine({
-                eventElement: this._dom.root,
-                onOpen: function () {
-                    _this._cachedHiddenPaneThickness = null;
-                    var hiddenPaneThickness = _this._getHiddenPaneThickness();
-                    _this._isOpenedMode = true;
-                    _this._updateDomImpl();
-                    return _this._playShowAnimation(hiddenPaneThickness);
-                },
-                onClose: function () {
-                    return _this._playHideAnimation(_this._getHiddenPaneThickness()).then(function () {
-                        _this._isOpenedMode = false;
-                        _this._updateDomImpl();
-                    });
-                },
-                onUpdateDom: function () {
-                    _this._updateDomImpl();
-                },
-                onUpdateDomWithIsOpened: function (isOpened) {
-                    _this._isOpenedMode = isOpened;
-                    _this._updateDomImpl();
-                }
-            });
-            // Initialize private state.
+
             this._disposed = false;
-            this._dismissable = new _LightDismissService.LightDismissableElement({
-                element: this._dom.paneWrapper,
-                tabIndex: -1,
-                onLightDismiss: function () {
-                    _this.closePane();
-                }
-            });
-            this._cachedHiddenPaneThickness = null;
-            // Initialize public properties.
-            this.paneOpened = false;
-            this.closedDisplayMode = ClosedDisplayMode.inline;
-            this.openedDisplayMode = OpenedDisplayMode.overlay;
-            this.panePlacement = PanePlacement.left;
-            _Control.setOptions(this, options);
-            // Exit the Init state.
-            _ElementUtilities._inDom(this._dom.root).then(function () {
-                _this._rtl = _Global.getComputedStyle(_this._dom.root).direction === 'rtl';
-                _this._machine.exitInit();
-            });
+
+            this._initializeDom(element || _Global.document.createElement("div"));
+            this._setState(States.Init, options);
         }
         Object.defineProperty(SplitView.prototype, "element", {
             /// <field type="HTMLElement" domElement="true" readonly="true" hidden="true" locid="WinJS.UI.SplitView.element" helpKeyword="WinJS.UI.SplitView.element">
@@ -79586,6 +79132,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             enumerable: true,
             configurable: true
         });
+
         Object.defineProperty(SplitView.prototype, "paneElement", {
             /// <field type="HTMLElement" domElement="true" readonly="true" hidden="true" locid="WinJS.UI.SplitView.paneElement" helpKeyword="WinJS.UI.SplitView.paneElement">
             /// Gets the DOM element that hosts the SplitView pane.
@@ -79596,6 +79143,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             enumerable: true,
             configurable: true
         });
+
         Object.defineProperty(SplitView.prototype, "contentElement", {
             /// <field type="HTMLElement" domElement="true" readonly="true" hidden="true" locid="WinJS.UI.SplitView.contentElement" helpKeyword="WinJS.UI.SplitView.contentElement">
             /// Gets the DOM element that hosts the SplitView's content.
@@ -79606,40 +79154,43 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SplitView.prototype, "closedDisplayMode", {
-            /// <field type="String" oamOptionsDatatype="WinJS.UI.SplitView.ClosedDisplayMode" locid="WinJS.UI.SplitView.closedDisplayMode" helpKeyword="WinJS.UI.SplitView.closedDisplayMode">
+
+        Object.defineProperty(SplitView.prototype, "hiddenDisplayMode", {
+            /// <field type="String" oamOptionsDatatype="WinJS.UI.SplitView.HiddenDisplayMode" locid="WinJS.UI.SplitView.HiddenDisplayMode" helpKeyword="WinJS.UI.SplitView.HiddenDisplayMode">
             /// Gets or sets the display mode of the SplitView's pane when it is hidden.
             /// </field>
             get: function () {
-                return this._closedDisplayMode;
+                return this._hiddenDisplayMode;
             },
             set: function (value) {
-                if (ClosedDisplayMode[value] && this._closedDisplayMode !== value) {
-                    this._closedDisplayMode = value;
+                if (HiddenDisplayMode[value] && this._hiddenDisplayMode !== value) {
+                    this._hiddenDisplayMode = value;
                     this._cachedHiddenPaneThickness = null;
-                    this._machine.updateDom();
+                    this._state.updateDom();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SplitView.prototype, "openedDisplayMode", {
-            /// <field type="String" oamOptionsDatatype="WinJS.UI.SplitView.OpenedDisplayMode" locid="WinJS.UI.SplitView.openedDisplayMode" helpKeyword="WinJS.UI.SplitView.openedDisplayMode">
-            /// Gets or sets the display mode of the SplitView's pane when it is open.
+
+        Object.defineProperty(SplitView.prototype, "shownDisplayMode", {
+            /// <field type="String" oamOptionsDatatype="WinJS.UI.SplitView.ShownDisplayMode" locid="WinJS.UI.SplitView.shownDisplayMode" helpKeyword="WinJS.UI.SplitView.shownDisplayMode">
+            /// Gets or sets the display mode of the SplitView's pane when it is shown.
             /// </field>
             get: function () {
-                return this._openedDisplayMode;
+                return this._shownDisplayMode;
             },
             set: function (value) {
-                if (OpenedDisplayMode[value] && this._openedDisplayMode !== value) {
-                    this._openedDisplayMode = value;
+                if (ShownDisplayMode[value] && this._shownDisplayMode !== value) {
+                    this._shownDisplayMode = value;
                     this._cachedHiddenPaneThickness = null;
-                    this._machine.updateDom();
+                    this._state.updateDom();
                 }
             },
             enumerable: true,
             configurable: true
         });
+
         Object.defineProperty(SplitView.prototype, "panePlacement", {
             /// <field type="String" oamOptionsDatatype="WinJS.UI.SplitView.PanePlacement" locid="WinJS.UI.SplitView.panePlacement" helpKeyword="WinJS.UI.SplitView.panePlacement">
             /// Gets or sets the placement of the SplitView's pane.
@@ -79651,25 +79202,31 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 if (PanePlacement[value] && this._panePlacement !== value) {
                     this._panePlacement = value;
                     this._cachedHiddenPaneThickness = null;
-                    this._machine.updateDom();
+                    this._state.updateDom();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SplitView.prototype, "paneOpened", {
-            /// <field type="Boolean" hidden="true" locid="WinJS.UI.SplitView.paneOpened" helpKeyword="WinJS.UI.SplitView.paneOpened">
-            /// Gets or sets whether the SpitView's pane is currently opened.
+
+        Object.defineProperty(SplitView.prototype, "paneHidden", {
+            /// <field type="Boolean" hidden="true" locid="WinJS.UI.SplitView.paneHidden" helpKeyword="WinJS.UI.SplitView.paneHidden">
+            /// Gets or sets whether the SpitView's pane is currently collapsed.
             /// </field>
             get: function () {
-                return this._machine.opened;
+                return this._state.paneHidden;
             },
             set: function (value) {
-                this._machine.opened = value;
+                if (value) {
+                    this.hidePane();
+                } else {
+                    this.showPane();
+                }
             },
             enumerable: true,
             configurable: true
         });
+
         SplitView.prototype.dispose = function () {
             /// <signature helpKeyword="WinJS.UI.SplitView.dispose">
             /// <summary locid="WinJS.UI.SplitView.dispose">
@@ -79679,32 +79236,35 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             if (this._disposed) {
                 return;
             }
+            this._setState(States.Disposed);
             this._disposed = true;
-            this._machine.dispose();
-            _LightDismissService.hidden(this._dismissable);
             _Dispose._disposeElement(this._dom.pane);
             _Dispose._disposeElement(this._dom.content);
         };
-        SplitView.prototype.openPane = function () {
-            /// <signature helpKeyword="WinJS.UI.SplitView.openPane">
-            /// <summary locid="WinJS.UI.SplitView.openPane">
-            /// Opens the SplitView's pane.
+
+        SplitView.prototype.showPane = function () {
+            /// <signature helpKeyword="WinJS.UI.SplitView.showPane">
+            /// <summary locid="WinJS.UI.SplitView.showPane">
+            /// Shows the SplitView's pane.
             /// </summary>
             /// </signature>
-            this._machine.open();
+            this._state.showPane();
         };
-        SplitView.prototype.closePane = function () {
-            /// <signature helpKeyword="WinJS.UI.SplitView.closePane">
-            /// <summary locid="WinJS.UI.SplitView.closePane">
-            /// Closes the SplitView's pane.
+
+        SplitView.prototype.hidePane = function () {
+            /// <signature helpKeyword="WinJS.UI.SplitView.hidePane">
+            /// <summary locid="WinJS.UI.SplitView.hidePane">
+            /// Hides the SplitView's pane.
             /// </summary>
             /// </signature>
-            this._machine.close();
+            this._state.hidePane();
         };
+
         SplitView.prototype._initializeDom = function (root) {
             // The first child is the pane
             var paneEl = root.firstElementChild || _Global.document.createElement("div");
             _ElementUtilities.addClass(paneEl, ClassNames.pane);
+
             // All other children are members of the content
             var contentEl = _Global.document.createElement("div");
             _ElementUtilities.addClass(contentEl, ClassNames.content);
@@ -79714,12 +79274,15 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 contentEl.appendChild(child);
                 child = sibling;
             }
+
             // paneWrapper's purpose is to clip the pane during the pane resize animation
             var paneWrapperEl = _Global.document.createElement("div");
             paneWrapperEl.className = ClassNames._paneWrapper;
             paneWrapperEl.appendChild(paneEl);
+
             var panePlaceholderEl = _Global.document.createElement("div");
             panePlaceholderEl.className = ClassNames._panePlaceholder;
+
             // contentWrapper is an extra element we need to allow heights to be specified as percentages (e.g. height: 100%)
             // for elements within the content area. It works around this Chrome bug:
             //   Issue 428049: 100% height doesn't work on child of a definite-flex-basis flex item (in vertical flex container)
@@ -79729,9 +79292,11 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             var contentWrapperEl = _Global.document.createElement("div");
             contentWrapperEl.className = ClassNames._contentWrapper;
             contentWrapperEl.appendChild(contentEl);
+
             root["winControl"] = this;
             _ElementUtilities.addClass(root, ClassNames.splitView);
             _ElementUtilities.addClass(root, "win-disposable");
+
             this._dom = {
                 root: root,
                 pane: paneEl,
@@ -79741,6 +79306,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 contentWrapper: contentWrapperEl
             };
         };
+
         SplitView.prototype._measureElement = function (element) {
             var style = getComputedStyle(element);
             var position = _ElementUtilities._getPositionRelativeTo(element, this._dom.root);
@@ -79755,6 +79321,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 totalHeight: _ElementUtilities.getTotalHeight(element)
             };
         };
+
         SplitView.prototype._setContentRect = function (contentRect) {
             var contentWrapperStyle = this._dom.contentWrapper.style;
             contentWrapperStyle.left = contentRect.left + "px";
@@ -79762,6 +79329,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             contentWrapperStyle.height = contentRect.contentHeight + "px";
             contentWrapperStyle.width = contentRect.contentWidth + "px";
         };
+
         // Overridden by tests.
         SplitView.prototype._prepareAnimation = function (paneRect, contentRect) {
             var paneWrapperStyle = this._dom.paneWrapper.style;
@@ -79770,10 +79338,12 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             paneWrapperStyle.top = paneRect.top + "px";
             paneWrapperStyle.height = paneRect.totalHeight + "px";
             paneWrapperStyle.width = paneRect.totalWidth + "px";
+
             var contentWrapperStyle = this._dom.contentWrapper.style;
             contentWrapperStyle.position = "absolute";
             this._setContentRect(contentRect);
         };
+
         // Overridden by tests.
         SplitView.prototype._clearAnimation = function () {
             var paneWrapperStyle = this._dom.paneWrapper.style;
@@ -79783,6 +79353,7 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             paneWrapperStyle.height = "";
             paneWrapperStyle.width = "";
             paneWrapperStyle[transformNames.scriptName] = "";
+
             var contentWrapperStyle = this._dom.contentWrapper.style;
             contentWrapperStyle.position = "";
             contentWrapperStyle.left = "";
@@ -79790,16 +79361,17 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             contentWrapperStyle.height = "";
             contentWrapperStyle.width = "";
             contentWrapperStyle[transformNames.scriptName] = "";
+
             var paneStyle = this._dom.pane.style;
             paneStyle.height = "";
             paneStyle.width = "";
             paneStyle[transformNames.scriptName] = "";
         };
+
         SplitView.prototype._getHiddenContentRect = function (shownContentRect, hiddenPaneThickness, shownPaneThickness) {
-            if (this.openedDisplayMode === OpenedDisplayMode.overlay) {
+            if (this.shownDisplayMode === ShownDisplayMode.overlay) {
                 return shownContentRect;
-            }
-            else {
+            } else {
                 var placementRight = this._rtl ? PanePlacement.left : PanePlacement.right;
                 var multiplier = this.panePlacement === placementRight || this.panePlacement === PanePlacement.bottom ? 0 : 1;
                 var paneDiff = {
@@ -79823,34 +79395,74 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 };
             }
         };
+
         Object.defineProperty(SplitView.prototype, "_horizontal", {
+            //
+            // Methods called by states
+            //
             get: function () {
                 return this.panePlacement === PanePlacement.left || this.panePlacement === PanePlacement.right;
             },
             enumerable: true,
             configurable: true
         });
+
+        SplitView.prototype._setState = function (NewState, arg0) {
+            if (!this._disposed) {
+                this._state && this._state.exit();
+                this._state = new NewState();
+                this._state.splitView = this;
+                this._state.enter(arg0);
+            }
+        };
+
+        // Calls into arbitrary app code
+        SplitView.prototype._fireEvent = function (eventName, options) {
+            options = options || {};
+            var detail = options.detail || null;
+            var cancelable = !!options.cancelable;
+
+            var eventObject = _Global.document.createEvent("CustomEvent");
+            eventObject.initCustomEvent(eventName, true, cancelable, detail);
+            return this._dom.root.dispatchEvent(eventObject);
+        };
+
+        // Calls into arbitrary app code
+        SplitView.prototype._fireBeforeShow = function () {
+            return this._fireEvent(EventNames.beforeShow, {
+                cancelable: true
+            });
+        };
+
+        // Calls into arbitrary app code
+        SplitView.prototype._fireBeforeHide = function () {
+            return this._fireEvent(EventNames.beforeHide, {
+                cancelable: true
+            });
+        };
+
         SplitView.prototype._getHiddenPaneThickness = function () {
             if (this._cachedHiddenPaneThickness === null) {
-                if (this._closedDisplayMode === ClosedDisplayMode.none) {
+                if (this._hiddenDisplayMode === HiddenDisplayMode.none) {
                     this._cachedHiddenPaneThickness = { content: 0, total: 0 };
-                }
-                else {
-                    if (this._isOpenedMode) {
-                        _ElementUtilities.removeClass(this._dom.root, ClassNames.paneOpened);
-                        _ElementUtilities.addClass(this._dom.root, ClassNames.paneClosed);
+                } else {
+                    if (this._isShownMode) {
+                        _ElementUtilities.removeClass(this._dom.root, ClassNames.paneShown);
+                        _ElementUtilities.addClass(this._dom.root, ClassNames.paneHidden);
                     }
                     var size = this._measureElement(this._dom.pane);
                     this._cachedHiddenPaneThickness = rectToThickness(size, this._horizontal ? Dimension.width : Dimension.height);
-                    if (this._isOpenedMode) {
-                        _ElementUtilities.removeClass(this._dom.root, ClassNames.paneClosed);
-                        _ElementUtilities.addClass(this._dom.root, ClassNames.paneOpened);
+                    if (this._isShownMode) {
+                        _ElementUtilities.removeClass(this._dom.root, ClassNames.paneHidden);
+                        _ElementUtilities.addClass(this._dom.root, ClassNames.paneShown);
                     }
                 }
             }
+
             return this._cachedHiddenPaneThickness;
         };
-        // Should be called while SplitView is rendered in its opened mode
+
+        // Should be called while SplitView is rendered in its shown mode
         // Overridden by tests.
         SplitView.prototype._playShowAnimation = function (hiddenPaneThickness) {
             var _this = this;
@@ -79860,13 +79472,16 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             var shownPaneThickness = rectToThickness(shownPaneRect, dim);
             var hiddenContentRect = this._getHiddenContentRect(shownContentRect, hiddenPaneThickness, shownPaneThickness);
             this._prepareAnimation(shownPaneRect, hiddenContentRect);
+
             var playPaneAnimation = function () {
                 var placementRight = _this._rtl ? PanePlacement.left : PanePlacement.right;
+
                 // What percentage of the size change should be skipped? (e.g. let's do the first
                 // 30% of the size change instantly and then animate the other 70%)
                 var animationOffsetFactor = 0.3;
                 var from = hiddenPaneThickness.total + animationOffsetFactor * (shownPaneThickness.total - hiddenPaneThickness.total);
-                return Animations._resizeTransition(_this._dom.paneWrapper, _this._dom.pane, {
+
+                return resizeTransition(_this._dom.paneWrapper, _this._dom.pane, {
                     from: from,
                     to: shownPaneThickness.total,
                     actualSize: shownPaneThickness.total,
@@ -79874,17 +79489,20 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                     anchorTrailingEdge: _this.panePlacement === placementRight || _this.panePlacement === PanePlacement.bottom
                 });
             };
+
             var playShowAnimation = function () {
-                if (_this.openedDisplayMode === OpenedDisplayMode.inline) {
+                if (_this.shownDisplayMode === ShownDisplayMode.inline) {
                     _this._setContentRect(shownContentRect);
                 }
                 return playPaneAnimation();
             };
+
             return playShowAnimation().then(function () {
                 _this._clearAnimation();
             });
         };
-        // Should be called while SplitView is rendered in its opened mode
+
+        // Should be called while SplitView is rendered in its shown mode
         // Overridden by tests.
         SplitView.prototype._playHideAnimation = function (hiddenPaneThickness) {
             var _this = this;
@@ -79894,13 +79512,16 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
             var shownPaneThickness = rectToThickness(shownPaneRect, dim);
             var hiddenContentRect = this._getHiddenContentRect(shownContentRect, hiddenPaneThickness, shownPaneThickness);
             this._prepareAnimation(shownPaneRect, shownContentRect);
+
             var playPaneAnimation = function () {
                 var placementRight = _this._rtl ? PanePlacement.left : PanePlacement.right;
+
                 // What percentage of the size change should be skipped? (e.g. let's do the first
                 // 30% of the size change instantly and then animate the other 70%)
                 var animationOffsetFactor = 0.3;
                 var from = shownPaneThickness.total - animationOffsetFactor * (shownPaneThickness.total - hiddenPaneThickness.total);
-                return Animations._resizeTransition(_this._dom.paneWrapper, _this._dom.pane, {
+
+                return resizeTransition(_this._dom.paneWrapper, _this._dom.pane, {
                     from: from,
                     to: hiddenPaneThickness.total,
                     actualSize: shownPaneThickness.total,
@@ -79908,18 +79529,22 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                     anchorTrailingEdge: _this.panePlacement === placementRight || _this.panePlacement === PanePlacement.bottom
                 });
             };
+
             var playHideAnimation = function () {
-                if (_this.openedDisplayMode === OpenedDisplayMode.inline) {
+                if (_this.shownDisplayMode === ShownDisplayMode.inline) {
                     _this._setContentRect(hiddenContentRect);
                 }
                 return playPaneAnimation();
             };
+
             return playHideAnimation().then(function () {
                 _this._clearAnimation();
             });
         };
+
         SplitView.prototype._updateDomImpl = function () {
             var rendered = this._updateDomImpl_rendered;
+
             var paneShouldBeFirst = this.panePlacement === PanePlacement.left || this.panePlacement === PanePlacement.top;
             if (paneShouldBeFirst !== rendered.paneIsFirst) {
                 // TODO: restore focus
@@ -79927,41 +79552,45 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                     this._dom.root.appendChild(this._dom.panePlaceholder);
                     this._dom.root.appendChild(this._dom.paneWrapper);
                     this._dom.root.appendChild(this._dom.contentWrapper);
-                }
-                else {
+                } else {
                     this._dom.root.appendChild(this._dom.contentWrapper);
                     this._dom.root.appendChild(this._dom.paneWrapper);
                     this._dom.root.appendChild(this._dom.panePlaceholder);
                 }
             }
             rendered.paneIsFirst = paneShouldBeFirst;
-            if (rendered.isOpenedMode !== this._isOpenedMode) {
-                if (this._isOpenedMode) {
-                    _ElementUtilities.removeClass(this._dom.root, ClassNames.paneClosed);
-                    _ElementUtilities.addClass(this._dom.root, ClassNames.paneOpened);
-                }
-                else {
-                    _ElementUtilities.removeClass(this._dom.root, ClassNames.paneOpened);
-                    _ElementUtilities.addClass(this._dom.root, ClassNames.paneClosed);
+
+            if (rendered.isShownMode !== this._isShownMode) {
+                if (this._isShownMode) {
+                    _ElementUtilities.removeClass(this._dom.root, ClassNames.paneHidden);
+                    _ElementUtilities.addClass(this._dom.root, ClassNames.paneShown);
+                } else {
+                    _ElementUtilities.removeClass(this._dom.root, ClassNames.paneShown);
+                    _ElementUtilities.addClass(this._dom.root, ClassNames.paneHidden);
                 }
             }
-            rendered.isOpenedMode = this._isOpenedMode;
+            rendered.isShownMode = this._isShownMode;
+
             if (rendered.panePlacement !== this.panePlacement) {
                 removeClass(this._dom.root, panePlacementClassMap[rendered.panePlacement]);
                 addClass(this._dom.root, panePlacementClassMap[this.panePlacement]);
                 rendered.panePlacement = this.panePlacement;
             }
-            if (rendered.closedDisplayMode !== this.closedDisplayMode) {
-                removeClass(this._dom.root, closedDisplayModeClassMap[rendered.closedDisplayMode]);
-                addClass(this._dom.root, closedDisplayModeClassMap[this.closedDisplayMode]);
-                rendered.closedDisplayMode = this.closedDisplayMode;
+
+            if (rendered.hiddenDisplayMode !== this.hiddenDisplayMode) {
+                removeClass(this._dom.root, hiddenDisplayModeClassMap[rendered.hiddenDisplayMode]);
+                addClass(this._dom.root, hiddenDisplayModeClassMap[this.hiddenDisplayMode]);
+                rendered.hiddenDisplayMode = this.hiddenDisplayMode;
             }
-            if (rendered.openedDisplayMode !== this.openedDisplayMode) {
-                removeClass(this._dom.root, openedDisplayModeClassMap[rendered.openedDisplayMode]);
-                addClass(this._dom.root, openedDisplayModeClassMap[this.openedDisplayMode]);
-                rendered.openedDisplayMode = this.openedDisplayMode;
+
+            if (rendered.shownDisplayMode !== this.shownDisplayMode) {
+                removeClass(this._dom.root, shownDisplayModeClassMap[rendered.shownDisplayMode]);
+                addClass(this._dom.root, shownDisplayModeClassMap[this.shownDisplayMode]);
+                rendered.shownDisplayMode = this.shownDisplayMode;
             }
-            var isOverlayShown = this._isOpenedMode && this.openedDisplayMode === OpenedDisplayMode.overlay;
+
+            var isOverlayShown = this._isShownMode && this.shownDisplayMode === ShownDisplayMode.overlay;
+
             // panePlaceholder's purpose is to take up the amount of space occupied by the
             // hidden pane while the pane is shown in overlay mode. Without this, the content
             // would shift as the pane shows and hides in overlay mode.
@@ -79971,13 +79600,11 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 if (this._horizontal) {
                     width = hiddenPaneThickness.total + "px";
                     height = "";
-                }
-                else {
+                } else {
                     width = "";
                     height = hiddenPaneThickness.total + "px";
                 }
-            }
-            else {
+            } else {
                 width = "";
                 height = "";
             }
@@ -79988,41 +79615,38 @@ define('WinJS/Controls/SplitView/_SplitView',["require", "exports", '../../Anima
                 rendered.panePlaceholderWidth = width;
                 rendered.panePlaceholderHeight = height;
             }
+
             if (rendered.isOverlayShown !== isOverlayShown) {
                 if (isOverlayShown) {
                     _LightDismissService.shown(this._dismissable);
-                }
-                else {
+                } else {
                     _LightDismissService.hidden(this._dismissable);
                 }
                 rendered.isOverlayShown = isOverlayShown;
             }
         };
-        /// <field locid="WinJS.UI.SplitView.ClosedDisplayMode" helpKeyword="WinJS.UI.SplitView.ClosedDisplayMode">
-        /// Display options for a SplitView's pane when it is closed.
-        /// </field>
-        SplitView.ClosedDisplayMode = ClosedDisplayMode;
-        /// <field locid="WinJS.UI.SplitView.OpenedDisplayMode" helpKeyword="WinJS.UI.SplitView.OpenedDisplayMode">
-        /// Display options for a SplitView's pane when it is open.
-        /// </field>
-        SplitView.OpenedDisplayMode = OpenedDisplayMode;
-        /// <field locid="WinJS.UI.SplitView.PanePlacement" helpKeyword="WinJS.UI.SplitView.PanePlacement">
-        /// Placement options for a SplitView's pane.
-        /// </field>
+        SplitView.HiddenDisplayMode = HiddenDisplayMode;
+
+        SplitView.ShownDisplayMode = ShownDisplayMode;
+
         SplitView.PanePlacement = PanePlacement;
+
         SplitView.supportedForProcessing = true;
+
         SplitView._ClassNames = ClassNames;
         return SplitView;
     })();
     exports.SplitView = SplitView;
-    _Base.Class.mix(SplitView, _Events.createEventProperties(EventNames.beforeOpen, EventNames.afterOpen, EventNames.beforeClose, EventNames.afterClose));
+
+    _Base.Class.mix(SplitView, _Events.createEventProperties(EventNames.beforeShow, EventNames.afterShow, EventNames.beforeHide, EventNames.afterHide));
     _Base.Class.mix(SplitView, _Control.DOMEventMixin);
 });
 
 // Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
 /// <reference path="../../../../typings/require.d.ts" />
-define('WinJS/Controls/SplitView',["require", "exports", '../Core/_Base'], function (require, exports, _Base) {
+define('WinJS/Controls/SplitView',["require", "exports", '../Core/_Base'], function(require, exports, _Base) {
     var module = null;
+
     _Base.Namespace.define("WinJS.UI", {
         SplitView: {
             get: function () {
@@ -80032,428 +79656,6 @@ define('WinJS/Controls/SplitView',["require", "exports", '../Core/_Base'], funct
                     });
                 }
                 return module.SplitView;
-            }
-        }
-    });
-});
-
-define('WinJS/Controls/AppBar/_Constants',["require", "exports", "../CommandingSurface/_Constants"], function (require, exports, _CommandingSurfaceConstants) {
-    // appbar class names
-    exports.ClassNames = {
-        controlCssClass: "win-appbar",
-        disposableCssClass: "win-disposable",
-        actionAreaCssClass: "win-appbar-actionarea",
-        overflowButtonCssClass: "win-appbar-overflowbutton",
-        spacerCssClass: "win-appbar-spacer",
-        ellipsisCssClass: "win-appbar-ellipsis",
-        overflowAreaCssClass: "win-appbar-overflowarea",
-        contentFlyoutCssClass: "win-appbar-contentflyout",
-        emptyappbarCssClass: "win-appbar-empty",
-        menuCssClass: "win-menu",
-        menuContainsToggleCommandClass: "win-menu-containstogglecommand",
-        openingClass: "win-appbar-opening",
-        openedClass: "win-appbar-opened",
-        closingClass: "win-appbar-closing",
-        closedClass: "win-appbar-closed",
-        noneClass: "win-appbar-closeddisplaynone",
-        minimalClass: "win-appbar-closeddisplayminimal",
-        compactClass: "win-appbar-closeddisplaycompact",
-        fullClass: "win-appbar-closeddisplayfull",
-        placementTopClass: "win-appbar-top",
-        placementBottomClass: "win-appbar-bottom",
-    };
-    exports.EventNames = {
-        beforeOpen: "beforeopen",
-        afterOpen: "afteropen",
-        beforeClose: "beforeclose",
-        afterClose: "afterclose"
-    };
-    exports.controlMinWidth = _CommandingSurfaceConstants.controlMinWidth;
-    exports.defaultClosedDisplayMode = "compact";
-    exports.defaultOpened = false;
-    exports.defaultPlacement = "bottom";
-    // Constants for commands
-    exports.typeSeparator = "separator";
-    exports.typeContent = "content";
-    exports.typeButton = "button";
-    exports.typeToggle = "toggle";
-    exports.typeFlyout = "flyout";
-    exports.commandSelector = ".win-command";
-    exports.primaryCommandSection = "primary";
-    exports.secondaryCommandSection = "secondary";
-});
-
-
-define('require-style!less/styles-appbar',[],function(){});
-
-define('require-style!less/colors-appbar',[],function(){});
-define('WinJS/Controls/AppBar/_AppBar',["require", "exports", "../../Core/_Base", "../AppBar/_Constants", "../CommandingSurface", "../../Utilities/_Control", "../../Utilities/_Dispose", "../../Utilities/_ElementUtilities", "../../Core/_ErrorFromName", '../../Core/_Events', "../../Core/_Global", '../../Promise', "../../Core/_Resources", '../../Utilities/_OpenCloseMachine', "../../Core/_WriteProfilerMark"], function (require, exports, _Base, _Constants, _CommandingSurface, _Control, _Dispose, _ElementUtilities, _ErrorFromName, _Events, _Global, Promise, _Resources, _OpenCloseMachine, _WriteProfilerMark) {
-    require(["require-style!less/styles-appbar"]);
-    require(["require-style!less/colors-appbar"]);
-    "use strict";
-    var strings = {
-        get ariaLabel() {
-            return _Resources._getWinJSString("ui/appBarAriaLabel").value;
-        },
-        get overflowButtonAriaLabel() {
-            return _Resources._getWinJSString("ui/appBarOverflowButtonAriaLabel").value;
-        },
-        get mustContainCommands() {
-            return "The AppBar can only contain WinJS.UI.Command or WinJS.UI.AppBarCommand controls";
-        },
-        get duplicateConstruction() {
-            return "Invalid argument: Controls may only be instantiated one time for each DOM element";
-        }
-    };
-    var ClosedDisplayMode = {
-        /// <field locid="WinJS.UI.AppBar.ClosedDisplayMode.none" helpKeyword="WinJS.UI.AppBar.ClosedDisplayMode.none">
-        /// When the AppBar is closed, it is not visible and doesn't take up any space.
-        /// </field>
-        none: "none",
-        /// <field locid="WinJS.UI.AppBar.ClosedDisplayMode.minimal" helpKeyword="WinJS.UI.AppBar.ClosedDisplayMode.minimal">
-        /// When the AppBar is closed, its height is reduced to the minimal height required to display only its overflowbutton. All other content in the AppBar is not displayed.
-        /// </field>
-        minimal: "minimal",
-        /// <field locid="WinJS.UI.AppBar.ClosedDisplayMode.compact" helpKeyword="WinJS.UI.AppBar.ClosedDisplayMode.compact">
-        /// When the AppBar is closed, its height is reduced such that button commands are still visible, but their labels are hidden.
-        /// </field>
-        compact: "compact",
-        /// <field locid="WinJS.UI.AppBar.ClosedDisplayMode.full" helpKeyword="WinJS.UI.AppBar.ClosedDisplayMode.full">
-        /// When the AppBar is closed, its height is always sized to content.
-        /// </field>
-        full: "full",
-    };
-    var closedDisplayModeClassMap = {};
-    closedDisplayModeClassMap[ClosedDisplayMode.none] = _Constants.ClassNames.noneClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.minimal] = _Constants.ClassNames.minimalClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.compact] = _Constants.ClassNames.compactClass;
-    closedDisplayModeClassMap[ClosedDisplayMode.full] = _Constants.ClassNames.fullClass;
-    var Placement = {
-        /// <field locid="WinJS.UI.AppBar.Placement.top" helpKeyword="WinJS.UI.AppBar.Placement.top">
-        /// The AppBar appears at the top of the main view
-        /// </field>
-        top: "top",
-        /// <field locid="WinJS.UI.AppBar.Placement.bottom" helpKeyword="WinJS.UI.AppBar.Placement.bottom">
-        /// The AppBar appears at the bottom of the main view
-        /// </field>
-        bottom: "bottom",
-    };
-    var placementClassMap = {};
-    placementClassMap[Placement.top] = _Constants.ClassNames.placementTopClass;
-    placementClassMap[Placement.bottom] = _Constants.ClassNames.placementBottomClass;
-    // Versions of add/removeClass that are no ops when called with falsy class names.
-    function addClass(element, className) {
-        className && _ElementUtilities.addClass(element, className);
-    }
-    function removeClass(element, className) {
-        className && _ElementUtilities.removeClass(element, className);
-    }
-    /// <field>
-    /// <summary locid="WinJS.UI.AppBar">
-    /// Represents an appbar for displaying commands.
-    /// </summary>
-    /// </field>
-    /// <icon src="ui_winjs.ui.appbar.12x12.png" width="12" height="12" />
-    /// <icon src="ui_winjs.ui.appbar.16x16.png" width="16" height="16" />
-    /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.AppBar">
-    /// <button data-win-control="WinJS.UI.Command" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
-    /// </div>]]></htmlSnippet>
-    /// <part name="appbar" class="win-appbar" locid="WinJS.UI.AppBar_part:appbar">The entire AppBar control.</part>
-    /// <part name="appbar-overflowbutton" class="win-appbar-overflowbutton" locid="WinJS.UI.AppBar_part:AppBar-overflowbutton">The appbar overflow button.</part>
-    /// <part name="appbar-overflowarea" class="win-appbar-overflowarea" locid="WinJS.UI.AppBar_part:AppBar-overflowarea">The container for appbar commands that overflow.</part>
-    /// <resource type="javascript" src="//WinJS.4.0/js/WinJS.js" shared="true" />
-    /// <resource type="css" src="//WinJS.4.0/css/ui-dark.css" shared="true" />
-    var AppBar = (function () {
-        function AppBar(element, options) {
-            /// <signature helpKeyword="WinJS.UI.AppBar.AppBar">
-            /// <summary locid="WinJS.UI.AppBar.constructor">
-            /// Creates a new AppBar control.
-            /// </summary>
-            /// <param name="element" type="HTMLElement" domElement="true" locid="WinJS.UI.AppBar.constructor_p:element">
-            /// The DOM element that will host the control.
-            /// </param>
-            /// <param name="options" type="Object" locid="WinJS.UI.AppBar.constructor_p:options">
-            /// The set of properties and values to apply to the new AppBar control.
-            /// </param>
-            /// <returns type="WinJS.UI.AppBar" locid="WinJS.UI.AppBar.constructor_returnValue">
-            /// The new AppBar control.
-            /// </returns>
-            /// </signature>
-            var _this = this;
-            if (options === void 0) { options = {}; }
-            // State private to the _updateDomImpl family of method. No other methods should make use of it.
-            //
-            // Nothing has been rendered yet so these are all initialized to undefined. Because
-            // they are undefined, the first time _updateDomImpl is called, they will all be
-            // rendered.
-            this._updateDomImpl_renderedState = {
-                isOpenedMode: undefined,
-                placement: undefined,
-                closedDisplayMode: undefined,
-            };
-            this._writeProfilerMark("constructor,StartTM");
-            // Check to make sure we weren't duplicated
-            if (element && element["winControl"]) {
-                throw new _ErrorFromName("WinJS.UI.AppBar.DuplicateConstruction", strings.duplicateConstruction);
-            }
-            this._initializeDom(element || _Global.document.createElement("div"));
-            var stateMachine = new _OpenCloseMachine.OpenCloseMachine({
-                eventElement: this.element,
-                onOpen: function () {
-                    _this._synchronousOpen();
-                    // Animate
-                    return Promise.wrap();
-                },
-                onClose: function () {
-                    _this._synchronousClose();
-                    // Animate
-                    return Promise.wrap();
-                },
-                onUpdateDom: function () {
-                    _this._updateDomImpl();
-                },
-                onUpdateDomWithIsOpened: function (isOpened) {
-                    _this._isOpenedMode = isOpened;
-                    _this._updateDomImpl();
-                }
-            });
-            // Initialize private state.
-            this._disposed = false;
-            this._commandingSurface = new _CommandingSurface._CommandingSurface(this._dom.commandingSurfaceEl, { openCloseMachine: stateMachine });
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-actionarea"), _Constants.ClassNames.actionAreaCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-overflowarea"), _Constants.ClassNames.overflowAreaCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-overflowbutton"), _Constants.ClassNames.overflowButtonCssClass);
-            addClass(this._dom.commandingSurfaceEl.querySelector(".win-commandingsurface-ellipsis"), _Constants.ClassNames.ellipsisCssClass);
-            this._isOpenedMode = _Constants.defaultOpened;
-            // Initialize public properties.
-            this.closedDisplayMode = _Constants.defaultClosedDisplayMode;
-            this.placement = _Constants.defaultPlacement;
-            this.opened = this._isOpenedMode;
-            _Control.setOptions(this, options);
-            // Exit the Init state.
-            _ElementUtilities._inDom(this.element).then(function () {
-                return _this._commandingSurface.initialized;
-            }).then(function () {
-                stateMachine.exitInit();
-                _this._writeProfilerMark("constructor,StopTM");
-            });
-        }
-        Object.defineProperty(AppBar.prototype, "element", {
-            /// <field type="HTMLElement" domElement="true" hidden="true" locid="WinJS.UI.AppBar.element" helpKeyword="WinJS.UI.AppBar.element">
-            /// Gets the DOM element that hosts the AppBar.
-            /// </field>
-            get: function () {
-                return this._dom.root;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AppBar.prototype, "data", {
-            /// <field type="WinJS.Binding.List" locid="WinJS.UI.AppBar.data" helpKeyword="WinJS.UI.AppBar.data">
-            /// Gets or sets the Binding List of WinJS.UI.Command for the AppBar.
-            /// </field>
-            get: function () {
-                return this._commandingSurface.data;
-            },
-            set: function (value) {
-                this._commandingSurface.data = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AppBar.prototype, "closedDisplayMode", {
-            /// <field type="String" locid="WinJS.UI.AppBar.closedDisplayMode" helpKeyword="WinJS.UI.AppBar.closedDisplayMode">
-            /// Gets or sets the closedDisplayMode for the AppBar. Values are "none", "minimal", "compact" and "full".
-            /// </field>
-            get: function () {
-                return this._commandingSurface.closedDisplayMode;
-            },
-            set: function (value) {
-                if (ClosedDisplayMode[value]) {
-                    this._commandingSurface.closedDisplayMode = value;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AppBar.prototype, "placement", {
-            /// <field type="Boolean" hidden="true" locid="WinJS.UI.AppBar.placement" helpKeyword="WinJS.UI.AppBar.placement">
-            /// Gets or sets a value that specifies whether the AppBar appears at the top or bottom of the main view.
-            /// </field>
-            get: function () {
-                return this._placement;
-            },
-            set: function (value) {
-                if (Placement[value] && this._placement !== value) {
-                    this._placement = value;
-                    switch (value) {
-                        case Placement.top:
-                            this._commandingSurface.overflowDirection = "bottom";
-                            break;
-                        case Placement.bottom:
-                            this._commandingSurface.overflowDirection = "top";
-                            break;
-                    }
-                    this._commandingSurface.deferredDomUpate();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AppBar.prototype, "opened", {
-            /// <field type="Boolean" hidden="true" locid="WinJS.UI.AppBar.opened" helpKeyword="WinJS.UI.AppBar.opened">
-            /// Gets or sets whether the AppBar is currently opened.
-            /// </field>
-            get: function () {
-                return this._commandingSurface.opened;
-            },
-            set: function (value) {
-                this._commandingSurface.opened = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AppBar.prototype.open = function () {
-            /// <signature helpKeyword="WinJS.UI.AppBar.open">
-            /// <summary locid="WinJS.UI.AppBar.open">
-            /// Opens the AppBar
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.open();
-        };
-        AppBar.prototype.close = function () {
-            /// <signature helpKeyword="WinJS.UI.AppBar.close">
-            /// <summary locid="WinJS.UI.AppBar.close">
-            /// Closes the AppBar
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.close();
-        };
-        AppBar.prototype.dispose = function () {
-            /// <signature helpKeyword="WinJS.UI.AppBar.dispose">
-            /// <summary locid="WinJS.UI.AppBar.dispose">
-            /// Disposes this AppBar.
-            /// </summary>
-            /// </signature>
-            if (this._disposed) {
-                return;
-            }
-            this._disposed = true;
-            // Disposing the _commandingSurface will trigger dispose on its OpenCloseMachine and synchronously complete any animations that might have been running.
-            this._commandingSurface.dispose();
-            _Dispose.disposeSubTree(this.element);
-        };
-        AppBar.prototype.forceLayout = function () {
-            /// <signature helpKeyword="WinJS.UI.AppBar.forceLayout">
-            /// <summary locid="WinJS.UI.AppBar.forceLayout">
-            /// Forces the AppBar to update its layout. Use this function when the window did not change size, but the container of the AppBar changed size.
-            /// </summary>
-            /// </signature>
-            this._commandingSurface.forceLayout();
-        };
-        AppBar.prototype._writeProfilerMark = function (text) {
-            _WriteProfilerMark("WinJS.UI.AppBar:" + this._id + ":" + text);
-        };
-        AppBar.prototype._initializeDom = function (root) {
-            this._writeProfilerMark("_intializeDom,info");
-            // Attaching JS control to DOM element
-            root["winControl"] = this;
-            this._id = root.id || _ElementUtilities._uniqueID(root);
-            if (!root.hasAttribute("tabIndex")) {
-                root.tabIndex = -1;
-            }
-            _ElementUtilities.addClass(root, _Constants.ClassNames.controlCssClass);
-            _ElementUtilities.addClass(root, _Constants.ClassNames.disposableCssClass);
-            // Make sure we have an ARIA role
-            var role = root.getAttribute("role");
-            if (!role) {
-                root.setAttribute("role", "menubar");
-            }
-            var label = root.getAttribute("aria-label");
-            if (!label) {
-                root.setAttribute("aria-label", strings.ariaLabel);
-            }
-            // Create element for commandingSurface and reparent any declarative Commands.
-            // commandingSurface will parse child elements as AppBarCommands.
-            var commandingSurfaceEl = document.createElement("DIV");
-            _ElementUtilities._reparentChildren(root, commandingSurfaceEl);
-            root.appendChild(commandingSurfaceEl);
-            this._dom = {
-                root: root,
-                commandingSurfaceEl: commandingSurfaceEl,
-            };
-        };
-        AppBar.prototype._synchronousOpen = function () {
-            this._isOpenedMode = true;
-            this._updateDomImpl();
-        };
-        AppBar.prototype._synchronousClose = function () {
-            this._isOpenedMode = false;
-            this._updateDomImpl();
-        };
-        AppBar.prototype._updateDomImpl = function () {
-            var rendered = this._updateDomImpl_renderedState;
-            if (rendered.isOpenedMode !== this._isOpenedMode) {
-                if (this._isOpenedMode) {
-                    this._updateDomImpl_renderOpened();
-                }
-                else {
-                    this._updateDomImpl_renderClosed();
-                }
-                rendered.isOpenedMode = this._isOpenedMode;
-            }
-            if (rendered.placement !== this.placement) {
-                removeClass(this._dom.root, placementClassMap[rendered.placement]);
-                addClass(this._dom.root, placementClassMap[this.placement]);
-                rendered.placement = this.placement;
-            }
-            if (rendered.closedDisplayMode !== this.closedDisplayMode) {
-                removeClass(this._dom.root, closedDisplayModeClassMap[rendered.closedDisplayMode]);
-                addClass(this._dom.root, closedDisplayModeClassMap[this.closedDisplayMode]);
-                rendered.closedDisplayMode = this.closedDisplayMode;
-            }
-            this._commandingSurface.updateDomImpl();
-        };
-        AppBar.prototype._updateDomImpl_renderOpened = function () {
-            addClass(this._dom.root, _Constants.ClassNames.openedClass);
-            removeClass(this._dom.root, _Constants.ClassNames.closedClass);
-            this._commandingSurface.synchronousOpen();
-        };
-        AppBar.prototype._updateDomImpl_renderClosed = function () {
-            addClass(this._dom.root, _Constants.ClassNames.closedClass);
-            removeClass(this._dom.root, _Constants.ClassNames.openedClass);
-            this._commandingSurface.synchronousClose();
-        };
-        /// <field locid="WinJS.UI.AppBar.ClosedDisplayMode" helpKeyword="WinJS.UI.AppBar.ClosedDisplayMode">
-        /// Display options for the AppBar when closed.
-        /// </field>
-        AppBar.ClosedDisplayMode = ClosedDisplayMode;
-        /// <field locid="WinJS.UI.AppBar.Placement" helpKeyword="WinJS.UI.AppBar.Placement">
-        /// Display options for AppBar placement in relation to the main view.
-        /// </field>
-        AppBar.Placement = Placement;
-        AppBar.supportedForProcessing = true;
-        return AppBar;
-    })();
-    exports.AppBar = AppBar;
-    _Base.Class.mix(AppBar, _Events.createEventProperties(_Constants.EventNames.beforeOpen, _Constants.EventNames.afterOpen, _Constants.EventNames.beforeClose, _Constants.EventNames.afterClose));
-    // addEventListener, removeEventListener, dispatchEvent
-    _Base.Class.mix(AppBar, _Control.DOMEventMixin);
-});
-
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
-/// <reference path="../../../../typings/require.d.ts" />
-define('WinJS/Controls/AppBar',["require", "exports", '../Core/_Base'], function (require, exports, _Base) {
-    var module = null;
-    _Base.Namespace.define("WinJS.UI", {
-        AppBar: {
-            get: function () {
-                if (!module) {
-                    require(["./AppBar/_AppBar"], function (m) {
-                        module = m;
-                    });
-                }
-                return module.AppBar;
             }
         }
     });
@@ -80494,7 +79696,7 @@ define('WinJS',[
     'WinJS/Controls/Pivot',
     'WinJS/Controls/Hub',
     'WinJS/Controls/Flyout',
-    'WinJS/Controls/_LegacyAppBar',
+    'WinJS/Controls/AppBar',
     'WinJS/Controls/Menu',
     'WinJS/Controls/SearchBox',
     'WinJS/Controls/SettingsFlyout',
@@ -80502,9 +79704,8 @@ define('WinJS',[
     'WinJS/Controls/Tooltip',
     'WinJS/Controls/ViewBox',
     'WinJS/Controls/ContentDialog',
-    'WinJS/Controls/SplitView',
     'WinJS/Controls/ToolBar',
-    'WinJS/Controls/AppBar',
+    'WinJS/Controls/SplitView'
     ], function (_WinJS) {
     "use strict";
 
