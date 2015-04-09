@@ -16,8 +16,8 @@ namespace UCDGen
             string[] blocksToInclude = new string[]{
                 "Basic Latin",
                 "Latin-1 Supplement",
+                "Miscellaneous Symbols and Pictographs",
                 "Emoticons",
-                "Ornamental Dingbats",
                 "Transport and Map Symbols"
             };
             List<Tuple<int,int>> filters = new List<Tuple<int,int>>();

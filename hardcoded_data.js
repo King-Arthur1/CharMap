@@ -11,14 +11,14 @@ window.global_data = {
       "name": "Latin-1 Supplement"
     },
     {
+      "start": 127744,
+      "end": 128511,
+      "name": "Miscellaneous Symbols and Pictographs"
+    },
+    {
       "start": 128512,
       "end": 128591,
       "name": "Emoticons"
-    },
-    {
-      "start": 128592,
-      "end": 128639,
-      "name": "Ornamental Dingbats"
     },
     {
       "start": 128640,
@@ -1201,6 +1201,2974 @@ window.global_data = {
       "altName": "LATIN SMALL LETTER Y DIAERESIS"
     },
     {
+      "code": 127744,
+      "name": "CYCLONE"
+    },
+    {
+      "code": 127745,
+      "name": "FOGGY"
+    },
+    {
+      "code": 127746,
+      "name": "CLOSED UMBRELLA"
+    },
+    {
+      "code": 127747,
+      "name": "NIGHT WITH STARS"
+    },
+    {
+      "code": 127748,
+      "name": "SUNRISE OVER MOUNTAINS"
+    },
+    {
+      "code": 127749,
+      "name": "SUNRISE"
+    },
+    {
+      "code": 127750,
+      "name": "CITYSCAPE AT DUSK"
+    },
+    {
+      "code": 127751,
+      "name": "SUNSET OVER BUILDINGS"
+    },
+    {
+      "code": 127752,
+      "name": "RAINBOW"
+    },
+    {
+      "code": 127753,
+      "name": "BRIDGE AT NIGHT"
+    },
+    {
+      "code": 127754,
+      "name": "WATER WAVE"
+    },
+    {
+      "code": 127755,
+      "name": "VOLCANO"
+    },
+    {
+      "code": 127756,
+      "name": "MILKY WAY"
+    },
+    {
+      "code": 127757,
+      "name": "EARTH GLOBE EUROPE-AFRICA"
+    },
+    {
+      "code": 127758,
+      "name": "EARTH GLOBE AMERICAS"
+    },
+    {
+      "code": 127759,
+      "name": "EARTH GLOBE ASIA-AUSTRALIA"
+    },
+    {
+      "code": 127760,
+      "name": "GLOBE WITH MERIDIANS"
+    },
+    {
+      "code": 127761,
+      "name": "NEW MOON SYMBOL"
+    },
+    {
+      "code": 127762,
+      "name": "WAXING CRESCENT MOON SYMBOL"
+    },
+    {
+      "code": 127763,
+      "name": "FIRST QUARTER MOON SYMBOL"
+    },
+    {
+      "code": 127764,
+      "name": "WAXING GIBBOUS MOON SYMBOL"
+    },
+    {
+      "code": 127765,
+      "name": "FULL MOON SYMBOL"
+    },
+    {
+      "code": 127766,
+      "name": "WANING GIBBOUS MOON SYMBOL"
+    },
+    {
+      "code": 127767,
+      "name": "LAST QUARTER MOON SYMBOL"
+    },
+    {
+      "code": 127768,
+      "name": "WANING CRESCENT MOON SYMBOL"
+    },
+    {
+      "code": 127769,
+      "name": "CRESCENT MOON"
+    },
+    {
+      "code": 127770,
+      "name": "NEW MOON WITH FACE"
+    },
+    {
+      "code": 127771,
+      "name": "FIRST QUARTER MOON WITH FACE"
+    },
+    {
+      "code": 127772,
+      "name": "LAST QUARTER MOON WITH FACE"
+    },
+    {
+      "code": 127773,
+      "name": "FULL MOON WITH FACE"
+    },
+    {
+      "code": 127774,
+      "name": "SUN WITH FACE"
+    },
+    {
+      "code": 127775,
+      "name": "GLOWING STAR"
+    },
+    {
+      "code": 127776,
+      "name": "SHOOTING STAR"
+    },
+    {
+      "code": 127777,
+      "name": "THERMOMETER"
+    },
+    {
+      "code": 127778,
+      "name": "BLACK DROPLET"
+    },
+    {
+      "code": 127779,
+      "name": "WHITE SUN"
+    },
+    {
+      "code": 127780,
+      "name": "WHITE SUN WITH SMALL CLOUD"
+    },
+    {
+      "code": 127781,
+      "name": "WHITE SUN BEHIND CLOUD"
+    },
+    {
+      "code": 127782,
+      "name": "WHITE SUN BEHIND CLOUD WITH RAIN"
+    },
+    {
+      "code": 127783,
+      "name": "CLOUD WITH RAIN"
+    },
+    {
+      "code": 127784,
+      "name": "CLOUD WITH SNOW"
+    },
+    {
+      "code": 127785,
+      "name": "CLOUD WITH LIGHTNING"
+    },
+    {
+      "code": 127786,
+      "name": "CLOUD WITH TORNADO"
+    },
+    {
+      "code": 127787,
+      "name": "FOG"
+    },
+    {
+      "code": 127788,
+      "name": "WIND BLOWING FACE"
+    },
+    {
+      "code": 127792,
+      "name": "CHESTNUT"
+    },
+    {
+      "code": 127793,
+      "name": "SEEDLING"
+    },
+    {
+      "code": 127794,
+      "name": "EVERGREEN TREE"
+    },
+    {
+      "code": 127795,
+      "name": "DECIDUOUS TREE"
+    },
+    {
+      "code": 127796,
+      "name": "PALM TREE"
+    },
+    {
+      "code": 127797,
+      "name": "CACTUS"
+    },
+    {
+      "code": 127798,
+      "name": "HOT PEPPER"
+    },
+    {
+      "code": 127799,
+      "name": "TULIP"
+    },
+    {
+      "code": 127800,
+      "name": "CHERRY BLOSSOM"
+    },
+    {
+      "code": 127801,
+      "name": "ROSE"
+    },
+    {
+      "code": 127802,
+      "name": "HIBISCUS"
+    },
+    {
+      "code": 127803,
+      "name": "SUNFLOWER"
+    },
+    {
+      "code": 127804,
+      "name": "BLOSSOM"
+    },
+    {
+      "code": 127805,
+      "name": "EAR OF MAIZE"
+    },
+    {
+      "code": 127806,
+      "name": "EAR OF RICE"
+    },
+    {
+      "code": 127807,
+      "name": "HERB"
+    },
+    {
+      "code": 127808,
+      "name": "FOUR LEAF CLOVER"
+    },
+    {
+      "code": 127809,
+      "name": "MAPLE LEAF"
+    },
+    {
+      "code": 127810,
+      "name": "FALLEN LEAF"
+    },
+    {
+      "code": 127811,
+      "name": "LEAF FLUTTERING IN WIND"
+    },
+    {
+      "code": 127812,
+      "name": "MUSHROOM"
+    },
+    {
+      "code": 127813,
+      "name": "TOMATO"
+    },
+    {
+      "code": 127814,
+      "name": "AUBERGINE"
+    },
+    {
+      "code": 127815,
+      "name": "GRAPES"
+    },
+    {
+      "code": 127816,
+      "name": "MELON"
+    },
+    {
+      "code": 127817,
+      "name": "WATERMELON"
+    },
+    {
+      "code": 127818,
+      "name": "TANGERINE"
+    },
+    {
+      "code": 127819,
+      "name": "LEMON"
+    },
+    {
+      "code": 127820,
+      "name": "BANANA"
+    },
+    {
+      "code": 127821,
+      "name": "PINEAPPLE"
+    },
+    {
+      "code": 127822,
+      "name": "RED APPLE"
+    },
+    {
+      "code": 127823,
+      "name": "GREEN APPLE"
+    },
+    {
+      "code": 127824,
+      "name": "PEAR"
+    },
+    {
+      "code": 127825,
+      "name": "PEACH"
+    },
+    {
+      "code": 127826,
+      "name": "CHERRIES"
+    },
+    {
+      "code": 127827,
+      "name": "STRAWBERRY"
+    },
+    {
+      "code": 127828,
+      "name": "HAMBURGER"
+    },
+    {
+      "code": 127829,
+      "name": "SLICE OF PIZZA"
+    },
+    {
+      "code": 127830,
+      "name": "MEAT ON BONE"
+    },
+    {
+      "code": 127831,
+      "name": "POULTRY LEG"
+    },
+    {
+      "code": 127832,
+      "name": "RICE CRACKER"
+    },
+    {
+      "code": 127833,
+      "name": "RICE BALL"
+    },
+    {
+      "code": 127834,
+      "name": "COOKED RICE"
+    },
+    {
+      "code": 127835,
+      "name": "CURRY AND RICE"
+    },
+    {
+      "code": 127836,
+      "name": "STEAMING BOWL"
+    },
+    {
+      "code": 127837,
+      "name": "SPAGHETTI"
+    },
+    {
+      "code": 127838,
+      "name": "BREAD"
+    },
+    {
+      "code": 127839,
+      "name": "FRENCH FRIES"
+    },
+    {
+      "code": 127840,
+      "name": "ROASTED SWEET POTATO"
+    },
+    {
+      "code": 127841,
+      "name": "DANGO"
+    },
+    {
+      "code": 127842,
+      "name": "ODEN"
+    },
+    {
+      "code": 127843,
+      "name": "SUSHI"
+    },
+    {
+      "code": 127844,
+      "name": "FRIED SHRIMP"
+    },
+    {
+      "code": 127845,
+      "name": "FISH CAKE WITH SWIRL DESIGN"
+    },
+    {
+      "code": 127846,
+      "name": "SOFT ICE CREAM"
+    },
+    {
+      "code": 127847,
+      "name": "SHAVED ICE"
+    },
+    {
+      "code": 127848,
+      "name": "ICE CREAM"
+    },
+    {
+      "code": 127849,
+      "name": "DOUGHNUT"
+    },
+    {
+      "code": 127850,
+      "name": "COOKIE"
+    },
+    {
+      "code": 127851,
+      "name": "CHOCOLATE BAR"
+    },
+    {
+      "code": 127852,
+      "name": "CANDY"
+    },
+    {
+      "code": 127853,
+      "name": "LOLLIPOP"
+    },
+    {
+      "code": 127854,
+      "name": "CUSTARD"
+    },
+    {
+      "code": 127855,
+      "name": "HONEY POT"
+    },
+    {
+      "code": 127856,
+      "name": "SHORTCAKE"
+    },
+    {
+      "code": 127857,
+      "name": "BENTO BOX"
+    },
+    {
+      "code": 127858,
+      "name": "POT OF FOOD"
+    },
+    {
+      "code": 127859,
+      "name": "COOKING"
+    },
+    {
+      "code": 127860,
+      "name": "FORK AND KNIFE"
+    },
+    {
+      "code": 127861,
+      "name": "TEACUP WITHOUT HANDLE"
+    },
+    {
+      "code": 127862,
+      "name": "SAKE BOTTLE AND CUP"
+    },
+    {
+      "code": 127863,
+      "name": "WINE GLASS"
+    },
+    {
+      "code": 127864,
+      "name": "COCKTAIL GLASS"
+    },
+    {
+      "code": 127865,
+      "name": "TROPICAL DRINK"
+    },
+    {
+      "code": 127866,
+      "name": "BEER MUG"
+    },
+    {
+      "code": 127867,
+      "name": "CLINKING BEER MUGS"
+    },
+    {
+      "code": 127868,
+      "name": "BABY BOTTLE"
+    },
+    {
+      "code": 127869,
+      "name": "FORK AND KNIFE WITH PLATE"
+    },
+    {
+      "code": 127872,
+      "name": "RIBBON"
+    },
+    {
+      "code": 127873,
+      "name": "WRAPPED PRESENT"
+    },
+    {
+      "code": 127874,
+      "name": "BIRTHDAY CAKE"
+    },
+    {
+      "code": 127875,
+      "name": "JACK-O-LANTERN"
+    },
+    {
+      "code": 127876,
+      "name": "CHRISTMAS TREE"
+    },
+    {
+      "code": 127877,
+      "name": "FATHER CHRISTMAS"
+    },
+    {
+      "code": 127878,
+      "name": "FIREWORKS"
+    },
+    {
+      "code": 127879,
+      "name": "FIREWORK SPARKLER"
+    },
+    {
+      "code": 127880,
+      "name": "BALLOON"
+    },
+    {
+      "code": 127881,
+      "name": "PARTY POPPER"
+    },
+    {
+      "code": 127882,
+      "name": "CONFETTI BALL"
+    },
+    {
+      "code": 127883,
+      "name": "TANABATA TREE"
+    },
+    {
+      "code": 127884,
+      "name": "CROSSED FLAGS"
+    },
+    {
+      "code": 127885,
+      "name": "PINE DECORATION"
+    },
+    {
+      "code": 127886,
+      "name": "JAPANESE DOLLS"
+    },
+    {
+      "code": 127887,
+      "name": "CARP STREAMER"
+    },
+    {
+      "code": 127888,
+      "name": "WIND CHIME"
+    },
+    {
+      "code": 127889,
+      "name": "MOON VIEWING CEREMONY"
+    },
+    {
+      "code": 127890,
+      "name": "SCHOOL SATCHEL"
+    },
+    {
+      "code": 127891,
+      "name": "GRADUATION CAP"
+    },
+    {
+      "code": 127892,
+      "name": "HEART WITH TIP ON THE LEFT"
+    },
+    {
+      "code": 127893,
+      "name": "BOUQUET OF FLOWERS"
+    },
+    {
+      "code": 127894,
+      "name": "MILITARY MEDAL"
+    },
+    {
+      "code": 127895,
+      "name": "REMINDER RIBBON"
+    },
+    {
+      "code": 127896,
+      "name": "MUSICAL KEYBOARD WITH JACKS"
+    },
+    {
+      "code": 127897,
+      "name": "STUDIO MICROPHONE"
+    },
+    {
+      "code": 127898,
+      "name": "LEVEL SLIDER"
+    },
+    {
+      "code": 127899,
+      "name": "CONTROL KNOBS"
+    },
+    {
+      "code": 127900,
+      "name": "BEAMED ASCENDING MUSICAL NOTES"
+    },
+    {
+      "code": 127901,
+      "name": "BEAMED DESCENDING MUSICAL NOTES"
+    },
+    {
+      "code": 127902,
+      "name": "FILM FRAMES"
+    },
+    {
+      "code": 127903,
+      "name": "ADMISSION TICKETS"
+    },
+    {
+      "code": 127904,
+      "name": "CAROUSEL HORSE"
+    },
+    {
+      "code": 127905,
+      "name": "FERRIS WHEEL"
+    },
+    {
+      "code": 127906,
+      "name": "ROLLER COASTER"
+    },
+    {
+      "code": 127907,
+      "name": "FISHING POLE AND FISH"
+    },
+    {
+      "code": 127908,
+      "name": "MICROPHONE"
+    },
+    {
+      "code": 127909,
+      "name": "MOVIE CAMERA"
+    },
+    {
+      "code": 127910,
+      "name": "CINEMA"
+    },
+    {
+      "code": 127911,
+      "name": "HEADPHONE"
+    },
+    {
+      "code": 127912,
+      "name": "ARTIST PALETTE"
+    },
+    {
+      "code": 127913,
+      "name": "TOP HAT"
+    },
+    {
+      "code": 127914,
+      "name": "CIRCUS TENT"
+    },
+    {
+      "code": 127915,
+      "name": "TICKET"
+    },
+    {
+      "code": 127916,
+      "name": "CLAPPER BOARD"
+    },
+    {
+      "code": 127917,
+      "name": "PERFORMING ARTS"
+    },
+    {
+      "code": 127918,
+      "name": "VIDEO GAME"
+    },
+    {
+      "code": 127919,
+      "name": "DIRECT HIT"
+    },
+    {
+      "code": 127920,
+      "name": "SLOT MACHINE"
+    },
+    {
+      "code": 127921,
+      "name": "BILLIARDS"
+    },
+    {
+      "code": 127922,
+      "name": "GAME DIE"
+    },
+    {
+      "code": 127923,
+      "name": "BOWLING"
+    },
+    {
+      "code": 127924,
+      "name": "FLOWER PLAYING CARDS"
+    },
+    {
+      "code": 127925,
+      "name": "MUSICAL NOTE"
+    },
+    {
+      "code": 127926,
+      "name": "MULTIPLE MUSICAL NOTES"
+    },
+    {
+      "code": 127927,
+      "name": "SAXOPHONE"
+    },
+    {
+      "code": 127928,
+      "name": "GUITAR"
+    },
+    {
+      "code": 127929,
+      "name": "MUSICAL KEYBOARD"
+    },
+    {
+      "code": 127930,
+      "name": "TRUMPET"
+    },
+    {
+      "code": 127931,
+      "name": "VIOLIN"
+    },
+    {
+      "code": 127932,
+      "name": "MUSICAL SCORE"
+    },
+    {
+      "code": 127933,
+      "name": "RUNNING SHIRT WITH SASH"
+    },
+    {
+      "code": 127934,
+      "name": "TENNIS RACQUET AND BALL"
+    },
+    {
+      "code": 127935,
+      "name": "SKI AND SKI BOOT"
+    },
+    {
+      "code": 127936,
+      "name": "BASKETBALL AND HOOP"
+    },
+    {
+      "code": 127937,
+      "name": "CHEQUERED FLAG"
+    },
+    {
+      "code": 127938,
+      "name": "SNOWBOARDER"
+    },
+    {
+      "code": 127939,
+      "name": "RUNNER"
+    },
+    {
+      "code": 127940,
+      "name": "SURFER"
+    },
+    {
+      "code": 127941,
+      "name": "SPORTS MEDAL"
+    },
+    {
+      "code": 127942,
+      "name": "TROPHY"
+    },
+    {
+      "code": 127943,
+      "name": "HORSE RACING"
+    },
+    {
+      "code": 127944,
+      "name": "AMERICAN FOOTBALL"
+    },
+    {
+      "code": 127945,
+      "name": "RUGBY FOOTBALL"
+    },
+    {
+      "code": 127946,
+      "name": "SWIMMER"
+    },
+    {
+      "code": 127947,
+      "name": "WEIGHT LIFTER"
+    },
+    {
+      "code": 127948,
+      "name": "GOLFER"
+    },
+    {
+      "code": 127949,
+      "name": "RACING MOTORCYCLE"
+    },
+    {
+      "code": 127950,
+      "name": "RACING CAR"
+    },
+    {
+      "code": 127956,
+      "name": "SNOW CAPPED MOUNTAIN"
+    },
+    {
+      "code": 127957,
+      "name": "CAMPING"
+    },
+    {
+      "code": 127958,
+      "name": "BEACH WITH UMBRELLA"
+    },
+    {
+      "code": 127959,
+      "name": "BUILDING CONSTRUCTION"
+    },
+    {
+      "code": 127960,
+      "name": "HOUSE BUILDINGS"
+    },
+    {
+      "code": 127961,
+      "name": "CITYSCAPE"
+    },
+    {
+      "code": 127962,
+      "name": "DERELICT HOUSE BUILDING"
+    },
+    {
+      "code": 127963,
+      "name": "CLASSICAL BUILDING"
+    },
+    {
+      "code": 127964,
+      "name": "DESERT"
+    },
+    {
+      "code": 127965,
+      "name": "DESERT ISLAND"
+    },
+    {
+      "code": 127966,
+      "name": "NATIONAL PARK"
+    },
+    {
+      "code": 127967,
+      "name": "STADIUM"
+    },
+    {
+      "code": 127968,
+      "name": "HOUSE BUILDING"
+    },
+    {
+      "code": 127969,
+      "name": "HOUSE WITH GARDEN"
+    },
+    {
+      "code": 127970,
+      "name": "OFFICE BUILDING"
+    },
+    {
+      "code": 127971,
+      "name": "JAPANESE POST OFFICE"
+    },
+    {
+      "code": 127972,
+      "name": "EUROPEAN POST OFFICE"
+    },
+    {
+      "code": 127973,
+      "name": "HOSPITAL"
+    },
+    {
+      "code": 127974,
+      "name": "BANK"
+    },
+    {
+      "code": 127975,
+      "name": "AUTOMATED TELLER MACHINE"
+    },
+    {
+      "code": 127976,
+      "name": "HOTEL"
+    },
+    {
+      "code": 127977,
+      "name": "LOVE HOTEL"
+    },
+    {
+      "code": 127978,
+      "name": "CONVENIENCE STORE"
+    },
+    {
+      "code": 127979,
+      "name": "SCHOOL"
+    },
+    {
+      "code": 127980,
+      "name": "DEPARTMENT STORE"
+    },
+    {
+      "code": 127981,
+      "name": "FACTORY"
+    },
+    {
+      "code": 127982,
+      "name": "IZAKAYA LANTERN"
+    },
+    {
+      "code": 127983,
+      "name": "JAPANESE CASTLE"
+    },
+    {
+      "code": 127984,
+      "name": "EUROPEAN CASTLE"
+    },
+    {
+      "code": 127985,
+      "name": "WHITE PENNANT"
+    },
+    {
+      "code": 127986,
+      "name": "BLACK PENNANT"
+    },
+    {
+      "code": 127987,
+      "name": "WAVING WHITE FLAG"
+    },
+    {
+      "code": 127988,
+      "name": "WAVING BLACK FLAG"
+    },
+    {
+      "code": 127989,
+      "name": "ROSETTE"
+    },
+    {
+      "code": 127990,
+      "name": "BLACK ROSETTE"
+    },
+    {
+      "code": 127991,
+      "name": "LABEL"
+    },
+    {
+      "code": 128000,
+      "name": "RAT"
+    },
+    {
+      "code": 128001,
+      "name": "MOUSE"
+    },
+    {
+      "code": 128002,
+      "name": "OX"
+    },
+    {
+      "code": 128003,
+      "name": "WATER BUFFALO"
+    },
+    {
+      "code": 128004,
+      "name": "COW"
+    },
+    {
+      "code": 128005,
+      "name": "TIGER"
+    },
+    {
+      "code": 128006,
+      "name": "LEOPARD"
+    },
+    {
+      "code": 128007,
+      "name": "RABBIT"
+    },
+    {
+      "code": 128008,
+      "name": "CAT"
+    },
+    {
+      "code": 128009,
+      "name": "DRAGON"
+    },
+    {
+      "code": 128010,
+      "name": "CROCODILE"
+    },
+    {
+      "code": 128011,
+      "name": "WHALE"
+    },
+    {
+      "code": 128012,
+      "name": "SNAIL"
+    },
+    {
+      "code": 128013,
+      "name": "SNAKE"
+    },
+    {
+      "code": 128014,
+      "name": "HORSE"
+    },
+    {
+      "code": 128015,
+      "name": "RAM"
+    },
+    {
+      "code": 128016,
+      "name": "GOAT"
+    },
+    {
+      "code": 128017,
+      "name": "SHEEP"
+    },
+    {
+      "code": 128018,
+      "name": "MONKEY"
+    },
+    {
+      "code": 128019,
+      "name": "ROOSTER"
+    },
+    {
+      "code": 128020,
+      "name": "CHICKEN"
+    },
+    {
+      "code": 128021,
+      "name": "DOG"
+    },
+    {
+      "code": 128022,
+      "name": "PIG"
+    },
+    {
+      "code": 128023,
+      "name": "BOAR"
+    },
+    {
+      "code": 128024,
+      "name": "ELEPHANT"
+    },
+    {
+      "code": 128025,
+      "name": "OCTOPUS"
+    },
+    {
+      "code": 128026,
+      "name": "SPIRAL SHELL"
+    },
+    {
+      "code": 128027,
+      "name": "BUG"
+    },
+    {
+      "code": 128028,
+      "name": "ANT"
+    },
+    {
+      "code": 128029,
+      "name": "HONEYBEE"
+    },
+    {
+      "code": 128030,
+      "name": "LADY BEETLE"
+    },
+    {
+      "code": 128031,
+      "name": "FISH"
+    },
+    {
+      "code": 128032,
+      "name": "TROPICAL FISH"
+    },
+    {
+      "code": 128033,
+      "name": "BLOWFISH"
+    },
+    {
+      "code": 128034,
+      "name": "TURTLE"
+    },
+    {
+      "code": 128035,
+      "name": "HATCHING CHICK"
+    },
+    {
+      "code": 128036,
+      "name": "BABY CHICK"
+    },
+    {
+      "code": 128037,
+      "name": "FRONT-FACING BABY CHICK"
+    },
+    {
+      "code": 128038,
+      "name": "BIRD"
+    },
+    {
+      "code": 128039,
+      "name": "PENGUIN"
+    },
+    {
+      "code": 128040,
+      "name": "KOALA"
+    },
+    {
+      "code": 128041,
+      "name": "POODLE"
+    },
+    {
+      "code": 128042,
+      "name": "DROMEDARY CAMEL"
+    },
+    {
+      "code": 128043,
+      "name": "BACTRIAN CAMEL"
+    },
+    {
+      "code": 128044,
+      "name": "DOLPHIN"
+    },
+    {
+      "code": 128045,
+      "name": "MOUSE FACE"
+    },
+    {
+      "code": 128046,
+      "name": "COW FACE"
+    },
+    {
+      "code": 128047,
+      "name": "TIGER FACE"
+    },
+    {
+      "code": 128048,
+      "name": "RABBIT FACE"
+    },
+    {
+      "code": 128049,
+      "name": "CAT FACE"
+    },
+    {
+      "code": 128050,
+      "name": "DRAGON FACE"
+    },
+    {
+      "code": 128051,
+      "name": "SPOUTING WHALE"
+    },
+    {
+      "code": 128052,
+      "name": "HORSE FACE"
+    },
+    {
+      "code": 128053,
+      "name": "MONKEY FACE"
+    },
+    {
+      "code": 128054,
+      "name": "DOG FACE"
+    },
+    {
+      "code": 128055,
+      "name": "PIG FACE"
+    },
+    {
+      "code": 128056,
+      "name": "FROG FACE"
+    },
+    {
+      "code": 128057,
+      "name": "HAMSTER FACE"
+    },
+    {
+      "code": 128058,
+      "name": "WOLF FACE"
+    },
+    {
+      "code": 128059,
+      "name": "BEAR FACE"
+    },
+    {
+      "code": 128060,
+      "name": "PANDA FACE"
+    },
+    {
+      "code": 128061,
+      "name": "PIG NOSE"
+    },
+    {
+      "code": 128062,
+      "name": "PAW PRINTS"
+    },
+    {
+      "code": 128063,
+      "name": "CHIPMUNK"
+    },
+    {
+      "code": 128064,
+      "name": "EYES"
+    },
+    {
+      "code": 128065,
+      "name": "EYE"
+    },
+    {
+      "code": 128066,
+      "name": "EAR"
+    },
+    {
+      "code": 128067,
+      "name": "NOSE"
+    },
+    {
+      "code": 128068,
+      "name": "MOUTH"
+    },
+    {
+      "code": 128069,
+      "name": "TONGUE"
+    },
+    {
+      "code": 128070,
+      "name": "WHITE UP POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128071,
+      "name": "WHITE DOWN POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128072,
+      "name": "WHITE LEFT POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128073,
+      "name": "WHITE RIGHT POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128074,
+      "name": "FISTED HAND SIGN"
+    },
+    {
+      "code": 128075,
+      "name": "WAVING HAND SIGN"
+    },
+    {
+      "code": 128076,
+      "name": "OK HAND SIGN"
+    },
+    {
+      "code": 128077,
+      "name": "THUMBS UP SIGN"
+    },
+    {
+      "code": 128078,
+      "name": "THUMBS DOWN SIGN"
+    },
+    {
+      "code": 128079,
+      "name": "CLAPPING HANDS SIGN"
+    },
+    {
+      "code": 128080,
+      "name": "OPEN HANDS SIGN"
+    },
+    {
+      "code": 128081,
+      "name": "CROWN"
+    },
+    {
+      "code": 128082,
+      "name": "WOMANS HAT"
+    },
+    {
+      "code": 128083,
+      "name": "EYEGLASSES"
+    },
+    {
+      "code": 128084,
+      "name": "NECKTIE"
+    },
+    {
+      "code": 128085,
+      "name": "T-SHIRT"
+    },
+    {
+      "code": 128086,
+      "name": "JEANS"
+    },
+    {
+      "code": 128087,
+      "name": "DRESS"
+    },
+    {
+      "code": 128088,
+      "name": "KIMONO"
+    },
+    {
+      "code": 128089,
+      "name": "BIKINI"
+    },
+    {
+      "code": 128090,
+      "name": "WOMANS CLOTHES"
+    },
+    {
+      "code": 128091,
+      "name": "PURSE"
+    },
+    {
+      "code": 128092,
+      "name": "HANDBAG"
+    },
+    {
+      "code": 128093,
+      "name": "POUCH"
+    },
+    {
+      "code": 128094,
+      "name": "MANS SHOE"
+    },
+    {
+      "code": 128095,
+      "name": "ATHLETIC SHOE"
+    },
+    {
+      "code": 128096,
+      "name": "HIGH-HEELED SHOE"
+    },
+    {
+      "code": 128097,
+      "name": "WOMANS SANDAL"
+    },
+    {
+      "code": 128098,
+      "name": "WOMANS BOOTS"
+    },
+    {
+      "code": 128099,
+      "name": "FOOTPRINTS"
+    },
+    {
+      "code": 128100,
+      "name": "BUST IN SILHOUETTE"
+    },
+    {
+      "code": 128101,
+      "name": "BUSTS IN SILHOUETTE"
+    },
+    {
+      "code": 128102,
+      "name": "BOY"
+    },
+    {
+      "code": 128103,
+      "name": "GIRL"
+    },
+    {
+      "code": 128104,
+      "name": "MAN"
+    },
+    {
+      "code": 128105,
+      "name": "WOMAN"
+    },
+    {
+      "code": 128106,
+      "name": "FAMILY"
+    },
+    {
+      "code": 128107,
+      "name": "MAN AND WOMAN HOLDING HANDS"
+    },
+    {
+      "code": 128108,
+      "name": "TWO MEN HOLDING HANDS"
+    },
+    {
+      "code": 128109,
+      "name": "TWO WOMEN HOLDING HANDS"
+    },
+    {
+      "code": 128110,
+      "name": "POLICE OFFICER"
+    },
+    {
+      "code": 128111,
+      "name": "WOMAN WITH BUNNY EARS"
+    },
+    {
+      "code": 128112,
+      "name": "BRIDE WITH VEIL"
+    },
+    {
+      "code": 128113,
+      "name": "PERSON WITH BLOND HAIR"
+    },
+    {
+      "code": 128114,
+      "name": "MAN WITH GUA PI MAO"
+    },
+    {
+      "code": 128115,
+      "name": "MAN WITH TURBAN"
+    },
+    {
+      "code": 128116,
+      "name": "OLDER MAN"
+    },
+    {
+      "code": 128117,
+      "name": "OLDER WOMAN"
+    },
+    {
+      "code": 128118,
+      "name": "BABY"
+    },
+    {
+      "code": 128119,
+      "name": "CONSTRUCTION WORKER"
+    },
+    {
+      "code": 128120,
+      "name": "PRINCESS"
+    },
+    {
+      "code": 128121,
+      "name": "JAPANESE OGRE"
+    },
+    {
+      "code": 128122,
+      "name": "JAPANESE GOBLIN"
+    },
+    {
+      "code": 128123,
+      "name": "GHOST"
+    },
+    {
+      "code": 128124,
+      "name": "BABY ANGEL"
+    },
+    {
+      "code": 128125,
+      "name": "EXTRATERRESTRIAL ALIEN"
+    },
+    {
+      "code": 128126,
+      "name": "ALIEN MONSTER"
+    },
+    {
+      "code": 128127,
+      "name": "IMP"
+    },
+    {
+      "code": 128128,
+      "name": "SKULL"
+    },
+    {
+      "code": 128129,
+      "name": "INFORMATION DESK PERSON"
+    },
+    {
+      "code": 128130,
+      "name": "GUARDSMAN"
+    },
+    {
+      "code": 128131,
+      "name": "DANCER"
+    },
+    {
+      "code": 128132,
+      "name": "LIPSTICK"
+    },
+    {
+      "code": 128133,
+      "name": "NAIL POLISH"
+    },
+    {
+      "code": 128134,
+      "name": "FACE MASSAGE"
+    },
+    {
+      "code": 128135,
+      "name": "HAIRCUT"
+    },
+    {
+      "code": 128136,
+      "name": "BARBER POLE"
+    },
+    {
+      "code": 128137,
+      "name": "SYRINGE"
+    },
+    {
+      "code": 128138,
+      "name": "PILL"
+    },
+    {
+      "code": 128139,
+      "name": "KISS MARK"
+    },
+    {
+      "code": 128140,
+      "name": "LOVE LETTER"
+    },
+    {
+      "code": 128141,
+      "name": "RING"
+    },
+    {
+      "code": 128142,
+      "name": "GEM STONE"
+    },
+    {
+      "code": 128143,
+      "name": "KISS"
+    },
+    {
+      "code": 128144,
+      "name": "BOUQUET"
+    },
+    {
+      "code": 128145,
+      "name": "COUPLE WITH HEART"
+    },
+    {
+      "code": 128146,
+      "name": "WEDDING"
+    },
+    {
+      "code": 128147,
+      "name": "BEATING HEART"
+    },
+    {
+      "code": 128148,
+      "name": "BROKEN HEART"
+    },
+    {
+      "code": 128149,
+      "name": "TWO HEARTS"
+    },
+    {
+      "code": 128150,
+      "name": "SPARKLING HEART"
+    },
+    {
+      "code": 128151,
+      "name": "GROWING HEART"
+    },
+    {
+      "code": 128152,
+      "name": "HEART WITH ARROW"
+    },
+    {
+      "code": 128153,
+      "name": "BLUE HEART"
+    },
+    {
+      "code": 128154,
+      "name": "GREEN HEART"
+    },
+    {
+      "code": 128155,
+      "name": "YELLOW HEART"
+    },
+    {
+      "code": 128156,
+      "name": "PURPLE HEART"
+    },
+    {
+      "code": 128157,
+      "name": "HEART WITH RIBBON"
+    },
+    {
+      "code": 128158,
+      "name": "REVOLVING HEARTS"
+    },
+    {
+      "code": 128159,
+      "name": "HEART DECORATION"
+    },
+    {
+      "code": 128160,
+      "name": "DIAMOND SHAPE WITH A DOT INSIDE"
+    },
+    {
+      "code": 128161,
+      "name": "ELECTRIC LIGHT BULB"
+    },
+    {
+      "code": 128162,
+      "name": "ANGER SYMBOL"
+    },
+    {
+      "code": 128163,
+      "name": "BOMB"
+    },
+    {
+      "code": 128164,
+      "name": "SLEEPING SYMBOL"
+    },
+    {
+      "code": 128165,
+      "name": "COLLISION SYMBOL"
+    },
+    {
+      "code": 128166,
+      "name": "SPLASHING SWEAT SYMBOL"
+    },
+    {
+      "code": 128167,
+      "name": "DROPLET"
+    },
+    {
+      "code": 128168,
+      "name": "DASH SYMBOL"
+    },
+    {
+      "code": 128169,
+      "name": "PILE OF POO"
+    },
+    {
+      "code": 128170,
+      "name": "FLEXED BICEPS"
+    },
+    {
+      "code": 128171,
+      "name": "DIZZY SYMBOL"
+    },
+    {
+      "code": 128172,
+      "name": "SPEECH BALLOON"
+    },
+    {
+      "code": 128173,
+      "name": "THOUGHT BALLOON"
+    },
+    {
+      "code": 128174,
+      "name": "WHITE FLOWER"
+    },
+    {
+      "code": 128175,
+      "name": "HUNDRED POINTS SYMBOL"
+    },
+    {
+      "code": 128176,
+      "name": "MONEY BAG"
+    },
+    {
+      "code": 128177,
+      "name": "CURRENCY EXCHANGE"
+    },
+    {
+      "code": 128178,
+      "name": "HEAVY DOLLAR SIGN"
+    },
+    {
+      "code": 128179,
+      "name": "CREDIT CARD"
+    },
+    {
+      "code": 128180,
+      "name": "BANKNOTE WITH YEN SIGN"
+    },
+    {
+      "code": 128181,
+      "name": "BANKNOTE WITH DOLLAR SIGN"
+    },
+    {
+      "code": 128182,
+      "name": "BANKNOTE WITH EURO SIGN"
+    },
+    {
+      "code": 128183,
+      "name": "BANKNOTE WITH POUND SIGN"
+    },
+    {
+      "code": 128184,
+      "name": "MONEY WITH WINGS"
+    },
+    {
+      "code": 128185,
+      "name": "CHART WITH UPWARDS TREND AND YEN SIGN"
+    },
+    {
+      "code": 128186,
+      "name": "SEAT"
+    },
+    {
+      "code": 128187,
+      "name": "PERSONAL COMPUTER"
+    },
+    {
+      "code": 128188,
+      "name": "BRIEFCASE"
+    },
+    {
+      "code": 128189,
+      "name": "MINIDISC"
+    },
+    {
+      "code": 128190,
+      "name": "FLOPPY DISK"
+    },
+    {
+      "code": 128191,
+      "name": "OPTICAL DISC"
+    },
+    {
+      "code": 128192,
+      "name": "DVD"
+    },
+    {
+      "code": 128193,
+      "name": "FILE FOLDER"
+    },
+    {
+      "code": 128194,
+      "name": "OPEN FILE FOLDER"
+    },
+    {
+      "code": 128195,
+      "name": "PAGE WITH CURL"
+    },
+    {
+      "code": 128196,
+      "name": "PAGE FACING UP"
+    },
+    {
+      "code": 128197,
+      "name": "CALENDAR"
+    },
+    {
+      "code": 128198,
+      "name": "TEAR-OFF CALENDAR"
+    },
+    {
+      "code": 128199,
+      "name": "CARD INDEX"
+    },
+    {
+      "code": 128200,
+      "name": "CHART WITH UPWARDS TREND"
+    },
+    {
+      "code": 128201,
+      "name": "CHART WITH DOWNWARDS TREND"
+    },
+    {
+      "code": 128202,
+      "name": "BAR CHART"
+    },
+    {
+      "code": 128203,
+      "name": "CLIPBOARD"
+    },
+    {
+      "code": 128204,
+      "name": "PUSHPIN"
+    },
+    {
+      "code": 128205,
+      "name": "ROUND PUSHPIN"
+    },
+    {
+      "code": 128206,
+      "name": "PAPERCLIP"
+    },
+    {
+      "code": 128207,
+      "name": "STRAIGHT RULER"
+    },
+    {
+      "code": 128208,
+      "name": "TRIANGULAR RULER"
+    },
+    {
+      "code": 128209,
+      "name": "BOOKMARK TABS"
+    },
+    {
+      "code": 128210,
+      "name": "LEDGER"
+    },
+    {
+      "code": 128211,
+      "name": "NOTEBOOK"
+    },
+    {
+      "code": 128212,
+      "name": "NOTEBOOK WITH DECORATIVE COVER"
+    },
+    {
+      "code": 128213,
+      "name": "CLOSED BOOK"
+    },
+    {
+      "code": 128214,
+      "name": "OPEN BOOK"
+    },
+    {
+      "code": 128215,
+      "name": "GREEN BOOK"
+    },
+    {
+      "code": 128216,
+      "name": "BLUE BOOK"
+    },
+    {
+      "code": 128217,
+      "name": "ORANGE BOOK"
+    },
+    {
+      "code": 128218,
+      "name": "BOOKS"
+    },
+    {
+      "code": 128219,
+      "name": "NAME BADGE"
+    },
+    {
+      "code": 128220,
+      "name": "SCROLL"
+    },
+    {
+      "code": 128221,
+      "name": "MEMO"
+    },
+    {
+      "code": 128222,
+      "name": "TELEPHONE RECEIVER"
+    },
+    {
+      "code": 128223,
+      "name": "PAGER"
+    },
+    {
+      "code": 128224,
+      "name": "FAX MACHINE"
+    },
+    {
+      "code": 128225,
+      "name": "SATELLITE ANTENNA"
+    },
+    {
+      "code": 128226,
+      "name": "PUBLIC ADDRESS LOUDSPEAKER"
+    },
+    {
+      "code": 128227,
+      "name": "CHEERING MEGAPHONE"
+    },
+    {
+      "code": 128228,
+      "name": "OUTBOX TRAY"
+    },
+    {
+      "code": 128229,
+      "name": "INBOX TRAY"
+    },
+    {
+      "code": 128230,
+      "name": "PACKAGE"
+    },
+    {
+      "code": 128231,
+      "name": "E-MAIL SYMBOL"
+    },
+    {
+      "code": 128232,
+      "name": "INCOMING ENVELOPE"
+    },
+    {
+      "code": 128233,
+      "name": "ENVELOPE WITH DOWNWARDS ARROW ABOVE"
+    },
+    {
+      "code": 128234,
+      "name": "CLOSED MAILBOX WITH LOWERED FLAG"
+    },
+    {
+      "code": 128235,
+      "name": "CLOSED MAILBOX WITH RAISED FLAG"
+    },
+    {
+      "code": 128236,
+      "name": "OPEN MAILBOX WITH RAISED FLAG"
+    },
+    {
+      "code": 128237,
+      "name": "OPEN MAILBOX WITH LOWERED FLAG"
+    },
+    {
+      "code": 128238,
+      "name": "POSTBOX"
+    },
+    {
+      "code": 128239,
+      "name": "POSTAL HORN"
+    },
+    {
+      "code": 128240,
+      "name": "NEWSPAPER"
+    },
+    {
+      "code": 128241,
+      "name": "MOBILE PHONE"
+    },
+    {
+      "code": 128242,
+      "name": "MOBILE PHONE WITH RIGHTWARDS ARROW AT LEFT"
+    },
+    {
+      "code": 128243,
+      "name": "VIBRATION MODE"
+    },
+    {
+      "code": 128244,
+      "name": "MOBILE PHONE OFF"
+    },
+    {
+      "code": 128245,
+      "name": "NO MOBILE PHONES"
+    },
+    {
+      "code": 128246,
+      "name": "ANTENNA WITH BARS"
+    },
+    {
+      "code": 128247,
+      "name": "CAMERA"
+    },
+    {
+      "code": 128248,
+      "name": "CAMERA WITH FLASH"
+    },
+    {
+      "code": 128249,
+      "name": "VIDEO CAMERA"
+    },
+    {
+      "code": 128250,
+      "name": "TELEVISION"
+    },
+    {
+      "code": 128251,
+      "name": "RADIO"
+    },
+    {
+      "code": 128252,
+      "name": "VIDEOCASSETTE"
+    },
+    {
+      "code": 128253,
+      "name": "FILM PROJECTOR"
+    },
+    {
+      "code": 128254,
+      "name": "PORTABLE STEREO"
+    },
+    {
+      "code": 128256,
+      "name": "TWISTED RIGHTWARDS ARROWS"
+    },
+    {
+      "code": 128257,
+      "name": "CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS"
+    },
+    {
+      "code": 128258,
+      "name": "CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS WITH CIRCLED ONE OVERLAY"
+    },
+    {
+      "code": 128259,
+      "name": "CLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS"
+    },
+    {
+      "code": 128260,
+      "name": "ANTICLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS"
+    },
+    {
+      "code": 128261,
+      "name": "LOW BRIGHTNESS SYMBOL"
+    },
+    {
+      "code": 128262,
+      "name": "HIGH BRIGHTNESS SYMBOL"
+    },
+    {
+      "code": 128263,
+      "name": "SPEAKER WITH CANCELLATION STROKE"
+    },
+    {
+      "code": 128264,
+      "name": "SPEAKER"
+    },
+    {
+      "code": 128265,
+      "name": "SPEAKER WITH ONE SOUND WAVE"
+    },
+    {
+      "code": 128266,
+      "name": "SPEAKER WITH THREE SOUND WAVES"
+    },
+    {
+      "code": 128267,
+      "name": "BATTERY"
+    },
+    {
+      "code": 128268,
+      "name": "ELECTRIC PLUG"
+    },
+    {
+      "code": 128269,
+      "name": "LEFT-POINTING MAGNIFYING GLASS"
+    },
+    {
+      "code": 128270,
+      "name": "RIGHT-POINTING MAGNIFYING GLASS"
+    },
+    {
+      "code": 128271,
+      "name": "LOCK WITH INK PEN"
+    },
+    {
+      "code": 128272,
+      "name": "CLOSED LOCK WITH KEY"
+    },
+    {
+      "code": 128273,
+      "name": "KEY"
+    },
+    {
+      "code": 128274,
+      "name": "LOCK"
+    },
+    {
+      "code": 128275,
+      "name": "OPEN LOCK"
+    },
+    {
+      "code": 128276,
+      "name": "BELL"
+    },
+    {
+      "code": 128277,
+      "name": "BELL WITH CANCELLATION STROKE"
+    },
+    {
+      "code": 128278,
+      "name": "BOOKMARK"
+    },
+    {
+      "code": 128279,
+      "name": "LINK SYMBOL"
+    },
+    {
+      "code": 128280,
+      "name": "RADIO BUTTON"
+    },
+    {
+      "code": 128281,
+      "name": "BACK WITH LEFTWARDS ARROW ABOVE"
+    },
+    {
+      "code": 128282,
+      "name": "END WITH LEFTWARDS ARROW ABOVE"
+    },
+    {
+      "code": 128283,
+      "name": "ON WITH EXCLAMATION MARK WITH LEFT RIGHT ARROW ABOVE"
+    },
+    {
+      "code": 128284,
+      "name": "SOON WITH RIGHTWARDS ARROW ABOVE"
+    },
+    {
+      "code": 128285,
+      "name": "TOP WITH UPWARDS ARROW ABOVE"
+    },
+    {
+      "code": 128286,
+      "name": "NO ONE UNDER EIGHTEEN SYMBOL"
+    },
+    {
+      "code": 128287,
+      "name": "KEYCAP TEN"
+    },
+    {
+      "code": 128288,
+      "name": "INPUT SYMBOL FOR LATIN CAPITAL LETTERS"
+    },
+    {
+      "code": 128289,
+      "name": "INPUT SYMBOL FOR LATIN SMALL LETTERS"
+    },
+    {
+      "code": 128290,
+      "name": "INPUT SYMBOL FOR NUMBERS"
+    },
+    {
+      "code": 128291,
+      "name": "INPUT SYMBOL FOR SYMBOLS"
+    },
+    {
+      "code": 128292,
+      "name": "INPUT SYMBOL FOR LATIN LETTERS"
+    },
+    {
+      "code": 128293,
+      "name": "FIRE"
+    },
+    {
+      "code": 128294,
+      "name": "ELECTRIC TORCH"
+    },
+    {
+      "code": 128295,
+      "name": "WRENCH"
+    },
+    {
+      "code": 128296,
+      "name": "HAMMER"
+    },
+    {
+      "code": 128297,
+      "name": "NUT AND BOLT"
+    },
+    {
+      "code": 128298,
+      "name": "HOCHO"
+    },
+    {
+      "code": 128299,
+      "name": "PISTOL"
+    },
+    {
+      "code": 128300,
+      "name": "MICROSCOPE"
+    },
+    {
+      "code": 128301,
+      "name": "TELESCOPE"
+    },
+    {
+      "code": 128302,
+      "name": "CRYSTAL BALL"
+    },
+    {
+      "code": 128303,
+      "name": "SIX POINTED STAR WITH MIDDLE DOT"
+    },
+    {
+      "code": 128304,
+      "name": "JAPANESE SYMBOL FOR BEGINNER"
+    },
+    {
+      "code": 128305,
+      "name": "TRIDENT EMBLEM"
+    },
+    {
+      "code": 128306,
+      "name": "BLACK SQUARE BUTTON"
+    },
+    {
+      "code": 128307,
+      "name": "WHITE SQUARE BUTTON"
+    },
+    {
+      "code": 128308,
+      "name": "LARGE RED CIRCLE"
+    },
+    {
+      "code": 128309,
+      "name": "LARGE BLUE CIRCLE"
+    },
+    {
+      "code": 128310,
+      "name": "LARGE ORANGE DIAMOND"
+    },
+    {
+      "code": 128311,
+      "name": "LARGE BLUE DIAMOND"
+    },
+    {
+      "code": 128312,
+      "name": "SMALL ORANGE DIAMOND"
+    },
+    {
+      "code": 128313,
+      "name": "SMALL BLUE DIAMOND"
+    },
+    {
+      "code": 128314,
+      "name": "UP-POINTING RED TRIANGLE"
+    },
+    {
+      "code": 128315,
+      "name": "DOWN-POINTING RED TRIANGLE"
+    },
+    {
+      "code": 128316,
+      "name": "UP-POINTING SMALL RED TRIANGLE"
+    },
+    {
+      "code": 128317,
+      "name": "DOWN-POINTING SMALL RED TRIANGLE"
+    },
+    {
+      "code": 128318,
+      "name": "LOWER RIGHT SHADOWED WHITE CIRCLE"
+    },
+    {
+      "code": 128319,
+      "name": "UPPER RIGHT SHADOWED WHITE CIRCLE"
+    },
+    {
+      "code": 128320,
+      "name": "CIRCLED CROSS POMMEE"
+    },
+    {
+      "code": 128321,
+      "name": "CROSS POMMEE WITH HALF-CIRCLE BELOW"
+    },
+    {
+      "code": 128322,
+      "name": "CROSS POMMEE"
+    },
+    {
+      "code": 128323,
+      "name": "NOTCHED LEFT SEMICIRCLE WITH THREE DOTS"
+    },
+    {
+      "code": 128324,
+      "name": "NOTCHED RIGHT SEMICIRCLE WITH THREE DOTS"
+    },
+    {
+      "code": 128325,
+      "name": "SYMBOL FOR MARKS CHAPTER"
+    },
+    {
+      "code": 128326,
+      "name": "WHITE LATIN CROSS"
+    },
+    {
+      "code": 128327,
+      "name": "HEAVY LATIN CROSS"
+    },
+    {
+      "code": 128328,
+      "name": "CELTIC CROSS"
+    },
+    {
+      "code": 128329,
+      "name": "OM SYMBOL"
+    },
+    {
+      "code": 128330,
+      "name": "DOVE OF PEACE"
+    },
+    {
+      "code": 128336,
+      "name": "CLOCK FACE ONE OCLOCK"
+    },
+    {
+      "code": 128337,
+      "name": "CLOCK FACE TWO OCLOCK"
+    },
+    {
+      "code": 128338,
+      "name": "CLOCK FACE THREE OCLOCK"
+    },
+    {
+      "code": 128339,
+      "name": "CLOCK FACE FOUR OCLOCK"
+    },
+    {
+      "code": 128340,
+      "name": "CLOCK FACE FIVE OCLOCK"
+    },
+    {
+      "code": 128341,
+      "name": "CLOCK FACE SIX OCLOCK"
+    },
+    {
+      "code": 128342,
+      "name": "CLOCK FACE SEVEN OCLOCK"
+    },
+    {
+      "code": 128343,
+      "name": "CLOCK FACE EIGHT OCLOCK"
+    },
+    {
+      "code": 128344,
+      "name": "CLOCK FACE NINE OCLOCK"
+    },
+    {
+      "code": 128345,
+      "name": "CLOCK FACE TEN OCLOCK"
+    },
+    {
+      "code": 128346,
+      "name": "CLOCK FACE ELEVEN OCLOCK"
+    },
+    {
+      "code": 128347,
+      "name": "CLOCK FACE TWELVE OCLOCK"
+    },
+    {
+      "code": 128348,
+      "name": "CLOCK FACE ONE-THIRTY"
+    },
+    {
+      "code": 128349,
+      "name": "CLOCK FACE TWO-THIRTY"
+    },
+    {
+      "code": 128350,
+      "name": "CLOCK FACE THREE-THIRTY"
+    },
+    {
+      "code": 128351,
+      "name": "CLOCK FACE FOUR-THIRTY"
+    },
+    {
+      "code": 128352,
+      "name": "CLOCK FACE FIVE-THIRTY"
+    },
+    {
+      "code": 128353,
+      "name": "CLOCK FACE SIX-THIRTY"
+    },
+    {
+      "code": 128354,
+      "name": "CLOCK FACE SEVEN-THIRTY"
+    },
+    {
+      "code": 128355,
+      "name": "CLOCK FACE EIGHT-THIRTY"
+    },
+    {
+      "code": 128356,
+      "name": "CLOCK FACE NINE-THIRTY"
+    },
+    {
+      "code": 128357,
+      "name": "CLOCK FACE TEN-THIRTY"
+    },
+    {
+      "code": 128358,
+      "name": "CLOCK FACE ELEVEN-THIRTY"
+    },
+    {
+      "code": 128359,
+      "name": "CLOCK FACE TWELVE-THIRTY"
+    },
+    {
+      "code": 128360,
+      "name": "RIGHT SPEAKER"
+    },
+    {
+      "code": 128361,
+      "name": "RIGHT SPEAKER WITH ONE SOUND WAVE"
+    },
+    {
+      "code": 128362,
+      "name": "RIGHT SPEAKER WITH THREE SOUND WAVES"
+    },
+    {
+      "code": 128363,
+      "name": "BULLHORN"
+    },
+    {
+      "code": 128364,
+      "name": "BULLHORN WITH SOUND WAVES"
+    },
+    {
+      "code": 128365,
+      "name": "RINGING BELL"
+    },
+    {
+      "code": 128366,
+      "name": "BOOK"
+    },
+    {
+      "code": 128367,
+      "name": "CANDLE"
+    },
+    {
+      "code": 128368,
+      "name": "MANTELPIECE CLOCK"
+    },
+    {
+      "code": 128369,
+      "name": "BLACK SKULL AND CROSSBONES"
+    },
+    {
+      "code": 128370,
+      "name": "NO PIRACY"
+    },
+    {
+      "code": 128371,
+      "name": "HOLE"
+    },
+    {
+      "code": 128372,
+      "name": "MAN IN BUSINESS SUIT LEVITATING"
+    },
+    {
+      "code": 128373,
+      "name": "SLEUTH OR SPY"
+    },
+    {
+      "code": 128374,
+      "name": "DARK SUNGLASSES"
+    },
+    {
+      "code": 128375,
+      "name": "SPIDER"
+    },
+    {
+      "code": 128376,
+      "name": "SPIDER WEB"
+    },
+    {
+      "code": 128377,
+      "name": "JOYSTICK"
+    },
+    {
+      "code": 128379,
+      "name": "LEFT HAND TELEPHONE RECEIVER"
+    },
+    {
+      "code": 128380,
+      "name": "TELEPHONE RECEIVER WITH PAGE"
+    },
+    {
+      "code": 128381,
+      "name": "RIGHT HAND TELEPHONE RECEIVER"
+    },
+    {
+      "code": 128382,
+      "name": "WHITE TOUCHTONE TELEPHONE"
+    },
+    {
+      "code": 128383,
+      "name": "BLACK TOUCHTONE TELEPHONE"
+    },
+    {
+      "code": 128384,
+      "name": "TELEPHONE ON TOP OF MODEM"
+    },
+    {
+      "code": 128385,
+      "name": "CLAMSHELL MOBILE PHONE"
+    },
+    {
+      "code": 128386,
+      "name": "BACK OF ENVELOPE"
+    },
+    {
+      "code": 128387,
+      "name": "STAMPED ENVELOPE"
+    },
+    {
+      "code": 128388,
+      "name": "ENVELOPE WITH LIGHTNING"
+    },
+    {
+      "code": 128389,
+      "name": "FLYING ENVELOPE"
+    },
+    {
+      "code": 128390,
+      "name": "PEN OVER STAMPED ENVELOPE"
+    },
+    {
+      "code": 128391,
+      "name": "LINKED PAPERCLIPS"
+    },
+    {
+      "code": 128392,
+      "name": "BLACK PUSHPIN"
+    },
+    {
+      "code": 128393,
+      "name": "LOWER LEFT PENCIL"
+    },
+    {
+      "code": 128394,
+      "name": "LOWER LEFT BALLPOINT PEN"
+    },
+    {
+      "code": 128395,
+      "name": "LOWER LEFT FOUNTAIN PEN"
+    },
+    {
+      "code": 128396,
+      "name": "LOWER LEFT PAINTBRUSH"
+    },
+    {
+      "code": 128397,
+      "name": "LOWER LEFT CRAYON"
+    },
+    {
+      "code": 128398,
+      "name": "LEFT WRITING HAND"
+    },
+    {
+      "code": 128399,
+      "name": "TURNED OK HAND SIGN"
+    },
+    {
+      "code": 128400,
+      "name": "RAISED HAND WITH FINGERS SPLAYED"
+    },
+    {
+      "code": 128401,
+      "name": "REVERSED RAISED HAND WITH FINGERS SPLAYED"
+    },
+    {
+      "code": 128402,
+      "name": "REVERSED THUMBS UP SIGN"
+    },
+    {
+      "code": 128403,
+      "name": "REVERSED THUMBS DOWN SIGN"
+    },
+    {
+      "code": 128404,
+      "name": "REVERSED VICTORY HAND"
+    },
+    {
+      "code": 128405,
+      "name": "REVERSED HAND WITH MIDDLE FINGER EXTENDED"
+    },
+    {
+      "code": 128406,
+      "name": "RAISED HAND WITH PART BETWEEN MIDDLE AND RING FINGERS"
+    },
+    {
+      "code": 128407,
+      "name": "WHITE DOWN POINTING LEFT HAND INDEX"
+    },
+    {
+      "code": 128408,
+      "name": "SIDEWAYS WHITE LEFT POINTING INDEX"
+    },
+    {
+      "code": 128409,
+      "name": "SIDEWAYS WHITE RIGHT POINTING INDEX"
+    },
+    {
+      "code": 128410,
+      "name": "SIDEWAYS BLACK LEFT POINTING INDEX"
+    },
+    {
+      "code": 128411,
+      "name": "SIDEWAYS BLACK RIGHT POINTING INDEX"
+    },
+    {
+      "code": 128412,
+      "name": "BLACK LEFT POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128413,
+      "name": "BLACK RIGHT POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128414,
+      "name": "SIDEWAYS WHITE UP POINTING INDEX"
+    },
+    {
+      "code": 128415,
+      "name": "SIDEWAYS WHITE DOWN POINTING INDEX"
+    },
+    {
+      "code": 128416,
+      "name": "SIDEWAYS BLACK UP POINTING INDEX"
+    },
+    {
+      "code": 128417,
+      "name": "SIDEWAYS BLACK DOWN POINTING INDEX"
+    },
+    {
+      "code": 128418,
+      "name": "BLACK UP POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128419,
+      "name": "BLACK DOWN POINTING BACKHAND INDEX"
+    },
+    {
+      "code": 128421,
+      "name": "DESKTOP COMPUTER"
+    },
+    {
+      "code": 128422,
+      "name": "KEYBOARD AND MOUSE"
+    },
+    {
+      "code": 128423,
+      "name": "THREE NETWORKED COMPUTERS"
+    },
+    {
+      "code": 128424,
+      "name": "PRINTER"
+    },
+    {
+      "code": 128425,
+      "name": "POCKET CALCULATOR"
+    },
+    {
+      "code": 128426,
+      "name": "BLACK HARD SHELL FLOPPY DISK"
+    },
+    {
+      "code": 128427,
+      "name": "WHITE HARD SHELL FLOPPY DISK"
+    },
+    {
+      "code": 128428,
+      "name": "SOFT SHELL FLOPPY DISK"
+    },
+    {
+      "code": 128429,
+      "name": "TAPE CARTRIDGE"
+    },
+    {
+      "code": 128430,
+      "name": "WIRED KEYBOARD"
+    },
+    {
+      "code": 128431,
+      "name": "ONE BUTTON MOUSE"
+    },
+    {
+      "code": 128432,
+      "name": "TWO BUTTON MOUSE"
+    },
+    {
+      "code": 128433,
+      "name": "THREE BUTTON MOUSE"
+    },
+    {
+      "code": 128434,
+      "name": "TRACKBALL"
+    },
+    {
+      "code": 128435,
+      "name": "OLD PERSONAL COMPUTER"
+    },
+    {
+      "code": 128436,
+      "name": "HARD DISK"
+    },
+    {
+      "code": 128437,
+      "name": "SCREEN"
+    },
+    {
+      "code": 128438,
+      "name": "PRINTER ICON"
+    },
+    {
+      "code": 128439,
+      "name": "FAX ICON"
+    },
+    {
+      "code": 128440,
+      "name": "OPTICAL DISC ICON"
+    },
+    {
+      "code": 128441,
+      "name": "DOCUMENT WITH TEXT"
+    },
+    {
+      "code": 128442,
+      "name": "DOCUMENT WITH TEXT AND PICTURE"
+    },
+    {
+      "code": 128443,
+      "name": "DOCUMENT WITH PICTURE"
+    },
+    {
+      "code": 128444,
+      "name": "FRAME WITH PICTURE"
+    },
+    {
+      "code": 128445,
+      "name": "FRAME WITH TILES"
+    },
+    {
+      "code": 128446,
+      "name": "FRAME WITH AN X"
+    },
+    {
+      "code": 128447,
+      "name": "BLACK FOLDER"
+    },
+    {
+      "code": 128448,
+      "name": "FOLDER"
+    },
+    {
+      "code": 128449,
+      "name": "OPEN FOLDER"
+    },
+    {
+      "code": 128450,
+      "name": "CARD INDEX DIVIDERS"
+    },
+    {
+      "code": 128451,
+      "name": "CARD FILE BOX"
+    },
+    {
+      "code": 128452,
+      "name": "FILE CABINET"
+    },
+    {
+      "code": 128453,
+      "name": "EMPTY NOTE"
+    },
+    {
+      "code": 128454,
+      "name": "EMPTY NOTE PAGE"
+    },
+    {
+      "code": 128455,
+      "name": "EMPTY NOTE PAD"
+    },
+    {
+      "code": 128456,
+      "name": "NOTE"
+    },
+    {
+      "code": 128457,
+      "name": "NOTE PAGE"
+    },
+    {
+      "code": 128458,
+      "name": "NOTE PAD"
+    },
+    {
+      "code": 128459,
+      "name": "EMPTY DOCUMENT"
+    },
+    {
+      "code": 128460,
+      "name": "EMPTY PAGE"
+    },
+    {
+      "code": 128461,
+      "name": "EMPTY PAGES"
+    },
+    {
+      "code": 128462,
+      "name": "DOCUMENT"
+    },
+    {
+      "code": 128463,
+      "name": "PAGE"
+    },
+    {
+      "code": 128464,
+      "name": "PAGES"
+    },
+    {
+      "code": 128465,
+      "name": "WASTEBASKET"
+    },
+    {
+      "code": 128466,
+      "name": "SPIRAL NOTE PAD"
+    },
+    {
+      "code": 128467,
+      "name": "SPIRAL CALENDAR PAD"
+    },
+    {
+      "code": 128468,
+      "name": "DESKTOP WINDOW"
+    },
+    {
+      "code": 128469,
+      "name": "MINIMIZE"
+    },
+    {
+      "code": 128470,
+      "name": "MAXIMIZE"
+    },
+    {
+      "code": 128471,
+      "name": "OVERLAP"
+    },
+    {
+      "code": 128472,
+      "name": "CLOCKWISE RIGHT AND LEFT SEMICIRCLE ARROWS"
+    },
+    {
+      "code": 128473,
+      "name": "CANCELLATION X"
+    },
+    {
+      "code": 128474,
+      "name": "INCREASE FONT SIZE SYMBOL"
+    },
+    {
+      "code": 128475,
+      "name": "DECREASE FONT SIZE SYMBOL"
+    },
+    {
+      "code": 128476,
+      "name": "COMPRESSION"
+    },
+    {
+      "code": 128477,
+      "name": "OLD KEY"
+    },
+    {
+      "code": 128478,
+      "name": "ROLLED-UP NEWSPAPER"
+    },
+    {
+      "code": 128479,
+      "name": "PAGE WITH CIRCLED TEXT"
+    },
+    {
+      "code": 128480,
+      "name": "STOCK CHART"
+    },
+    {
+      "code": 128481,
+      "name": "DAGGER KNIFE"
+    },
+    {
+      "code": 128482,
+      "name": "LIPS"
+    },
+    {
+      "code": 128483,
+      "name": "SPEAKING HEAD IN SILHOUETTE"
+    },
+    {
+      "code": 128484,
+      "name": "THREE RAYS ABOVE"
+    },
+    {
+      "code": 128485,
+      "name": "THREE RAYS BELOW"
+    },
+    {
+      "code": 128486,
+      "name": "THREE RAYS LEFT"
+    },
+    {
+      "code": 128487,
+      "name": "THREE RAYS RIGHT"
+    },
+    {
+      "code": 128488,
+      "name": "LEFT SPEECH BUBBLE"
+    },
+    {
+      "code": 128489,
+      "name": "RIGHT SPEECH BUBBLE"
+    },
+    {
+      "code": 128490,
+      "name": "TWO SPEECH BUBBLES"
+    },
+    {
+      "code": 128491,
+      "name": "THREE SPEECH BUBBLES"
+    },
+    {
+      "code": 128492,
+      "name": "LEFT THOUGHT BUBBLE"
+    },
+    {
+      "code": 128493,
+      "name": "RIGHT THOUGHT BUBBLE"
+    },
+    {
+      "code": 128494,
+      "name": "LEFT ANGER BUBBLE"
+    },
+    {
+      "code": 128495,
+      "name": "RIGHT ANGER BUBBLE"
+    },
+    {
+      "code": 128496,
+      "name": "MOOD BUBBLE"
+    },
+    {
+      "code": 128497,
+      "name": "LIGHTNING MOOD BUBBLE"
+    },
+    {
+      "code": 128498,
+      "name": "LIGHTNING MOOD"
+    },
+    {
+      "code": 128499,
+      "name": "BALLOT BOX WITH BALLOT"
+    },
+    {
+      "code": 128500,
+      "name": "BALLOT SCRIPT X"
+    },
+    {
+      "code": 128501,
+      "name": "BALLOT BOX WITH SCRIPT X"
+    },
+    {
+      "code": 128502,
+      "name": "BALLOT BOLD SCRIPT X"
+    },
+    {
+      "code": 128503,
+      "name": "BALLOT BOX WITH BOLD SCRIPT X"
+    },
+    {
+      "code": 128504,
+      "name": "LIGHT CHECK MARK"
+    },
+    {
+      "code": 128505,
+      "name": "BALLOT BOX WITH BOLD CHECK"
+    },
+    {
+      "code": 128506,
+      "name": "WORLD MAP"
+    },
+    {
+      "code": 128507,
+      "name": "MOUNT FUJI"
+    },
+    {
+      "code": 128508,
+      "name": "TOKYO TOWER"
+    },
+    {
+      "code": 128509,
+      "name": "STATUE OF LIBERTY"
+    },
+    {
+      "code": 128510,
+      "name": "SILHOUETTE OF JAPAN"
+    },
+    {
+      "code": 128511,
+      "name": "MOYAI"
+    },
+    {
       "code": 128512,
       "name": "GRINNING FACE"
     },
@@ -1511,198 +4479,6 @@ window.global_data = {
     {
       "code": 128591,
       "name": "PERSON WITH FOLDED HANDS"
-    },
-    {
-      "code": 128592,
-      "name": "NORTH WEST POINTING LEAF"
-    },
-    {
-      "code": 128593,
-      "name": "SOUTH WEST POINTING LEAF"
-    },
-    {
-      "code": 128594,
-      "name": "NORTH EAST POINTING LEAF"
-    },
-    {
-      "code": 128595,
-      "name": "SOUTH EAST POINTING LEAF"
-    },
-    {
-      "code": 128596,
-      "name": "TURNED NORTH WEST POINTING LEAF"
-    },
-    {
-      "code": 128597,
-      "name": "TURNED SOUTH WEST POINTING LEAF"
-    },
-    {
-      "code": 128598,
-      "name": "TURNED NORTH EAST POINTING LEAF"
-    },
-    {
-      "code": 128599,
-      "name": "TURNED SOUTH EAST POINTING LEAF"
-    },
-    {
-      "code": 128600,
-      "name": "NORTH WEST POINTING VINE LEAF"
-    },
-    {
-      "code": 128601,
-      "name": "SOUTH WEST POINTING VINE LEAF"
-    },
-    {
-      "code": 128602,
-      "name": "NORTH EAST POINTING VINE LEAF"
-    },
-    {
-      "code": 128603,
-      "name": "SOUTH EAST POINTING VINE LEAF"
-    },
-    {
-      "code": 128604,
-      "name": "HEAVY NORTH WEST POINTING VINE LEAF"
-    },
-    {
-      "code": 128605,
-      "name": "HEAVY SOUTH WEST POINTING VINE LEAF"
-    },
-    {
-      "code": 128606,
-      "name": "HEAVY NORTH EAST POINTING VINE LEAF"
-    },
-    {
-      "code": 128607,
-      "name": "HEAVY SOUTH EAST POINTING VINE LEAF"
-    },
-    {
-      "code": 128608,
-      "name": "NORTH WEST POINTING BUD"
-    },
-    {
-      "code": 128609,
-      "name": "SOUTH WEST POINTING BUD"
-    },
-    {
-      "code": 128610,
-      "name": "NORTH EAST POINTING BUD"
-    },
-    {
-      "code": 128611,
-      "name": "SOUTH EAST POINTING BUD"
-    },
-    {
-      "code": 128612,
-      "name": "HEAVY NORTH WEST POINTING BUD"
-    },
-    {
-      "code": 128613,
-      "name": "HEAVY SOUTH WEST POINTING BUD"
-    },
-    {
-      "code": 128614,
-      "name": "HEAVY NORTH EAST POINTING BUD"
-    },
-    {
-      "code": 128615,
-      "name": "HEAVY SOUTH EAST POINTING BUD"
-    },
-    {
-      "code": 128616,
-      "name": "HOLLOW QUILT SQUARE ORNAMENT"
-    },
-    {
-      "code": 128617,
-      "name": "HOLLOW QUILT SQUARE ORNAMENT IN BLACK SQUARE"
-    },
-    {
-      "code": 128618,
-      "name": "SOLID QUILT SQUARE ORNAMENT"
-    },
-    {
-      "code": 128619,
-      "name": "SOLID QUILT SQUARE ORNAMENT IN BLACK SQUARE"
-    },
-    {
-      "code": 128620,
-      "name": "LEFTWARDS ROCKET"
-    },
-    {
-      "code": 128621,
-      "name": "UPWARDS ROCKET"
-    },
-    {
-      "code": 128622,
-      "name": "RIGHTWARDS ROCKET"
-    },
-    {
-      "code": 128623,
-      "name": "DOWNWARDS ROCKET"
-    },
-    {
-      "code": 128624,
-      "name": "SCRIPT LIGATURE ET ORNAMENT"
-    },
-    {
-      "code": 128625,
-      "name": "HEAVY SCRIPT LIGATURE ET ORNAMENT"
-    },
-    {
-      "code": 128626,
-      "name": "LIGATURE OPEN ET ORNAMENT"
-    },
-    {
-      "code": 128627,
-      "name": "HEAVY LIGATURE OPEN ET ORNAMENT"
-    },
-    {
-      "code": 128628,
-      "name": "HEAVY AMPERSAND ORNAMENT"
-    },
-    {
-      "code": 128629,
-      "name": "SWASH AMPERSAND ORNAMENT"
-    },
-    {
-      "code": 128630,
-      "name": "SANS-SERIF HEAVY DOUBLE TURNED COMMA QUOTATION MARK ORNAMENT"
-    },
-    {
-      "code": 128631,
-      "name": "SANS-SERIF HEAVY DOUBLE COMMA QUOTATION MARK ORNAMENT"
-    },
-    {
-      "code": 128632,
-      "name": "SANS-SERIF HEAVY LOW DOUBLE COMMA QUOTATION MARK ORNAMENT"
-    },
-    {
-      "code": 128633,
-      "name": "HEAVY INTERROBANG ORNAMENT"
-    },
-    {
-      "code": 128634,
-      "name": "SANS-SERIF INTERROBANG ORNAMENT"
-    },
-    {
-      "code": 128635,
-      "name": "HEAVY SANS-SERIF INTERROBANG ORNAMENT"
-    },
-    {
-      "code": 128636,
-      "name": "VERY HEAVY SOLIDUS"
-    },
-    {
-      "code": 128637,
-      "name": "VERY HEAVY REVERSE SOLIDUS"
-    },
-    {
-      "code": 128638,
-      "name": "CHECKER BOARD"
-    },
-    {
-      "code": 128639,
-      "name": "REVERSE CHECKER BOARD"
     },
     {
       "code": 128640,
