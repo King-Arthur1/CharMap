@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -6,9 +6,10 @@
     <title>CharMap</title>
     <link href="winjs/css/ui-light.css" rel="stylesheet" />
     <link rel="stylesheet" href="app.css" type="text/css" />
+    <script src="knockout/knockout-3.3.0.js"></script>
     <script src="winjs/js/WinJS.js"></script>
     <script src="hardcoded_data.js"></script>
-    <script src="app.js"></script>
+    <script src="knockout_simple.js"></script>
 </head>
 <body id="root">
     <div id="header">
@@ -17,16 +18,15 @@
 
         <input type="range" min="0" max="20" id="blockSlider" value="0" style="width:400px" />
     </div>
-    <div class="smallListIconTextTemplate" data-win-control="WinJS.Binding.Template" style="display: none">
+    <div id="smallListIconTextTemplate" style="display: none">
         <div class="container">
-            <div class="letter" data-win-bind="innerHTML:preview"></div>
-            <div data-win-bind="innerHTML:text"></div>
+            <div class="letter" data-bind="html:preview"></div>
+            <div data-bind="html:text"></div>
         </div>
     </div>
     <div id="content"
          data-win-control="WinJS.UI.ListView"
          data-win-options="{
-            itemTemplate: select('.smallListIconTextTemplate'),
             selectionMode: 'none',
             tapBehavior: 'none',
             layout: { type: WinJS.UI.GridLayout }
