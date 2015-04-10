@@ -18,7 +18,7 @@
     height: 90px;
     border: 2px solid black;
     padding: 3px;
-    margin: 3px;
+    /*margin: 3px;*/
     font-size: 9px;
 }
 #root .letter {
@@ -63,9 +63,13 @@
     visibility: hidden;
 }
 
+#app .win-splitview-pane {
+  background-color: rgb(224,228,204);
+}
+
 /*SplitView content style*/
 #app .win-splitview-content {
-    background-color: rgb(112,112,112);
+    background-color: rgb(105,210,231);
 }
 
 #app .contenttext {

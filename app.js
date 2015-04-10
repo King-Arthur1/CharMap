@@ -80,7 +80,7 @@ window.onload = function () {
     });
 };
 
-WinJS.Namspace.define("uiSplitView", {
+WinJS.Namespace.define("uiSplitView", {
     splitView: null,
     togglePane: WinJS.UI.eventHandler(function (ev) {
         if (Sample.splitView) {
