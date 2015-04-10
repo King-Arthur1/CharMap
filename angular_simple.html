@@ -22,7 +22,7 @@
                    tap-behavior="mode.tapBehavior"
                    header="select('.header')"
                    selection="selection">
-        <win-grid-layout></win-grid-layout>
+        
         <win-item-template>
             <div class="smallListIconTextItem">
                 <div ng-bind-html="charMap.makeSingleChar(item.data).text"></div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </win-item-template>
-        <win-list-layout></win-list-layout>
+        <win-grid-layout></win-grid-layout>
     </win-list-view>
       
       
