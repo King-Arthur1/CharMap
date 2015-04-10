@@ -21,8 +21,8 @@
                    selection-mode="mode.selectionMode"
                    tap-behavior="mode.tapBehavior"
                    header="select('.header')"
-                   selection="selection"
-                   layout="{ type: WinJS.UI.GridLayout, maxRows: 6 }">
+                   selection="selection">
+        <win-grid-layout></win-grid-layout>
         <win-item-template>
             <div class="smallListIconTextItem">
                 <div ng-bind-html="charMap.makeSingleChar(item.data).text"></div>
