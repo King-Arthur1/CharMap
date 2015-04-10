@@ -1,4 +1,4 @@
-angular.module('charmapApp', ['ngSanitize'])
+angular.module('charmapApp', ['winjs', 'ngSanitize'])
     .controller('CharMapController', function() {
     var charmap = this;
 
