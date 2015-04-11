@@ -1,5 +1,15 @@
-;
-;
+WinJS.Namespace.define("SplitView", {
+
+    splitView: null,
+    togglePane: WinJS.UI.eventHandler(function (ev) {
+        if(SplitView.splitView) {
+            SplitView.splitView.paneHidden = !SplitView.splitView.paneHidden;
+        }
+        console.log(SplitView.splitView);
+    })
+});
+
+
 function makeSingleChar(data) {
     if (data.name === "<control>") {
         return { preview: "", text: data.code.toString(16) + " - " + data.altName + "(control)" };
@@ -58,6 +68,7 @@ function renderItem(itemPromise) {
     var template = document.getElementById("smallListIconTextTemplate");
     var element = template.firstElementChild.cloneNode(true);
     var renderComplete = itemPromise.then(function(item) {
+        // Apply Knockout data binding
         ko.applyBindings(item.data, element);
         return item.ready;
     });
@@ -79,12 +90,13 @@ window.onload = function () {
     var root = document.getElementById('root');
     WinJS.UI.processAll(root).then(function () {
 
-        // UNDONE: for development, just jam the content in here... :)
-        //
+        // Setup the SplitView Control
+        SplitView.splitView = document.querySelector(".splitView").winControl;
+        new WinJS.UI._WinKeyboard(SplitView.splitView.paneElement);
+        
+        // Load data
         return window.global_data;
-        // return WinJS.xhr({ url: "ucd.js" }).then(function (result) {
-        //     return JSON.parse(result.responseText);
-        // });
+
     }).then(function (data) {
         unicode = data;
         var title = document.getElementById('title');
