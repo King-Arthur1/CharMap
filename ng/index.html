@@ -11,38 +11,64 @@
    <script src="angular_simple.js"></script>
 </head>
  <body style="overflow: auto" id="root">
-   <h1>CharMap</h1>
-        Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions..., <a href="../index.html">winjs</a>, <a href="../ko/index.html">knockout</a>, ... <br />
 
-    <div ng-controller="CharMapController as charMap">
+  <div id="app">
+    
+    <win-split-view class="splitView">
       
-      <win-list-view class="listView win-selectionstylefilled"
-                   item-data-source="charMap.data.data"
-                   selection-mode="single"
-                   tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
-                   header="select('.header')"
-                   selection="selection">
-        
-        <win-item-template>
-            <div id="smallListIconTextTemplate">
-                <div class="container">
-                  <div class="letter" ng-bind-html="charMap.makeSingleChar(item.data).preview"></div>
-                  <div>{{charMap.makeSingleChar(item.data).text}}</div>
-                </div>
-            </div>
-        </win-item-template>
-        <win-grid-layout></win-grid-layout>
-    </win-list-view>
+      <!-- SplitView Navigation Pane-->
+      <win-split-view-pane>
+        <!-- SplitView Header -->
+        <div>
+          <div class="header">
+            <button type="button" class="win-splitview-button"></button>
+            <div class="title">SplitView Pane area</div>
+          </div>
+
+          <!-- SplitView NavCommands -->
+          <div class="nav-commands">
+            <win-nav-bar-command label="'Home'" icon="'home'" tooltip="'Go home'"></win-nav-bar-command>
+            <win-nav-bar-command label="'Favorite'" icon="'favorite'" tooltip="'View favorites'"></win-nav-bar-command>
+            <win-nav-bar-command label="'Settings'" icon="'settings'" tooltip="'View settings'"></win-nav-bar-command>
+          </div>
+
+        </div>
+      </win-split-view-pane>
       
-      <!-- Simple list of everything
-      <span>{{charMap.remaining()}}</span>
-      <ul class="unstyled">
-        <li ng-repeat="c in charMap.data.data">
-        	<span ng-bind-html="charMap.makeSingleChar(c).preview"></span> - 
-        	<span>{{c.altName || c.name}}</span>
-        </li>
-      </ul>
-      -->
-    </div>
+      <!-- Split View Content Pane -->
+      <win-split-view-content>
+        <div id="header">
+          <h1 id="title">CharMap Angular (loading...)</h1>
+          Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ko/index.html">knockout</a>, <a href="../index.html">winjs</a>, ... <br />
+          <input type="range" min="0" max="20" id="blockSlider" value="0" style="width:400px" />
+        </div>
+
+          <!-- Angular data bound -->
+          <div ng-controller="CharMapController as charMap">
+            <win-list-view class="listView win-selectionstylefilled"
+                         item-data-source="charMap.data.data"
+                         selection-mode="single"
+                         tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
+                         header="select('.header')"
+                         selection="selection">
+              
+              <win-item-template>
+                  <div id="smallListIconTextTemplate">
+                      <div class="container">
+                        <div class="letter" ng-bind-html="charMap.makeSingleChar(item.data).preview"></div>
+                        <div>{{charMap.makeSingleChar(item.data).text}}</div>
+                      </div>
+                  </div>
+              </win-item-template>
+              <win-grid-layout></win-grid-layout>
+          </win-list-view>
+        </div>
+      </win-split-view-content>
+  </win-split-view>
+
+  </div>
+
+
+    
   </body>
 </html>

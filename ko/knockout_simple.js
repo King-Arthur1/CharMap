@@ -17,7 +17,8 @@ function makeSingleChar(data) {
     else {
         return { preview: "&#x" + data.code.toString(16) + ";", text: data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") };
     }
-}
+};
+
 function createBlock(blockIndex) {
     var block = unicode.blocks[blockIndex];
     // undone: block.name
@@ -47,8 +48,8 @@ function createBlock(blockIndex) {
         }
     }
     return data;
-}
-;
+};
+
 function testData() {
     var i;
     for (i = 0; i < unicode.blocks.length; i++) {
@@ -60,7 +61,7 @@ function testData() {
             throw msg;
         }
     }
-}
+};
 
 // This calls out to Knockout for binding the content of each ListView item
 // 
@@ -73,7 +74,7 @@ function renderItem(itemPromise) {
         return item.ready;
     });
     return {element: element, renderComplete: renderComplete};
-}    
+};   
 
 
 // This validates we can generate the content for every page
@@ -85,7 +86,8 @@ function update() {
     var data = new WinJS.Binding.List(createBlock(blockIndex));
     content.winControl.itemDataSource = data.dataSource;
     content.winControl.itemTemplate = renderItem;
-}
+};
+
 window.onload = function () {
     var root = document.getElementById('root');
     WinJS.UI.processAll(root).then(function () {
