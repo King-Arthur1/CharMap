@@ -76,7 +76,6 @@ function renderItem(itemPromise) {
     return {element: element, renderComplete: renderComplete};
 };   
 
-
 // This validates we can generate the content for every page
 // testData();
 function update() {
