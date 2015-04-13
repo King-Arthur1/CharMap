@@ -1,3 +1,13 @@
+// shim layer with setTimeout fallback
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
 WinJS.Namespace.define("SplitView", {
 
     splitView: null,
@@ -130,3 +140,24 @@ function isWindowHeightStable(height){
     }
 }
 
+function isWindowsPortrait(){
+    if(document.body.clientHeight > document.body.clientWidth) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function render(){
+    if(isWindowPortrait()){
+        var lv = document.getElementById('content');
+        
+    }
+}
+
+// Use Request Animation Frame for updating UI
+(function animationLoop() {
+    requestAnimationFrame(animationLoop);
+    render();
+})();
