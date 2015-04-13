@@ -1,8 +1,9 @@
 angular.module('charmapApp', ['winjs', 'ngSanitize'])
-    .controller('CharMapController', function() {
+    .controller('CharMapController', function($scope) {
     var charmap = this;
 
     charmap.data = global_data;
+
 
     charmap.makeSingleChar = function(data) {
         if (data.name === "<control>") {
@@ -14,6 +15,7 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
     };
 
     charmap.createBlock = function(blockIndex) {
+        var unicode = global_data;
         var block = unicode.blocks[blockIndex];
         // undone: block.name
         var data = [];
@@ -35,7 +37,7 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
                 });
             }
             else {
-                data.push(makeSingleChar(unicode.data[index]));
+                data.push(charmap.makeSingleChar(unicode.data[index]));
             }
             while (index < unicode.data.length - 1 && unicode.data[index].code <= currentCode) {
                 index++;
@@ -52,4 +54,12 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
     charmap.archive = function() {
         // UNDONE
     };
+
+    $scope.viewState = { currentBlock: 0 };
+    $scope.data = charmap.createBlock(0);
+
+    $scope.$watch("viewState", 
+        function(scope) { 
+            $scope.data = charmap.createBlock($scope.viewState.currentBlock); 
+        }, true);
 });

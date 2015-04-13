@@ -37,16 +37,17 @@
       
       <!-- Split View Content Pane -->
       <win-split-view-content class="contenttext">
-        <div id="header">
-          <h1 id="title">CharMap Angular (loading...)</h1>
-          Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ko/index.html">knockout</a>, <a href="../index.html">winjs</a>, ... <br />
-          <input type="range" min="0" max="20" id="blockSlider" value="0" style="width:400px" />
-        </div>
 
           <!-- Angular data bound -->
           <div ng-controller="CharMapController as charMap">
+            <div id="header">
+              <h1 id="title">CharMap Angular</h1>
+              Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ko/index.html">knockout</a>, <a href="../index.html">winjs</a>, ... <br />
+              <input type="range" min="0" max="5" id="blockSlider" value="0" style="width:400px" ng-model='viewState.currentBlock' />
+            </div>
+
             <win-list-view 
-                         item-data-source="charMap.data.data"
+                         item-data-source="data"
                          selection-mode="single"
                          tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
                          header="select('.header')"
@@ -55,8 +56,8 @@
               <win-item-template>
                   <div id="smallListIconTextTemplate">
                       <div class="container">
-                        <div class="letter" ng-bind-html="charMap.makeSingleChar(item.data).preview"></div>
-                        <div>{{charMap.makeSingleChar(item.data).text}}</div>
+                        <div class="letter" ng-bind-html="item.data.preview"></div>
+                        <div>{{item.data.text}}</div>
                       </div>
                   </div>
               </win-item-template>
