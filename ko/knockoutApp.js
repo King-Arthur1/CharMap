@@ -98,14 +98,6 @@ window.onload = function () {
         update();
     });
 
-    var btnResize = document.getElementById('btnResize');
-
-    btnResize.addEventListener('click', function () {
-        // Stub for resizing list view
-        var lv = document.getElementById('content');
-        lv.style.height = '200px';
-    });
-
     var lv = document.getElementById('content');
     lv.addEventListener('iteminvoked', handleListViewItemInvoked);
 
@@ -113,38 +105,6 @@ window.onload = function () {
     //     setTimeout(function(){isWindowHeightStable(document.body.clientHeight)}, 300);
     // };
 };
-
-// TODO: Check if portrait or landscape, change direction of list, Portrait vertical, landscape horizontal
-
-function isWindowHeightStable(height){
-    if(document.body.clientHeight === height) {
-        var lv = document.getElementById('content');
-        lv.style.height =  (document.body.clientHeight - 200) + 'px';
-    }
-}
-
-function isWindowsPortrait(){
-    if(document.body.clientHeight > document.body.clientWidth) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-// function render(){
-//     // if(isWindowPortrait()){
-//     //     var lv = document.getElementById('content');
-        
-//     // }
-// }
-
-// Use Request Animation Frame for updating UI
-// (function animationLoop() {
-//     requestAnimationFrame(animationLoop);
-//     render();
-// })();
-
 
 /*** 
 
