@@ -37,12 +37,12 @@
         
     </div>
 
-    <div id="smallListIconTextTemplate" style="display:none">
-                <div class="container">
-                    <div class="letter" data-bind="html:preview"></div>
-                    <div data-bind="html:text"></div>
-                </div>
-            </div>
+    <script type="text/html" id="listViewItemTemplate"> 
+        <div class="container">
+            <div class="letter" data-bind="html: preview"></div>
+            <div data-bind="html: text"></div>
+        </div>
+    </script> 
 
     <div class="splitView" data-win-control="WinJS.UI.SplitView">
         <!-- Pane area -->
@@ -66,18 +66,25 @@
                 <h1 id="title">CharMap Knockout (loading...)</h1>
                 <button type="button" id="btnResize"></button>
                 Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ng/index.html">angular</a>, <a href="../index.html">winjs</a>, ... <br />
-                <input type="range" min="0" max="20" id="blockSlider" value="0" style="width:400px" />
+                <input type="range" min="0" max="5" id="blockSlider" value="0" style="width:400px" />
             </div>
             
+         <div id="content" data-bind="winListView: {
+                itemTemplate: 'listViewItemTemplate',
+                itemDataSource: listViewArray, 
+                layout: {type: WinJS.UI.GridLayout}
+            }"></div> 
+      
 
-            <div id="content"
+<!--             <div id="content"
                  data-win-control="WinJS.UI.ListView"
                  data-win-options="{
+                    itemDataSource: listViewArray,
                     selectionMode: 'single',
                     tapBehavior: 'WinJS.UI.TapBehavior.toggleSelect',
                     layout: { type: WinJS.UI.GridLayout}
                 }"></div>
-
+ -->
         </div>
     </div> 
 </div>

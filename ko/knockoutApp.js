@@ -63,25 +63,7 @@ function testData() {
     }
 };
 
-// This calls out to Knockout for binding the content of each ListView item
-// 
-function renderItem(itemPromise) {
-    var template = document.getElementById("smallListIconTextTemplate");
-    var element = template.firstElementChild.cloneNode(true);
-    var renderComplete = itemPromise.then(function(item) {
-        // Apply Knockout data binding
-        ko.applyBindings(item.data, element);
-        return item.ready;
-    });
-    return {element: element, renderComplete: renderComplete};
-};   
-
-window.listViewArray = ko.observableArray([ 
-    { text: "Josh", rating: ko.observable(4) }, 
-    { text: "Paul", rating: ko.observable(5) }, 
-    { text: "Chris", rating: ko.observable(3) }, 
-    { text: "Edgar", rating: ko.observable(2) } 
-]); 
+window.listViewArray = ko.observableArray(); 
 
 // This validates we can generate the content for every page
 // testData();
@@ -89,9 +71,8 @@ function update() {
     var content = document.getElementById('content');
     var blockSlider = (document.getElementById('blockSlider'));
     var blockIndex = +blockSlider.value;
-    var data = new WinJS.Binding.List(createBlock(blockIndex));
-    content.winControl.itemDataSource = data.dataSource;
-    content.winControl.itemTemplate = renderItem;
+    listViewArray.removeAll();
+    listViewArray.push.apply(listViewArray, createBlock(blockIndex));
 };
 
 window.onload = function () {
@@ -112,6 +93,8 @@ window.onload = function () {
         var blockSlider = (document.getElementById('blockSlider'));
         blockSlider.max = "" + (unicode.blocks.length - 1);
         blockSlider.addEventListener("change", update);
+
+        ko.applyBindings();
         update();
     });
 
