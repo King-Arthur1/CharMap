@@ -126,9 +126,12 @@ window.onload = function () {
         lv.style.height = '200px';
     });
 
-    window.onresize = function () {
-        setTimeout(function(){isWindowHeightStable(document.body.clientHeight)}, 300);
-    };
+    var lv = document.getElementById('content');
+    lv.addEventListener('iteminvoked', handleListViewItemInvoked);
+
+    // window.onresize = function () {
+    //     setTimeout(function(){isWindowHeightStable(document.body.clientHeight)}, 300);
+    // };
 };
 
 // TODO: Check if portrait or landscape, change direction of list, Portrait vertical, landscape horizontal
@@ -149,15 +152,41 @@ function isWindowsPortrait(){
 }
 
 
-function render(){
-    if(isWindowPortrait()){
-        var lv = document.getElementById('content');
+// function render(){
+//     // if(isWindowPortrait()){
+//     //     var lv = document.getElementById('content');
         
+//     // }
+// }
+
+// Use Request Animation Frame for updating UI
+// (function animationLoop() {
+//     requestAnimationFrame(animationLoop);
+//     render();
+// })();
+
+
+/*** 
+
+    TESTING Content Dialog Control 
+
+***/
+
+function showDialog() {
+    document.querySelector(".win-contentdialog").winControl.show();
+}
+
+function cancelDismissal(evenObject) {
+    if (evenObject.detail.result === WinJS.UI.ContentDialog.DismissalResult.none) {
+        evenObject.preventDefault();
+        log("<br/>Dialog implicit dismissal cancelled");
     }
 }
 
-// Use Request Animation Frame for updating UI
-(function animationLoop() {
-    requestAnimationFrame(animationLoop);
-    render();
-})();
+function log(msg) {
+    document.getElementById("status").innerHTML += msg;
+}
+
+function handleListViewItemInvoked (ev) {
+    showDialog();
+}

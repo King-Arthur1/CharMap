@@ -4,10 +4,11 @@
     flex-direction: column;
 }
 #header {
-    flex:.5;
+    flex:none;
+
 }
 #content {
-    flex:1;
+    flex:1 1;
 }
 #root .name {
     font-size: 28px;
@@ -75,6 +76,9 @@
 #app .contenttext {
     margin-left: 20px;
     margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+
 }
 
 /*SplitView pane show button style*/
@@ -114,5 +118,5 @@ button.win-splitview-button:after {
 
 .win-listview 
 {
-    height: 800px; 
+    height: 400px; 
 }
