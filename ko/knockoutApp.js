@@ -1,13 +1,3 @@
-// shim layer with setTimeout fallback
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame    ||
-          function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-          };
-})();
-
 WinJS.Namespace.define("SplitView", {
 
     splitView: null,
@@ -85,6 +75,13 @@ function renderItem(itemPromise) {
     });
     return {element: element, renderComplete: renderComplete};
 };   
+
+window.listViewArray = ko.observableArray([ 
+    { text: "Josh", rating: ko.observable(4) }, 
+    { text: "Paul", rating: ko.observable(5) }, 
+    { text: "Chris", rating: ko.observable(3) }, 
+    { text: "Edgar", rating: ko.observable(2) } 
+]); 
 
 // This validates we can generate the content for every page
 // testData();

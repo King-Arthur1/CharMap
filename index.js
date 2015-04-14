@@ -89,9 +89,11 @@ WinJS.Namespace.define("uiSplitView", {
     })
 });
 
-WinJS.Binding.processAll(null, uiSplitView).then(function () {
-    WinJS.UI.processAll().done(function () {
-        Sample.splitView = document.querySelector(".splitView").winControl;
-        new WinJS.UI._WinKeyboard(Sample.splitView.paneElement); // Temporary workaround: Draw keyboard focus visuals on NavBarCommands
-    });
-})
+WinJS.Utilities.ready().then(function() {
+    WinJS.Binding.processAll(null, uiSplitView).then(function () {
+        WinJS.UI.processAll().done(function () {
+            uiSplitView.splitView = document.querySelector(".splitView").winControl;
+            new WinJS.UI._WinKeyboard(uiSplitView.splitView.paneElement); // Temporary workaround: Draw keyboard focus visuals on NavBarCommands
+        });
+    })
+});
