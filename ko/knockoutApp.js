@@ -50,9 +50,10 @@ function createBlock(blockIndex) {
     return data;
 };
 
+window.listViewArray = ko.observableArray();
+
 function update() {
-    var content = document.getElementById('content');
-    var blockSlider = (document.getElementById('blockSlider'));
+    var blockSlider = document.getElementById('blockSlider');
     var blockIndex = +blockSlider.value;
     listViewArray.removeAll();
     listViewArray.push.apply(listViewArray, createBlock(blockIndex));
