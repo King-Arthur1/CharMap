@@ -6,14 +6,6 @@ var ReactWinJS = require('react-winjs');
 // UNDONE: for development, just jam the content in here... :)
 var unicode = global_data;
 
-function makeSingleChar(data) {
-    if (data.name === "<control>") {
-        return { preview: "", text : data.code.toString(16) + " - " + data.altName + "(control)" };
-    }
-    else {
-        return { preview: String.fromCharCode(data.code), text: data.code.toString(16) + " - " + data.name };
-    }
-}
 function createBlock(blockIndex) {
     var block = unicode.blocks[blockIndex];
     // undone: block.name
@@ -32,12 +24,13 @@ function createBlock(blockIndex) {
             //
             
             data.push({
-                preview: "",
-                text: currentCode.toString(16) + " - <not present>"
+                altName:"<not present>",
+                code:currentCode,
+                name:"<not present>"
             });
         }
         else {
-            data.push(makeSingleChar(unicode.data[index]));
+            data.push(unicode.data[index]);
         }
 
         // advance to next location in the data (<= will advance to one past currentCode)
@@ -53,8 +46,12 @@ var App = React.createClass({
     charItemRenderer: ReactWinJS.reactRenderer(function (item) {
         return (
             <div className="container">
-                <div className="letter">{item.data.preview}</div>
-                <div>{item.data.text}</div>
+                <div className="letter">{
+                    item.data.name === "<control>" ? "" : String.fromCharCode(item.data.code)
+                }</div>
+                <div>{item.data.code.toString(16) + " - " + (
+                    item.data.name === "<control>" ? item.data.altName + " (control)" : item.data.name
+                )}</div>
             </div>
         );
     }),
