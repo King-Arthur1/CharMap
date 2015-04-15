@@ -50,23 +50,6 @@ function createBlock(blockIndex) {
     return data;
 };
 
-function testData() {
-    var i;
-    for (i = 0; i < unicode.blocks.length; i++) {
-        try {
-            createBlock(i);
-        }
-        catch (e) {
-            var msg = "Failed to display block #" + i + " - " + unicode.blocks[i].name;
-            throw msg;
-        }
-    }
-};
-
-window.listViewArray = ko.observableArray(); 
-
-// This validates we can generate the content for every page
-// testData();
 function update() {
     var content = document.getElementById('content');
     var blockSlider = (document.getElementById('blockSlider'));
@@ -101,9 +84,6 @@ window.onload = function () {
     var lv = document.getElementById('content');
     lv.addEventListener('iteminvoked', handleListViewItemInvoked);
 
-    // window.onresize = function () {
-    //     setTimeout(function(){isWindowHeightStable(document.body.clientHeight)}, 300);
-    // };
 };
 
 /*** 
