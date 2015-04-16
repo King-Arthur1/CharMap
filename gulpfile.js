@@ -1,29 +1,17 @@
-var gulp = require('gulp'),
-    browserify = require('browserify'),
-    stringify = require('stringify'),
-    source = require('vinyl-source-stream'),
-    reactify = require('reactify');
- 
-gulp.task('browserify', function() {
-  return browserify('./src/script.js')
-         .bundle()
-         .pipe(source('bundle.js'))
-         .pipe(gulp.dest('./build/'))
-});
+/*
+  gulpfile.js
+  ===========
+  Rather than manage one giant configuration file responsible
+  for creating multiple tasks, each task has been broken out into
+  its own file in gulp/tasks. Any files in that directory get
+  automatically required below.
 
-gulp.task('react-browserify', function() {
-  var b = browserify();
-  b.transform(reactify);
-  b.add('./react/reactApp.js');
-  return b.bundle()
-    .pipe(source('reactApp.js'))
-    .pipe(gulp.dest('./build/react'))
-});
+  To add a new task, simply add a new task file that directory.
+  gulp/tasks/default.js specifies the default set of tasks to run
+  when you run `gulp`.
+*/
 
-gulp.task('react-copy', function() {
-  return gulp.src('./react/index.html')
-    .pipe(gulp.dest('./build/react'));
-});
+var requireDir = require('require-dir');
 
-gulp.task('react', ['react-browserify', 'react-copy']); 
-gulp.task('default', ['browserify']);
+// Require all tasks in gulp/tasks, including subfolders
+requireDir('./gulp/tasks', { recurse: true });
