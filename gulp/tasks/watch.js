@@ -12,9 +12,9 @@ gulp.task('watch', ['watchify','browserSync'], function(callback) {
   //gulp.watch(config.lint.src, ['lint']);
   //gulp.watch(config.images.src, ['images']);
   //gulp.watch(config.markup.src, ['markup']);
-  gulp.watch(config.ko.src, ['css']);
-  gulp.watch(config.ko.src, ['ts']);
-  gulp.watch(config.ko.src, ['fonts']);
+  gulp.watch(config.css.src, ['css']);
+  gulp.watch(config.winjs.ts, ['ts']);
+  gulp.watch(config.fonts.src, ['fonts']);
   gulp.watch(config.ko.src, ['ko']);
   gulp.watch(config.ng.src, ['ng']);
   gulp.watch(config.js.src, ['js']);
