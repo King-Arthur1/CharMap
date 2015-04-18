@@ -1,5 +1,6 @@
 var dest = "./build";
 var src = './src';
+var reactify = require('reactify');
 
 module.exports = {
   browserSync: {
@@ -30,6 +31,10 @@ module.exports = {
     src: src + "/htdocs/**",
     dest: dest
   },
+  react: {
+    src: "./react/*.html",
+    dest: dest + "/react"
+  },
   ko: {
     src: "./ko/**",
     dest: dest + "/ko"
@@ -52,6 +57,7 @@ module.exports = {
     // bundle config in the list below
     bundleConfigs: [{
       entries: './react/reactApp.js',
+      transform: [reactify],
       dest: dest + '/react',
       outputName: 'reactApp.js',
       // list of modules to make require-able externally

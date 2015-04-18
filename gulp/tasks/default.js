@@ -1,3 +1,3 @@
 var gulp = require('gulp');
 
-gulp.task('default', ['watch', 'ts', 'css', 'fonts', 'ko', 'ng', 'winjs', 'js']);
+gulp.task('default', ['watch', 'ts', 'css', 'fonts', 'ko', 'ng', 'winjs', 'js', 'react']);

@@ -10,7 +10,7 @@ gulp.task('markup', function() {
 });
 */
 
-var tasks = ['fonts', 'css', 'ko', 'ng', 'winjs', 'js'];
+var tasks = ['fonts', 'css', 'ko', 'ng', 'winjs', 'js', 'react'];
 
 tasks.forEach(function(task) {
   gulp.task(task, function() {
