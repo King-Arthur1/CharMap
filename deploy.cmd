@@ -95,7 +95,7 @@ call :SelectNodeVersion
 echo Installing npm packages
 IF EXIST "package.json" (
   pushd "%DEPLOYMENT_TARGET%"
-  echo installing...
+  echo installing node modules...
   call :ExecuteCmd !NPM_CMD! install
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
