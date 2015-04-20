@@ -59,9 +59,9 @@ module.exports = {
       entries: './react/reactApp.js',
       transform: [reactify],
       dest: dest + '/react',
-      outputName: 'reactApp.js',
+      outputName: 'reactApp.js'
       // list of modules to make require-able externally
-      require: ['jquery', 'underscore']
+      //require: ['jquery', 'underscore']
     }]
   },
   production: {
