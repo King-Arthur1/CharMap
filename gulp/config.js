@@ -44,13 +44,21 @@ module.exports = {
     dest: dest + "/ng"
   },
   winjs: {
-    src: "./index.html",
-    dest: dest,
-    ts: "index.ts"
+    src: ".winjs/index.html",
+    dest: dest + "/winjs",
+    ts: "./winjs/index.ts"
   },
   js: {
     src: "./js/**/*",
     dest: dest + "/js"
+  },
+  images: {
+    src: "./images/**",
+    dest: dest + "/images"
+  },
+  landing: {
+    src: "./index.html",
+    dest: dest
   },
   browserify: {
     // A separate bundle will be generated for each

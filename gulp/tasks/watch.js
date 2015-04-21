@@ -19,5 +19,7 @@ gulp.task('watch', ['watchify','browserSync'], function(callback) {
   gulp.watch(config.ng.src, ['ng']);
   gulp.watch(config.js.src, ['js']);
   gulp.watch(config.winjs.src, ['winjs']);
+  gulp.watch(config.landing.src, ['landing']);
+  gulp.watch(config.images.src, ['images']);
   // Watchify will watch and recompile our JS, so no need to gulp.watch it
 });
