@@ -1,5 +1,8 @@
-WinJS.Namespace.define("SplitView", {
+window.viewModel = {
+    listViewArray: ko.observableArray()
+}
 
+WinJS.Namespace.define("SplitView", {
     splitView: null,
     togglePane: WinJS.UI.eventHandler(function (ev) {
         if(SplitView.splitView) {
@@ -50,8 +53,6 @@ function createBlock(blockIndex) {
     return data;
 };
 
-window.listViewArray = ko.observableArray();
-
 function update() {
     var blockSlider = document.getElementById('blockSlider');
     var blockIndex = +blockSlider.value;
@@ -78,7 +79,7 @@ window.onload = function () {
         blockSlider.max = "" + (unicode.blocks.length - 1);
         blockSlider.addEventListener("change", update);
 
-        ko.applyBindings();
+        ko.applyBindings(viewModel);
         update();
     });
 
@@ -86,12 +87,6 @@ window.onload = function () {
     lv.addEventListener('iteminvoked', handleListViewItemInvoked);
 
 };
-
-/*** 
-
-    TESTING Content Dialog Control 
-
-***/
 
 function showDialog() {
     document.querySelector(".win-contentdialog").winControl.show();
