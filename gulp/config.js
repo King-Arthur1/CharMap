@@ -44,7 +44,7 @@ module.exports = {
     dest: dest + "/ng"
   },
   winjs: {
-    src: ".winjs/index.html",
+    src: "./winjs/index.html",
     dest: dest + "/winjs",
     ts: "./winjs/index.ts"
   },
