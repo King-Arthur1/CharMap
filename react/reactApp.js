@@ -86,11 +86,23 @@ var App = React.createClass({
     },
     renderSearch: function() {
         var that = this;
-        var blocks = CharMap.getAllBlocks().
-            filter(function (item) { return item.name.toLowerCase().indexOf(that.state.searchString.toLowerCase()) != -1; }).
-            map(function (item) {
-                return <div>{item.name}</div>;
-            });
+
+        function matchChars(chars, str) { return chars.filter(function(c) { return c.name.toLowerCase().indexOf(str.toLowerCase()) != -1; })};
+
+        var all = CharMap.getAllBlocks();
+        var onlyItemsWithMatches = all.filter(function (item) { return matchChars(item.chars, that.state.searchString).length > 0; });
+
+        var blocks = onlyItemsWithMatches.
+                map(function (item) {
+                    return <div key={item.block.name} header={item.block.name}>
+                        <h2>{item.block.name}</h2>
+                        <div>{
+                            matchChars(item.chars, that.state.searchString).map(function (c) {
+                                return <div>{String.fromCharCode(c.code)} - {c.name}</div>;
+                            })
+                        }</div>
+                    </div>;
+                });
 
         return  (
             <div className="contenttext">
@@ -103,7 +115,9 @@ var App = React.createClass({
                         onChange={this.handleSearchString}
                         style={{width:400}} />
                 </div>
-                {blocks}
+                <div>
+                    {blocks}
+                </div>
             </div>
         );
     },

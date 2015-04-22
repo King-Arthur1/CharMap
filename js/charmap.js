@@ -12,6 +12,14 @@ var CharMap;
         }
         return res;
     }
+    function getAllBlocks() {
+        var res = [];
+
+        for (var i=0; i<unicode.blocks.length; i++) {
+            res.push({ block: unicode.blocks[i], chars: createBlock(i) });
+        }
+        return res;
+    }
     function createBlock(blockIndex) {
         var block = unicode.blocks[blockIndex];
         // undone: block.name
@@ -61,4 +69,5 @@ var CharMap;
     });
 
     CharMap.createBlock = createBlock;
+    CharMap.getAllBlocks = getAllBlocks;
 })(CharMap || (CharMap = {}));
