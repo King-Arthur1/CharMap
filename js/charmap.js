@@ -1,14 +1,20 @@
 var CharMap;
 (function (CharMap) {
-    ;
-    ;
     function makeSingleChar(data) {
+        var res = {
+          code: data.code,
+          name: data.name,
+          altName: data.altName
+        };
         if (data.name === "<control>") {
-            return { preview: "", text: data.code.toString(16) + " - " + data.altName + "(control)" };
+            res.preview = "";
+            res.text =  data.code.toString(16) + " - " + data.altName + "(control)";
         }
         else {
-            return { preview: "&#x" + data.code.toString(16) + ";", text: data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") };
+            res.preview = "&#x" + data.code.toString(16) + ";";
+            res.text = data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;");
         }
+        return res;
     }
     function createBlock(blockIndex) {
         var block = unicode.blocks[blockIndex];
@@ -27,7 +33,10 @@ var CharMap;
                 // that there isn't a defined character (CJK unified ideographs, for example)
                 //
                 data.push({
-                    preview: "",
+                    code: currentCode,
+                    name: "<not present>",
+                    altName: "<not present>",
+                    preview: "&#x" + currentCode.toString(16) + ";",
                     text: currentCode.toString(16) + " - &lt;not present&gt;"
                 });
             }
@@ -41,5 +50,4 @@ var CharMap;
         return data;
     }
     CharMap.createBlock = createBlock;
-    ;
 })(CharMap || (CharMap = {}));
