@@ -1,3 +1,5 @@
+window.unicode = global_data;
+
 angular.module('charmapApp', ['winjs', 'ngSanitize'])
     .controller('CharMapController', function($scope) {
     var charmap = this;

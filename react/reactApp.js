@@ -45,11 +45,11 @@ var App = React.createClass({
             <div>
                 <div className="header">
                     <button type="button" className="win-splitview-button" onClick={this.handleToggleSplitView}></button>
-                    <div className="title">SplitView Pane area</div>
+                    <div className="title">CharMap</div>
                 </div>
 
                 <div className="nav-commands">
-                    <ReactWinJS.NavBarCommand key="home" label="Home" icon="home" />
+                    <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
                     <ReactWinJS.NavBarCommand key="favorite" label="Favorite" icon="favorite" />
                     <ReactWinJS.NavBarCommand key="settings" label="Settings" icon="settings" />
                 </div>

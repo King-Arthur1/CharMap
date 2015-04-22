@@ -13,12 +13,6 @@
 
     WinJS.Namespace.define("SplitView", {
         splitView: null,
-        togglePane: WinJS.UI.eventHandler(function (ev) {
-            if(SplitView.splitView) {
-                SplitView.splitView.paneHidden = !SplitView.splitView.paneHidden;
-            }
-            console.log(SplitView.splitView);
-        })
     });
 
     window.onload = function () {
@@ -56,12 +50,7 @@
     function cancelDismissal(evenObject) {
         if (evenObject.detail.result === WinJS.UI.ContentDialog.DismissalResult.none) {
             evenObject.preventDefault();
-            log("<br/>Dialog implicit dismissal cancelled");
         }
-    }
-
-    function log(msg) {
-        document.getElementById("status").innerHTML += msg;
     }
 
     function handleListViewItemInvoked (ev) {

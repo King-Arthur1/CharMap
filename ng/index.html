@@ -23,12 +23,12 @@
         <div>
           <div class="header">
             <button type="button" class="win-splitview-button"></button>
-            <div class="title">SplitView Pane area</div>
+            <div class="title">CharMap</div>
           </div>
 
           <!-- SplitView NavCommands -->
           <div class="nav-commands">
-            <win-nav-bar-command label="'Home'" icon="'home'" tooltip="'Go home'"></win-nav-bar-command>
+            <win-nav-bar-command onclick="CharMap.homeClicked" label="'Home'" icon="'home'" tooltip="'Go home'"></win-nav-bar-command>
             <win-nav-bar-command label="'Favorite'" icon="'favorite'" tooltip="'View favorites'"></win-nav-bar-command>
             <win-nav-bar-command label="'Settings'" icon="'settings'" tooltip="'View settings'"></win-nav-bar-command>
           </div>
@@ -48,11 +48,12 @@
             </div>
 
             <win-list-view 
-                         item-data-source="data"
-                         selection-mode="single"
-                         tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
-                         header="select('.header')"
-                         selection="selection">
+              class='content'
+              item-data-source="data"
+              selection-mode="single"
+              tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
+              header="select('.header')"
+              selection="selection">
               
               <win-item-template>
                   <div id="smallListIconTextTemplate">

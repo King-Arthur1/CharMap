@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="../css/app.css" type="text/css" />
     <script src="../js/lib/knockout-3.3.0.js"></script>
     <script src="../js/lib/WinJS.js"></script>
-    <script src="../js/charmap.js"></script>
     <script src="knockout-winjs.js"></script>
     <script src="../js/data/hardcoded_data.js"></script>
+    <script src="../js/charmap.js"></script>
     <script src="knockoutApp.js"></script>
 </head>
 <body id="root">
@@ -43,13 +43,13 @@
         <!-- Pane area -->
         <div>
             <div class="header">
-                <button type="button" class="win-splitview-button" onclick="SplitView.togglePane();"></button>
-                <div class="title">SplitView Pane area</div>
+                <button type="button" class="win-splitview-button" onclick="CharMap.togglePane();"></button>
+                <div class="title">CharMap</div>
 
             </div>
 
             <div class="nav-commands">
-                <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Home', icon: 'home'}"></div>
+                <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ onclick:CharMap.homeClicked, label: 'Home', icon: 'home'}"></div>
                 <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Favorite', icon: 'favorite'}"></div>
                 <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Settings', icon: 'settings'}"></div>
             </div>
@@ -59,7 +59,6 @@
         <div class="contenttext">
             <div id="header">
                 <h1 id="title">CharMap Knockout (loading...)</h1>
-                Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ng/index.html">angular</a>, <a href="../index.html">winjs</a>, ... <br />
                 <input type="range" min="0" max="5" id="blockSlider" value="0" style="width:400px" />
             </div>
             
