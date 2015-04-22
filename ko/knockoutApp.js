@@ -11,17 +11,13 @@
     };
 
 
-    WinJS.Namespace.define("SplitView", {
-        splitView: null,
-    });
-
-    window.onload = function () {
+   window.onload = function () {
         var root = document.getElementById('root');
         WinJS.UI.processAll(root).then(function () {
 
             // Setup the SplitView Control
-            SplitView.splitView = document.querySelector(".splitView").winControl;
-            new WinJS.UI._WinKeyboard(SplitView.splitView.paneElement);
+            var splitView = document.querySelector(".splitView").winControl;
+            new WinJS.UI._WinKeyboard(splitView.paneElement);
             
             // Load data
             return window.global_data;
@@ -40,10 +36,13 @@
 
         var lv = document.getElementById('content');
         lv.addEventListener('iteminvoked', handleListViewItemInvoked);
-
     };
 
-    function showDialog() {
+    function showDialog(data) {
+        var heading = document.querySelector(".win-contentdialog .heading");
+        var body = document.querySelector(".win-contentdialog .body");
+        heading.innerHTML = data.preview;
+        body.textContent = data.name;
         document.querySelector(".win-contentdialog").winControl.show();
     }
 
@@ -54,6 +53,8 @@
     }
 
     function handleListViewItemInvoked (ev) {
-        showDialog();
+        ev.detail.itemPromise.then(function (item) {
+            showDialog(item.data);
+        })
     }
 })();
