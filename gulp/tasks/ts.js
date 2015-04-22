@@ -7,7 +7,7 @@ gulp.task('ts', function() {
   return gulp.src(config.ts)
     .pipe(ts({
       declarationFiles: true,
-      noExternalResolve: true
+      noExternalResolve: false
     }))
     .pipe(gulp.dest(config.dest))
     .pipe(browserSync.reload({stream: true}));
