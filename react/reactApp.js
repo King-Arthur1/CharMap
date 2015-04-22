@@ -76,6 +76,8 @@ var App = React.createClass({
                 </div>
 
                 <ReactWinJS.ListView
+                    id="content"
+                    className="content"
                     itemDataSource={this.state.charList.dataSource}
                     itemTemplate={this.charItemRenderer}
                     selectionMode="none"

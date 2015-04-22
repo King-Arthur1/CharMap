@@ -78,7 +78,7 @@
 #app #header {
     flex:none;
 }
-#app #content {
+#app .content {
     flex:1;
 }
 
