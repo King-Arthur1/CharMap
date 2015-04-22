@@ -28,21 +28,26 @@ var CharMap;
             index++;
         }
         for (var currentCode = block.start; currentCode <= block.end; currentCode++) {
-            if (unicode.data[index].code !== currentCode) {
-                // This just means there isn't an explicit entry in the data table, not neccessarily
-                // that there isn't a defined character (CJK unified ideographs, for example)
-                //
-                data.push({
-                    code: currentCode,
-                    name: "<not present>",
-                    altName: "<not present>",
-                    preview: "&#x" + currentCode.toString(16) + ";",
-                    text: currentCode.toString(16) + " - &lt;not present&gt;"
-                });
+            // <control> hack to filter out ugly items, for now... 
+            //
+            if (unicode.data[index].name !== "<control>") {
+                if (unicode.data[index].code !== currentCode) {
+                    // This just means there isn't an explicit entry in the data table, not neccessarily
+                    // that there isn't a defined character (CJK unified ideographs, for example)
+                    //
+                    data.push({
+                        code: currentCode,
+                        name: "<not present>",
+                        altName: "<not present>",
+                        preview: "&#x" + currentCode.toString(16) + ";",
+                        text: currentCode.toString(16) + " - &lt;not present&gt;"
+                    });
+                }
+                else {
+                    data.push(makeSingleChar(unicode.data[index]));
+                }
             }
-            else {
-                data.push(makeSingleChar(unicode.data[index]));
-            }
+
             while (index < unicode.data.length - 1 && unicode.data[index].code <= currentCode) {
                 index++;
             }

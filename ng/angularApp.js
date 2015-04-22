@@ -6,6 +6,7 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
 
     charmap.data = global_data;
 
+
     charmap.remaining = function() {
       var count = charmap.data.length;
       return count;
@@ -17,6 +18,7 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
 
     $scope.viewState = { currentBlock: 0 };
     $scope.data = CharMap.createBlock(0);
+    $scope.homeClicked = CharMap.homeClicked;
 
     $scope.$watch("viewState", 
         function(scope) { 

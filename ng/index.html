@@ -13,7 +13,7 @@
 </head>
  <body style="overflow: auto" id="root">
 
-  <div id="app">
+  <div id="app"  ng-controller="CharMapController as charMap">
     
     <win-split-view class="splitView">
       
@@ -28,7 +28,7 @@
 
           <!-- SplitView NavCommands -->
           <div class="nav-commands">
-            <win-nav-bar-command onclick="CharMap.homeClicked" label="'Home'" icon="'home'" tooltip="'Go home'"></win-nav-bar-command>
+            <win-nav-bar-command ng-click="homeClicked()" label="'Home'" icon="'home'" tooltip="'Go home'"></win-nav-bar-command>
             <win-nav-bar-command label="'Favorite'" icon="'favorite'" tooltip="'View favorites'"></win-nav-bar-command>
             <win-nav-bar-command label="'List'" icon="'list'" tooltip="'View list'"></win-nav-bar-command>
           </div>
@@ -39,33 +39,29 @@
       <!-- Split View Content Pane -->
       <win-split-view-content class="contenttext">
 
-          <!-- Angular data bound -->
-          <div ng-controller="CharMapController as charMap">
-            <div id="header">
-              <h1 id="title">CharMap Angular</h1>
-              Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions... <a href="../ko/index.html">knockout</a>, <a href="../index.html">winjs</a>, ... <br />
-              <input type="range" min="0" max="5" id="blockSlider" value="0" style="width:400px" ng-model='viewState.currentBlock' />
-            </div>
+          <div id="header">
+            <h1 id="title">CharMap Angular</h1>
+            <input type="range" min="0" max="5" id="blockSlider" value="0" style="width:400px" ng-model='viewState.currentBlock' />
+          </div>
 
-            <win-list-view 
-              class='content'
-              item-data-source="data"
-              selection-mode="single"
-              tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
-              header="select('.header')"
-              selection="selection">
-              
-              <win-item-template>
-                  <div id="smallListIconTextTemplate">
-                      <div class="container">
-                        <div class="letter" ng-bind-html="item.data.preview"></div>
-                        <div>{{item.data.text}}</div>
-                      </div>
-                  </div>
-              </win-item-template>
-              <win-grid-layout></win-grid-layout>
-          </win-list-view>
-        </div>
+          <win-list-view 
+            class='content'
+            item-data-source="data"
+            selection-mode="single"
+            tap-behavior="WinJS.UI.TapBehavior.toggleSelect"
+            header="select('.header')"
+            selection="selection">
+            
+            <win-item-template>
+                <div id="smallListIconTextTemplate">
+                    <div class="container">
+                      <div class="letter" ng-bind-html="item.data.preview"></div>
+                      <div>{{item.data.text}}</div>
+                    </div>
+                </div>
+            </win-item-template>
+            <win-grid-layout></win-grid-layout>
+        </win-list-view>
       </win-split-view-content>
   </win-split-view>
 
