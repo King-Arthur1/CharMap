@@ -1,11 +1,7 @@
 var CharMap;
 (function (CharMap) {
     function makeSingleChar(data) {
-        var res = {
-          code: data.code,
-          name: data.name,
-          altName: data.altName
-        };
+        var res = data;
         if (data.name === "<control>") {
             res.preview = "";
             res.text =  data.code.toString(16) + " - " + data.altName + "(control)";
