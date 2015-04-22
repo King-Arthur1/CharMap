@@ -106,6 +106,7 @@ IF EXIST "gulpfile.js" (
   call .\node_modules\.bin\gulp production
   IF !ERRORLEVEL! NEQ 0 goto error
 )
+echo Gulp production finished
 
 :: 3. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
