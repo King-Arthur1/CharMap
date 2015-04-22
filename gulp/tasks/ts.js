@@ -7,6 +7,7 @@ gulp.task('ts', function() {
   return gulp.src(config.ts)
     .pipe(ts({
       declarationFiles: true,
+      out: "index.js",
       noExternalResolve: false
     }))
     .pipe(gulp.dest(config.dest))
