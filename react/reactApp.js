@@ -51,7 +51,7 @@ var App = React.createClass({
                 <div className="nav-commands">
                     <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
                     <ReactWinJS.NavBarCommand key="favorite" label="Favorite" icon="favorite" />
-                    <ReactWinJS.NavBarCommand key="settings" label="Settings" icon="settings" />
+                    <ReactWinJS.NavBarCommand key="settings" label="List" icon="list" />
                 </div>
             </div>
         );
@@ -61,11 +61,6 @@ var App = React.createClass({
                 <div id="header">
                     <h1 id="title">CharMap React</h1>
                     
-                    Join in on <a href="https://github.com/InternetExplorer/CharMap">GitHub</a>. Other versions...
-                    <a href="ng/index.html">angular</a>,
-                    <a href="index.html">winjs</a>,
-                    <a href="ko/index.html">knockout</a>, ... <br />
-
                     <input
                         type="range"
                         min="0"
