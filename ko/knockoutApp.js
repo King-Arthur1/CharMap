@@ -8,7 +8,8 @@
     window.KOApp.favoriteClicked = WinJS.UI.eventHandler(function (evt) {
         viewModel.listViewArray.removeAll();
         viewModel.listViewArray.push.apply(viewModel.listViewArray, viewModel.favorites());
-    });
+    });    
+    window.KOApp.listClicked = WinJS.UI.eventHandler(update);
 
     function update() {
         var blockSlider = document.getElementById('blockSlider');
