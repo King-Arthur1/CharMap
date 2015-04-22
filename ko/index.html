@@ -18,7 +18,7 @@
 
     <div data-win-control="WinJS.UI.ContentDialog" data-win-options="{
                  title: 'Character',
-                 primaryCommandText: 'Copy to Clipboard',
+                 primaryCommandText: 'Favorite',
                  secondaryCommandText: 'Close'
             }">
         <h1 class="heading">There will be a Char here!</h1>
@@ -38,7 +38,7 @@
 
             <div class="nav-commands">
                 <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ onclick:CharMap.homeClicked, label: 'Home', icon: 'home'}"></div>
-                <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Favorite', icon: 'favorite'}"></div>
+                <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ onclick: KOApp.favoriteClicked, label: 'Favorite', icon: 'favorite'}"></div>
                 <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Settings', icon: 'settings'}"></div>
             </div>
         </div>

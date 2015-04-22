@@ -1,7 +1,14 @@
 (function() {
     var viewModel = {
-        listViewArray: ko.observableArray()
+        listViewArray: ko.observableArray(),
+        favorites: ko.observableArray()
     };
+
+    window.KOApp = window.KOApp || {};
+    window.KOApp.favoriteClicked = WinJS.UI.eventHandler(function (evt) {
+        viewModel.listViewArray.removeAll();
+        viewModel.listViewArray.push.apply(viewModel.listViewArray, viewModel.favorites());
+    });
 
     function update() {
         var blockSlider = document.getElementById('blockSlider');
@@ -43,7 +50,11 @@
         var body = document.querySelector(".win-contentdialog .body");
         heading.innerHTML = data.preview;
         body.textContent = data.name;
-        document.querySelector(".win-contentdialog").winControl.show();
+        document.querySelector(".win-contentdialog").winControl.show().then(function (e) {
+            if(e.result === "primary") { // favorite
+                viewModel.favorites.push(data);
+            }
+        });
     }
 
     function cancelDismissal(evenObject) {
