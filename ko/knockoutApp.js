@@ -1,108 +1,70 @@
-window.viewModel = {
-    listViewArray: ko.observableArray()
-}
+(function() {
+    var viewModel = {
+        listViewArray: ko.observableArray()
+    };
 
-WinJS.Namespace.define("SplitView", {
-    splitView: null,
-    togglePane: WinJS.UI.eventHandler(function (ev) {
-        if(SplitView.splitView) {
-            SplitView.splitView.paneHidden = !SplitView.splitView.paneHidden;
-        }
-        console.log(SplitView.splitView);
-    })
-});
+    function update() {
+        var blockSlider = document.getElementById('blockSlider');
+        var blockIndex = +blockSlider.value;
+        viewModel.listViewArray.removeAll();
+        viewModel.listViewArray.push.apply(viewModel.listViewArray, CharMap.createBlock(blockIndex));
+    };
 
 
-function makeSingleChar(data) {
-    if (data.name === "<control>") {
-        return { preview: "", text: data.code.toString(16) + " - " + data.altName + "(control)" };
-    }
-    else {
-        return { preview: "&#x" + data.code.toString(16) + ";", text: data.code.toString(16) + " - " + data.name.replace("<", "&lt;").replace(">", "&gt;") };
-    }
-};
-
-function createBlock(blockIndex) {
-    var block = unicode.blocks[blockIndex];
-    // undone: block.name
-    var data = [];
-    // unicode.data has code points, but you can't assume that index==code due to gaps and unfilled parts
-    // making unicode.data have all code points (including empty ones) would be pretty memory inneficient.
-    //
-    var index = 0;
-    while (index < unicode.data.length - 1 && unicode.data[index].code < block.start) {
-        index++;
-    }
-    for (var currentCode = block.start; currentCode <= block.end; currentCode++) {
-        if (unicode.data[index].code !== currentCode) {
-            // This just means there isn't an explicit entry in the data table, not neccessarily
-            // that there isn't a defined character (CJK unified ideographs, for example)
-            //
-            data.push({
-                preview: "",
-                text: currentCode.toString(16) + " - &lt;not present&gt;"
-            });
-        }
-        else {
-            data.push(makeSingleChar(unicode.data[index]));
-        }
-        while (index < unicode.data.length - 1 && unicode.data[index].code <= currentCode) {
-            index++;
-        }
-    }
-    return data;
-};
-
-function update() {
-    var blockSlider = document.getElementById('blockSlider');
-    var blockIndex = +blockSlider.value;
-    listViewArray.removeAll();
-    listViewArray.push.apply(listViewArray, createBlock(blockIndex));
-};
-
-window.onload = function () {
-    var root = document.getElementById('root');
-    WinJS.UI.processAll(root).then(function () {
-
-        // Setup the SplitView Control
-        SplitView.splitView = document.querySelector(".splitView").winControl;
-        new WinJS.UI._WinKeyboard(SplitView.splitView.paneElement);
-        
-        // Load data
-        return window.global_data;
-
-    }).then(function (data) {
-        unicode = data;
-        var title = document.getElementById('title');
-        title.textContent = "CharMap";
-        var blockSlider = (document.getElementById('blockSlider'));
-        blockSlider.max = "" + (unicode.blocks.length - 1);
-        blockSlider.addEventListener("change", update);
-
-        ko.applyBindings(viewModel);
-        update();
+    WinJS.Namespace.define("SplitView", {
+        splitView: null,
+        togglePane: WinJS.UI.eventHandler(function (ev) {
+            if(SplitView.splitView) {
+                SplitView.splitView.paneHidden = !SplitView.splitView.paneHidden;
+            }
+            console.log(SplitView.splitView);
+        })
     });
 
-    var lv = document.getElementById('content');
-    lv.addEventListener('iteminvoked', handleListViewItemInvoked);
+    window.onload = function () {
+        var root = document.getElementById('root');
+        WinJS.UI.processAll(root).then(function () {
 
-};
+            // Setup the SplitView Control
+            SplitView.splitView = document.querySelector(".splitView").winControl;
+            new WinJS.UI._WinKeyboard(SplitView.splitView.paneElement);
+            
+            // Load data
+            return window.global_data;
 
-function showDialog() {
-    document.querySelector(".win-contentdialog").winControl.show();
-}
+        }).then(function (data) {
+            unicode = data;
+            var title = document.getElementById('title');
+            title.textContent = "CharMap";
+            var blockSlider = (document.getElementById('blockSlider'));
+            blockSlider.max = "" + (unicode.blocks.length - 1);
+            blockSlider.addEventListener("change", update);
 
-function cancelDismissal(evenObject) {
-    if (evenObject.detail.result === WinJS.UI.ContentDialog.DismissalResult.none) {
-        evenObject.preventDefault();
-        log("<br/>Dialog implicit dismissal cancelled");
+            ko.applyBindings(viewModel);
+            update();
+        });
+
+        var lv = document.getElementById('content');
+        lv.addEventListener('iteminvoked', handleListViewItemInvoked);
+
+    };
+
+    function showDialog() {
+        document.querySelector(".win-contentdialog").winControl.show();
     }
-}
 
-function log(msg) {
-    document.getElementById("status").innerHTML += msg;
-}
+    function cancelDismissal(evenObject) {
+        if (evenObject.detail.result === WinJS.UI.ContentDialog.DismissalResult.none) {
+            evenObject.preventDefault();
+            log("<br/>Dialog implicit dismissal cancelled");
+        }
+    }
 
-function handleListViewItemInvoked (ev) {
-    showDialog();
-}
+    function log(msg) {
+        document.getElementById("status").innerHTML += msg;
+    }
+
+    function handleListViewItemInvoked (ev) {
+        showDialog();
+    }
+})();
