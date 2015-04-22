@@ -33,30 +33,33 @@ var App = React.createClass({
         var splitView = this.refs.splitView.winControl;
         splitView.paneHidden = !splitView.paneHidden;
     },
+    handleSearchString: function (eventObject) {
+        var newSearchString = eventObject.currentTarget.value;
+        if (newSearchString !== this.state.searchString) {
+            this.setState({ searchString: newSearchString });
+        }
+    },
+    searchClicked: function () {
+        this.setState({
+            model: "search"
+        });
+    },
+    listClicked: function () {
+        this.setState({
+            model: "default"
+        });
+    },
     getInitialState: function () {
         var initialBlockIndex = 0;
         return {
+            mode: "default",
+            searchString: "",
             blockIndex: initialBlockIndex,
             charList: new WinJS.Binding.List(CharMap.createBlock(initialBlockIndex))
         };
     },
-    render: function () {
-        var paneComponent = (
-            <div>
-                <div className="header">
-                    <button type="button" className="win-splitview-button" onClick={this.handleToggleSplitView}></button>
-                    <div className="title">CharMap</div>
-                </div>
-
-                <div className="nav-commands">
-                    <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
-                    <ReactWinJS.NavBarCommand key="favorite" label="Favorite" icon="favorite" />
-                    <ReactWinJS.NavBarCommand key="settings" label="List" icon="list" />
-                </div>
-            </div>
-        );
-
-        var contentComponent = (
+    renderDefault: function () {
+        return  (
             <div className="contenttext">
                 <div id="header">
                     <h1 id="title">CharMap React</h1>
@@ -80,6 +83,48 @@ var App = React.createClass({
                     layout={this.gridLayout} />
             </div>
         );
+    },
+    renderSearch: function() {
+        var that = this;
+        var blocks = CharMap.getAllBlocks().
+            filter(function (item) { return item.name.toLowerCase().indexOf(that.state.searchString.toLowerCase()) != -1; }).
+            map(function (item) {
+                return <div>{item.name}</div>;
+            });
+
+        return  (
+            <div className="contenttext">
+                <div id="header">
+                    <h1 id="title">CharMap React</h1>
+                    
+                    <input
+                        type="text"
+                        value={this.state.searchString}
+                        onChange={this.handleSearchString}
+                        style={{width:400}} />
+                </div>
+                {blocks}
+            </div>
+        );
+    },
+    render: function() {
+        var paneComponent = (
+            <div>
+                <div className="header">
+                    <button type="button" className="win-splitview-button" onClick={this.handleToggleSplitView}></button>
+                    <div className="title">CharMap</div>
+                </div>
+
+                <div className="nav-commands">
+                    <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
+                    <ReactWinJS.NavBarCommand key="favorite" label="Favorite" icon="favorite" />
+                    <ReactWinJS.NavBarCommand onClick={this.listClicked} key="list" label="List" icon="list" />
+                    <ReactWinJS.NavBarCommand onClick={this.searchClicked} key="search" label="Search" icon="find" />
+                </div>
+            </div>
+        );
+
+        var contentComponent = this.state.mode === "search" ? this.renderSearch() : this.renderDefault();
 
         return <ReactWinJS.SplitView
             ref="splitView"
