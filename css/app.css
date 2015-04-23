@@ -98,6 +98,10 @@
     flex:1;
 }
 
+.simpleList {
+    overflow-x: auto;
+}
+
 /*SplitView pane show button style*/
 button.win-splitview-button {
     float: left;

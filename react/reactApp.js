@@ -115,7 +115,7 @@ var App = React.createClass({
                         onChange={this.handleSearchString}
                         style={{width:400}} />
                 </div>
-                <div>
+                <div className='simpleList'>
                     {blocks}
                 </div>
             </div>
