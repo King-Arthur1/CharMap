@@ -10,9 +10,9 @@ var App = React.createClass({
     charItemRenderer: ReactWinJS.reactRenderer(function (item) {
         return (
             <div className="container">
-                <div className="letter">{
-                    item.data.name === "<control>" ? "" : String.fromCharCode(item.data.code)
-                }</div>
+                <div className="letter" dangerouslySetInnerHTML={{__html: 
+                    item.data.name === "<control>" ? " " : "&#x" + item.data.code.toString(16) + ";"
+                }} />
                 <div>{item.data.code.toString(16) + " - " + (
                     item.data.name === "<control>" ? item.data.altName + " (control)" : item.data.name
                 )}</div>
@@ -98,7 +98,7 @@ var App = React.createClass({
                         <h2>{item.block.name}</h2>
                         <div>{
                             matchChars(item.chars, that.state.searchString).map(function (c) {
-                                return <div>{String.fromCharCode(c.code)} - {c.name}</div>;
+                                return <div><span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> - {c.name}</div>;
                             })
                         }</div>
                     </div>;
