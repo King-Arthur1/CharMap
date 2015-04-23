@@ -49,7 +49,7 @@
     "angular-sanitize": "^1.3.15",
     "knockout": "^3.3.0",
     "react": "^0.12.2",
-    "react-winjs": "^0.1.0",
+    "react-winjs": "https://github.com/codemonkeychris/react-winjs.git",
     "winjs": "^4.0.0-preview"
   }
 }
