@@ -41,12 +41,12 @@ var App = React.createClass({
     },
     searchClicked: function () {
         this.setState({
-            model: "search"
+            mode: "search"
         });
     },
     listClicked: function () {
         this.setState({
-            model: "default"
+            mode: "default"
         });
     },
     getInitialState: function () {
