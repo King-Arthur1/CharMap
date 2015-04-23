@@ -94,14 +94,13 @@ var App = React.createClass({
 
         var blocks = onlyItemsWithMatches.
                 map(function (item) {
-                    return <div key={item.block.name} header={item.block.name}>
-                        <h2>{item.block.name}</h2>
+                    return <ReactWinJS.Hub.Section key={item.block.name} header={item.block.name}>
                         <div>{
                             matchChars(item.chars, that.state.searchString).map(function (c) {
                                 return <div><span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> - {c.name}</div>;
                             })
                         }</div>
-                    </div>;
+                    </ReactWinJS.Hub.Section>;
                 });
 
         return  (
@@ -115,9 +114,9 @@ var App = React.createClass({
                         onChange={this.handleSearchString}
                         style={{width:400}} />
                 </div>
-                <div className='simpleList'>
+                <ReactWinJS.Hub className='simpleList'>
                     {blocks}
-                </div>
+                </ReactWinJS.Hub>
             </div>
         );
     },
