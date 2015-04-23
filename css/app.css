@@ -36,6 +36,31 @@
     text-align: center;
 }
 
+.win-hub-section-content {
+    display: flex;
+}
+.win-hub-horizontal .win-hub-surface {
+    padding: 0px;
+}
+.win-hub-horizontal .win-hub-section-header {
+    margin: 0px;
+}
+.win-hub-horizontal .win-hub-section-content {
+    height: calc(100% - 68px);
+}
+
+.hubSectionLetterContainer {
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+.hubSectionLetterContainer .item {
+    width: 150px;
+    height: 75px;
+}
+
 #app {
     height: 100%;
 }

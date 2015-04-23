@@ -94,11 +94,13 @@ var App = React.createClass({
 
         var blocks = onlyItemsWithMatches.
                 map(function (item) {
-                    return <ReactWinJS.Hub.Section key={item.block.name} header={item.block.name}>
-                        <div>{
-                            matchChars(item.chars, that.state.searchString).map(function (c) {
-                                return <div><span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> - {c.name}</div>;
-                            })
+                    return <ReactWinJS.Hub.Section key={item.block.name} header={item.block.name} isHeaderStatic={true}>
+                        <div className="hubSectionLetterContainer">{
+                            matchChars(item.chars, that.state.searchString).
+                                filter(function (c, index) { return index < 40; }). // limit to first 40 results (for now)
+                                map(function (c) {
+                                    return <div className="item"><span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> - {c.name}</div>;
+                                })
                         }</div>
                     </ReactWinJS.Hub.Section>;
                 });
