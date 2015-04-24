@@ -99,7 +99,10 @@ var App = React.createClass({
                             matchChars(item.chars, that.state.searchString).
                                 filter(function (c, index) { return index < 40; }). // limit to first 40 results (for now)
                                 map(function (c) {
-                                    return <div className="item"><span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> - {c.name}</div>;
+                                    return <div className="item">
+                                        <span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> 
+                                        - {c.name}
+                                    </div>;
                                 })
                         }</div>
                     </ReactWinJS.Hub.Section>;
