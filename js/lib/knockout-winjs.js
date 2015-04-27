@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * knockout-winjs
  *
  * Copyright 2013 Josh Williams and other contributors

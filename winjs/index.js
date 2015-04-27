@@ -1,4 +1,4 @@
-﻿(function() {
+(function() {
     window.WinJSApp = window.WinJSApp || {};
     window.WinJSApp.listClicked = WinJS.UI.eventHandler(update);
 
