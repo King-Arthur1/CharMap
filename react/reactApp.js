@@ -4,6 +4,14 @@ var ReactWinJS = require('react-winjs');
 // UNDONE: for development, just jam the content in here... :)
 window.unicode = global_data;
 
+function shorten(str) {
+    var maxLen = 20;
+    if (str.length > maxLen) {
+        return str.substring(0, maxLen-3) + "...";
+    }
+    return str;
+}
+
 var App = React.createClass({
     charItemRenderer: ReactWinJS.reactRenderer(function (item) {
         return (
@@ -48,7 +56,7 @@ var App = React.createClass({
         });
     },
     getInitialState: function () {
-        var initialBlockIndex = 0;
+        var initialBlockIndex = 4;
         return {
             mode: "default",
             searchString: "",
@@ -61,14 +69,6 @@ var App = React.createClass({
             <div className="contenttext">
                 <div id="header">
                     <h1 id="title">CharMap React</h1>
-                    
-                    <input
-                        type="range"
-                        min="0"
-                        max="4"
-                        value={this.state.blockIndex}
-                        onChange={this.handleChangeBlockIndex}
-                        style={{width:400}} />
                 </div>
 
                 <ReactWinJS.ListView
@@ -105,7 +105,7 @@ var App = React.createClass({
                                 map(function (c) {
                                     return <div className="item">
                                         <span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> 
-                                        - {c.name}
+                                        - {shorten(c.name)}
                                     </div>;
                                 })
                         }</div>
