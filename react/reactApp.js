@@ -1,8 +1,6 @@
 var React = require('react/addons');
 var ReactWinJS = require('react-winjs');
 
-// UNDONE: release react-winjs 0.2.0 and depend on that instead of depending on master
-
 // UNDONE: for development, just jam the content in here... :)
 window.unicode = global_data;
 
@@ -87,10 +85,16 @@ var App = React.createClass({
     renderSearch: function() {
         var that = this;
 
-        function matchChars(chars, str) { return chars.filter(function(c) { return c.name.toLowerCase().indexOf(str.toLowerCase()) != -1; })};
+        function matchChars(chars, str) { 
+            return chars.filter(function(c) { 
+                return c.name.toLowerCase().indexOf(str.toLowerCase()) != -1; 
+            })
+        };
 
         var all = CharMap.getAllBlocks();
-        var onlyItemsWithMatches = all.filter(function (item) { return matchChars(item.chars, that.state.searchString).length > 0; });
+        var onlyItemsWithMatches = all.filter(function (item) { 
+            return matchChars(item.chars, that.state.searchString).length > 0; 
+        });
 
         var blocks = onlyItemsWithMatches.
                 map(function (item) {
@@ -135,7 +139,6 @@ var App = React.createClass({
 
                 <div className="nav-commands">
                     <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
-                    <ReactWinJS.NavBarCommand key="favorite" label="Favorite" icon="favorite" />
                     <ReactWinJS.NavBarCommand onClick={this.listClicked} key="list" label="List" icon="list" />
                     <ReactWinJS.NavBarCommand onClick={this.searchClicked} key="search" label="Search" icon="find" />
                 </div>

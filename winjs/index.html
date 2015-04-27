@@ -14,6 +14,15 @@
 <body id="root">
 
     <div id="app">
+
+        <div data-win-control="WinJS.UI.ContentDialog" data-win-options="{
+                     title: 'Character',
+                     primaryCommandText: 'Close'
+                }">
+            <h1 class="heading">There will be a Char here!</h1>
+            <div class="body">There will be a Char here!</div>
+        </div>
+
         <div class="splitView" data-win-control="WinJS.UI.SplitView">
             <!-- SplitView Navigation Pane Area -->
             <div>
@@ -24,7 +33,6 @@
 
                 <div class="nav-commands">
                     <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ onclick: CharMap.homeClicked, label: 'Home', icon: 'home' }"></div>
-                    <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Favorite', icon: 'favorite' }"></div>
                     <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ onclick: WinJSApp.favoriteClicked, label: 'List', icon: 'list' }"></div>
                 </div>
             </div>
@@ -47,7 +55,6 @@
                     data-win-options="{
                         itemTemplate: select('.smallListIconTextTemplate'),
                         selectionMode: 'none',
-                        tapBehavior: 'none',
                         layout: { type: WinJS.UI.GridLayout }
                     }"></div>
             </div>
