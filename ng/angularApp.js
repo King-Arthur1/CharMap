@@ -17,16 +17,6 @@ angular.module('charmapApp', ['winjs', 'ngSanitize'])
 
     $scope.$watch("viewState", 
         function(scope) { 
-            if ($scope.viewState.mode === "list") {
-                $scope.data = CharMap.createBlock($scope.viewState.currentBlock); 
-            }
-            else {
-                var all = CharMap.getAllBlocks();
-                var data = [];
-                for (var i=0; i<all.length; i++) {
-                    data.push.apply(data, all[i].chars.filter(function (c) { return c.rating; }));
-                }
-                $scope.data = data;
-            }
+            $scope.data = CharMap.createBlock($scope.viewState.currentBlock); 
         }, true);
 });

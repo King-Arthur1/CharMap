@@ -45,11 +45,6 @@ var App = React.createClass({
             this.setState({ searchString: newSearchString });
         }
     },
-    searchClicked: function () {
-        this.setState({
-            mode: "search"
-        });
-    },
     listClicked: function () {
         this.setState({
             mode: "default"
@@ -82,53 +77,6 @@ var App = React.createClass({
             </div>
         );
     },
-    renderSearch: function() {
-        var that = this;
-
-        function matchChars(chars, str) { 
-            return chars.filter(function(c) { 
-                return c.name.toLowerCase().indexOf(str.toLowerCase()) != -1; 
-            })
-        };
-
-        var all = CharMap.getAllBlocks();
-        var onlyItemsWithMatches = all.filter(function (item) { 
-            return matchChars(item.chars, that.state.searchString).length > 0; 
-        });
-
-        var blocks = onlyItemsWithMatches.
-                map(function (item) {
-                    return <ReactWinJS.Hub.Section key={item.block.name} header={item.block.name} isHeaderStatic={true}>
-                        <div className="hubSectionLetterContainer">{
-                            matchChars(item.chars, that.state.searchString).
-                                filter(function (c, index) { return index < 40; }). // limit to first 40 results (for now)
-                                map(function (c) {
-                                    return <div className="item">
-                                        <span className="letter" dangerouslySetInnerHTML={{__html: "&#x" + c.code.toString(16) + ";"}} /> 
-                                        - {shorten(c.name)}
-                                    </div>;
-                                })
-                        }</div>
-                    </ReactWinJS.Hub.Section>;
-                });
-
-        return  (
-            <div className="contenttext">
-                <div id="header">
-                    <h1 id="title">CharMap React</h1>
-                    
-                    <input
-                        type="text"
-                        value={this.state.searchString}
-                        onChange={this.handleSearchString}
-                        style={{width:400}} />
-                </div>
-                <ReactWinJS.Hub className='simpleList'>
-                    {blocks}
-                </ReactWinJS.Hub>
-            </div>
-        );
-    },
     render: function() {
         var paneComponent = (
             <div>
@@ -140,12 +88,11 @@ var App = React.createClass({
                 <div className="nav-commands">
                     <ReactWinJS.NavBarCommand onClick={CharMap.homeClicked} key="home" label="Home" icon="home" />
                     <ReactWinJS.NavBarCommand onClick={this.listClicked} key="list" label="List" icon="list" />
-                    <ReactWinJS.NavBarCommand onClick={this.searchClicked} key="search" label="Search" icon="find" />
                 </div>
             </div>
         );
 
-        var contentComponent = this.state.mode === "search" ? this.renderSearch() : this.renderDefault();
+        var contentComponent = this.renderDefault();
 
         return <ReactWinJS.SplitView
             ref="splitView"
