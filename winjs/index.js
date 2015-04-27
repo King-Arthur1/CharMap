@@ -15,9 +15,6 @@
             // UNDONE: for development, just jam the content in here... :)
             //
             return window.global_data;
-            // return WinJS.xhr({ url: "ucd.js" }).then(function (result) {
-            //     return JSON.parse(result.responseText);
-            // });
         }).then(function (data) {
             window.unicode = data;
             var title = document.getElementById('title');

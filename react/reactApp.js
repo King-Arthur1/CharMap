@@ -1,8 +1,6 @@
 var React = require('react/addons');
 var ReactWinJS = require('react-winjs');
 
-// UNDONE: release react-winjs 0.2.0 and depend on that instead of depending on master
-
 // UNDONE: for development, just jam the content in here... :)
 window.unicode = global_data;
 
