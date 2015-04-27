@@ -1,1 +1,5 @@
-"use strict";function swapCSS(s){document.getElementById("linkedcss").setAttribute("href",s)}var winjs=!1,swapButton=document.getElementById("swapButton");swapButton.addEventListener("click",function(){swapCSS(winjs?"css/index.css":"css/bootstrap-winjs.css"),winjs=!winjs},!1);
+var menu = document.getElementById('theme-select');
+var css = document.getElementById('linkedcss');
+menu.addEventListener('change', function(e) {
+  css.setAttribute('href', 'css/' + e.target.value)
+}, false);

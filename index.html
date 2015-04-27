@@ -7,7 +7,8 @@
     <title>CharMap</title>
     
 
-    <link id="linkedcss" rel="stylesheet" href="css/index.css">
+    <link id="linkedcss" rel="stylesheet" href="css/journal.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <script src="js/index/vendor/modernizr.js"></script>
   </head>
@@ -60,17 +61,18 @@
 
       </br>
       <div style="text-align: center;" class="row marketing">
-        <button id="swapButton" class="btn">Swap CSS</button>
+        <select id="theme-select">
+          <option value="journal.css">Journal</option>
+          <option value="cyborg.css">Cyborg</option>
+          <option value="cerulean.css">Cerulean</option>
+          <option value="slate.css">Slate</option>
+          <option value="bootstrap-winjs.css">WinJS</option>
+        </select>
       </div>
       <div class="footer">
         <p>//build 2015</p>
       </div>
     </div>
-
-    <script src="js/index/vendor.js"></script>
-
-        <script src="js/index/plugins.js"></script>
-
-        <script src="js/index/main.js"></script>
+    <script src="js/index/main.js"></script>
 </body>
 </html>
