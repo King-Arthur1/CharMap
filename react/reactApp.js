@@ -123,7 +123,7 @@ var App = React.createClass({
                         onChange={this.handleSearchString}
                         style={{width:400}} />
                 </div>
-                <ReactWinJS.Hub className='simpleList'>
+                <ReactWinJS.Hub className='simpleList' orientation="vertical">
                     {blocks}
                 </ReactWinJS.Hub>
             </div>
