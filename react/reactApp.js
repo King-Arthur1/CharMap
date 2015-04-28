@@ -25,7 +25,7 @@ var App = React.createClass({
             </div>
         );
     }),
-    gridLayout: new WinJS.UI.GridLayout(),
+    gridLayout: { type: WinJS.UI.GridLayout },
     handleChangeBlockIndex: function (eventObject) {
         var newBlockIndex = eventObject.currentTarget.value;
         if (newBlockIndex !== this.state.blockIndex) {
