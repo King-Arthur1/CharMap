@@ -113,6 +113,10 @@
     height: calc(100% - 6px - 6px); /* Subtract vertical margins */
 }
 
+#app .content {
+    height: calc(100% - 132px); /* Substract height of app header */
+}
+
 .simpleList {
     height: calc(100% - 104px); /* Substract height of app header */
     overflow-x: auto;
