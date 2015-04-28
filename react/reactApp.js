@@ -25,7 +25,7 @@ var App = React.createClass({
             </div>
         );
     }),
-    gridLayout: new WinJS.UI.GridLayout(),
+    gridLayout: { type: WinJS.UI.GridLayout },
     handleChangeBlockIndex: function (eventObject) {
         var newBlockIndex = eventObject.currentTarget.value;
         if (newBlockIndex !== this.state.blockIndex) {
@@ -123,7 +123,7 @@ var App = React.createClass({
                         onChange={this.handleSearchString}
                         style={{width:400}} />
                 </div>
-                <ReactWinJS.Hub className='simpleList'>
+                <ReactWinJS.Hub className='simpleList' orientation="vertical">
                     {blocks}
                 </ReactWinJS.Hub>
             </div>
