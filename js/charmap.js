@@ -59,7 +59,7 @@ var CharMap;
         return data;
     }
     CharMap.homeClicked = WinJS.UI.eventHandler(function (evt) {
-        window.location = "../";
+        window.location = "../index.html";
     });
     CharMap.togglePane = WinJS.UI.eventHandler(function (ev) {
         var splitView = document.querySelector(".splitView").winControl
