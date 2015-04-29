@@ -173,7 +173,13 @@ gulp
     },
     ```
     
-* Demo 5 - CORDOVA (Kevin to provide script)
+* Demo 5 - CORDOVA 
+
+Pre-reqs:
+* install cordova
+```
+npm install -g cordova
+```
 
 Create the Cordova Project & add Windows 10 preview platform
 ```
