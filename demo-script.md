@@ -174,3 +174,10 @@ gulp
     ```
     
 * Demo 5 - CORDOVA (Kevin to provide script)
+
+```
+cordova create "CharMapApp" 
+cordova platform add windows@https://aka.ms/cordova-win10
+```
+
+Copy the CharMap code into the www folder
