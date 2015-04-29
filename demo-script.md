@@ -175,9 +175,17 @@ gulp
     
 * Demo 5 - CORDOVA (Kevin to provide script)
 
+Create the Cordova Project & add Windows 10 preview platform
 ```
 cordova create "CharMapApp" 
 cordova platform add windows@https://aka.ms/cordova-win10
 ```
 
 Copy the CharMap code into the www folder
+
+Start the app
+```
+cordova run windows
+```
+
+Show F12 debugging app
