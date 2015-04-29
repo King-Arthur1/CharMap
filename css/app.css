@@ -52,7 +52,7 @@
 .hubSectionLetterContainer {
     flex:1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     overflow: hidden;
 }
@@ -104,26 +104,21 @@
 /*SplitView content style*/
 #app .win-splitview-content {
     background-color: rgb(105,210,231);
-    display: flex;
 }
 
 #app .contenttext {
     margin-left: 20px;
     margin-top: 6px;
     margin-bottom: 6px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    height: calc(100% - 6px - 6px); /* Subtract vertical margins */
 }
 
-#app #header {
-    flex:none;
-}
 #app .content {
-    flex:1;
+    height: calc(100% - 132px); /* Substract height of app header */
 }
 
 .simpleList {
+    height: calc(100% - 104px); /* Substract height of app header */
     overflow-x: auto;
 }
 
