@@ -189,6 +189,15 @@ cordova platform add windows@https://aka.ms/cordova-win10
 ```
 
 * Copy the CharMap code into the www folder of `CharMapApp`
+* Edit the Config.xml file, add a preference inside the widget tag
+```
+<preference name="windows-target-version" value="10.0"/>
+```
+
+* Build the app
+```
+cordova build
+```
 
 * Start the app
 ```
