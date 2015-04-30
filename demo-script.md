@@ -181,17 +181,16 @@ Pre-reqs:
 npm install -g cordova
 ```
 
-Create the Cordova Project & add Windows 10 preview platform
+* Create the Cordova Project & add Windows 10 preview platform
 ```
 cordova create "CharMapApp" 
 cordova platform add windows@https://aka.ms/cordova-win10
 ```
 
-Copy the CharMap code into the www folder
+* Copy the CharMap code into the www folder
 
-Start the app
+* Start the app
 ```
 cordova run windows
 ```
-
-Show F12 debugging app
+* Show F12 debugging app
