@@ -180,14 +180,15 @@ Pre-reqs:
 ```
 npm install -g cordova
 ```
-
 * Create the Cordova Project & add Windows 10 preview platform
 ```
+cd <some directory not in the CharMap repo>
 cordova create "CharMapApp" 
+cd CharMapApp
 cordova platform add windows@https://aka.ms/cordova-win10
 ```
 
-* Copy the CharMap code into the www folder
+* Copy the CharMap code into the www folder of `CharMapApp`
 
 * Start the app
 ```
